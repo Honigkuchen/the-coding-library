@@ -4,6 +4,7 @@
 
 // Project includes
 #include <huffman.h>
+#include <binary_number.h>
 
 int main()
 {
@@ -17,10 +18,18 @@ int main()
 
     auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
 
-    auto a_binary_number = table['s'];
+    huffman::BinaryNumber a_binary_number = table['s'];
 
-    std::cout << a_binary_number;
-    std::cout << std::endl;
+	a_binary_number.PrintOn(std::cout);
+	std::cout << std::endl;
+	auto byte_stream = a_binary_number.ToByteRepresentation();
+
+	for (const auto& byte : byte_stream)
+	{
+		huffman::PrintByte(byte, std::cout);
+	}
+
+	std::cout << std::endl;
 
     std::cout << "Duration: " << elapsed.count() << "ns" << std::endl;
 

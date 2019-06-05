@@ -56,7 +56,7 @@ class LeafNode : public Node
      * \param frequency
      * \param symbol
      */
-    LeafNode(const unsigned int& frequency, const SymbolType& symbol) :
+    LeafNode(const std::size_t& frequency, const SymbolType& symbol) :
         Node(frequency),
         symbol(symbol) {}
  public:

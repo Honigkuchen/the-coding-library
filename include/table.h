@@ -45,6 +45,15 @@ public:
             return iter->second;
         else return BinaryNumber();
     }
+	void PrintOn(std::ostream& o) const
+	{
+		for (const auto& [k, v] : symbols_)
+		{
+			o << k << " -> ";
+			v.PrintOn(o);
+			o << std::endl;
+		}
+	}
 private:
     std::map<SymbolType, BinaryNumber> symbols_;
 };

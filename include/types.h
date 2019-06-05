@@ -7,40 +7,42 @@
 
 namespace huffman
 {
-/*!
- * \brief The BinaryDigit enum TODO
- */
-enum class BinaryDigit
-{
-    ZERO = 0,
-    ONE = 1
-};
-/*!
- * TODO
- */
-using BinaryNumber = std::vector<BinaryDigit>;
-/*!
- * \brief operator << TODO
- * \param o
- * \param b
- * \return
- */
-std::ostream& operator<<(std::ostream& o, const BinaryDigit& d)
-{
-    switch(d)
-    {
-    case BinaryDigit::ZERO:
-        return o << "0";
-    case BinaryDigit::ONE:
-        return o << "1";
-    }
-}
-std::ostream& operator<<(std::ostream& o, const BinaryNumber& n)
-{
-    for(const auto& digit : n)
-        o << digit;
-    return o;
-}
+#if 0
+	//using Byte = char;
+	enum class BinaryDigit
+	{
+		ZERO = 0,
+		ONE = 1
+	};
+	/*!
+	 * TODO
+	 */
+	using BinaryNumber = std::vector<BinaryDigit>;
+	/*!
+	 * \brief TODO TODO
+	 * \param o
+	 * \param b
+	 * \return
+	 */
+	void Print(const BinaryDigit& d, std::ostream& o = std::cout)
+	{
+		switch (d)
+		{
+		case BinaryDigit::ZERO:
+			o << 0;
+		case BinaryDigit::ONE:
+			o << 1;
+		}
+	}
+	/*!
+	 * \brief Print TODO
+	 */
+	void Print(const BinaryNumber& n, std::ostream& o = std::cout)
+	{
+		for (const auto& b : n)
+			Print(b, o);
+	}
+#endif
 }
 
 #endif // HUFFMAN_TYPES_H

@@ -6,13 +6,50 @@
 
 class HuffmanTest : public ::testing::Test {};
 
-TEST_F(HuffmanTest, LeafNodeConstruction)
+TEST_F(HuffmanTest, LeafNodeCorrectConstruction)
 {
     huffman::LeafNode node(3, 'd');
     EXPECT_EQ(3, node.frequency);
     EXPECT_EQ('d', node.symbol);
 }
-
+TEST_F(HuffmanTest, LeafNodeFalseConstruction)
+{
+	huffman::LeafNode node(-3, 'd');
+	// Internally the value is interpreted differently as it is of type std::size_t!
+	EXPECT_GE(node.frequency, 0);
+	// Nevertheless checking if the raw comparison is still true
+	EXPECT_EQ(-3, node.frequency);
+}
+TEST_F(HuffmanTest, InternalNodeCorrectConstruction)
+{
+	std::unique_ptr<huffman::Node> left = std::make_unique<huffman::LeafNode<char>>(2, 'l');
+	auto const * const left_ptr = left.get();
+	std::unique_ptr<huffman::Node> right = std::make_unique<huffman::LeafNode<char>>(3, 'r');
+	auto const * const right_ptr = right.get();
+	huffman::InternalNode node(left, right);
+	EXPECT_EQ(5, node.frequency);
+	EXPECT_EQ(node.left.get(), left_ptr);
+	EXPECT_EQ(node.right.get(), right_ptr);
+}
+TEST_F(HuffmanTest, InternalNodeFalseConstruction)
+{
+	std::unique_ptr<huffman::Node> left = nullptr;
+	std::unique_ptr<huffman::Node> right = nullptr;
+	EXPECT_DEATH(huffman::InternalNode node(left, right), "");
+}
+TEST_F(HuffmanTest, HuffmanCreateTable1)
+{
+	const std::vector<char> message = {'H', 'e', 'l', 'l', 'o'};
+	huffman::Table<char> table = huffman::Encode(message);
+	huffman::BinaryNumber l = { 0 };
+	EXPECT_EQ(table['l'], l);
+	huffman::BinaryNumber o = { 1, 0 };
+	EXPECT_EQ(table['o'], o);
+	huffman::BinaryNumber H = {1, 1, 0};
+	EXPECT_EQ(table['H'], H);
+	huffman::BinaryNumber e = {1, 1, 1};
+	EXPECT_EQ(table['e'], e);
+}
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

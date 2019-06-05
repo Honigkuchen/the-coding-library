@@ -4,19 +4,19 @@
 #ifndef __cplusplus
 #error This library can only be used in C++.
 #else
-#if __cplusplus < 201703L
+#if !(__cplusplus >= 201703L || _MSVC_LANG >= 201703L)
 #error C++17 is needed for this library.
 #endif
 #endif
 
 // STL includes
 #include <vector>
-#include <queue>
 #include <deque>
 #include <memory>
 #include <algorithm>
 
 // Project includes
+#include "binary_number.h"
 #include "table.h"
 #include "graph.h"
 
@@ -36,7 +36,7 @@ std::map<SymbolType, BinaryNumber> TraverseTree(const std::unique_ptr<Node>& nod
     if(LeafNode<SymbolType>* ln = dynamic_cast<LeafNode<SymbolType>*>(node.get()); ln != nullptr)
     {
         BinaryNumber internal_prefix;
-        if(prefix.empty()) internal_prefix.push_back(BinaryDigit::ZERO);
+        if(prefix.empty()) internal_prefix.AppendBack(BinaryDigit::ZERO);
         else internal_prefix = prefix;
         std::map<SymbolType, BinaryNumber> codes;
         codes[ln->symbol] = internal_prefix;
@@ -46,11 +46,11 @@ std::map<SymbolType, BinaryNumber> TraverseTree(const std::unique_ptr<Node>& nod
     {
         std::map<SymbolType, BinaryNumber> codes, left_codes, right_codes;
         BinaryNumber left_prefix = prefix;
-        left_prefix.push_back(BinaryDigit::ZERO);
+        left_prefix.AppendBack(BinaryDigit::ZERO);
         left_codes = TraverseTree<SymbolType>(in->left, left_prefix);
         codes.insert(left_codes.begin(), left_codes.end());
         BinaryNumber right_prefix = prefix;
-        right_prefix.push_back(BinaryDigit::ONE);
+        right_prefix.AppendBack(BinaryDigit::ONE);
         right_codes = TraverseTree<SymbolType>(in->right, right_prefix);
         codes.insert(right_codes.begin(), right_codes.end());
         return codes;
