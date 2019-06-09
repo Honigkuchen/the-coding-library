@@ -9,26 +9,33 @@ namespace huffman
 /*!
  * \brief The Node class TODO
  */
-class Node
+template<typename FrequencyType = long long, typename = std::enable_if_t<std::is_signed_v<FrequencyType>>>
+class Node_
 {
  public:
     /*!
      * \brief Node TODO
      * \param frequency
      */
-    explicit Node(const std::size_t& frequency) :
-        frequency(frequency) {}
+    explicit Node_(const FrequencyType& frequency) :
+		frequency(frequency)
+	{
+		if (frequency < 0)
+			throw std::runtime_error("The frequency of a node must not be negative");
+	}
     /*!
      * \brief ~Node TODO
      */
-    virtual ~Node() = default;
+    virtual ~Node_() = default;
  public:
-    const std::size_t frequency; //! frequency TODO
+    const FrequencyType frequency; //! frequency TODO
 };
+using Node = Node_<>;
 /*!
  * \brief The InternalNode class TODO
  */
-class InternalNode : public Node
+template<typename FrequencyType = long long>
+class InternalNode_ : public Node_<FrequencyType>
 {
  public:
     /*!
@@ -36,7 +43,7 @@ class InternalNode : public Node
      * \param n0
      * \param n1
      */
-    InternalNode(std::unique_ptr<Node>& n0, std::unique_ptr<Node>& n1) :
+	 InternalNode_(std::unique_ptr<Node>& n0, std::unique_ptr<Node>& n1) :
         Node(n0->frequency + n1->frequency),
         left(std::move(n0)),
         right(std::move(n1)) {}
@@ -44,11 +51,12 @@ public:
     const std::unique_ptr<Node> left; //! left TODO
     const std::unique_ptr<Node> right; //! right TODO
 };
+using InternalNode = InternalNode_<>;
 /*!
  * \brief The LeafNode class
  */
-template<typename SymbolType>
-class LeafNode : public Node
+template<typename SymbolType, typename FrequencyType = long long>
+class LeafNode_ : public Node_<FrequencyType>
 {
  public:
     /*!
@@ -56,12 +64,14 @@ class LeafNode : public Node
      * \param frequency
      * \param symbol
      */
-    LeafNode(const std::size_t& frequency, const SymbolType& symbol) :
+	 LeafNode_(const FrequencyType& frequency, const SymbolType& symbol) :
         Node(frequency),
         symbol(symbol) {}
  public:
     const SymbolType symbol; //! symbol TODO
 };
+template<typename SymbolType>
+using LeafNode = LeafNode_<SymbolType>;
 }
 
 #endif // HUFFMAN_GRAPH_H

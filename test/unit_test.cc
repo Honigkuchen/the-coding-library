@@ -8,17 +8,13 @@ class HuffmanTest : public ::testing::Test {};
 
 TEST_F(HuffmanTest, LeafNodeCorrectConstruction)
 {
-    huffman::LeafNode node(3, 'd');
+    huffman::LeafNode<char> node(3, 'd');
     EXPECT_EQ(3, node.frequency);
     EXPECT_EQ('d', node.symbol);
 }
 TEST_F(HuffmanTest, LeafNodeFalseConstruction)
 {
-	huffman::LeafNode node(-3, 'd');
-	// Internally the value is interpreted differently as it is of type std::size_t!
-	EXPECT_GE(node.frequency, 0);
-	// Nevertheless checking if the raw comparison is still true
-	EXPECT_EQ(-3, node.frequency);
+	EXPECT_ANY_THROW(huffman::LeafNode<char>(-3, 'd'));
 }
 TEST_F(HuffmanTest, InternalNodeCorrectConstruction)
 {

@@ -105,13 +105,15 @@ namespace huffman
 			assert(expanded_binary_number.size() % BitsPerByte == 0);
 
 			std::vector<Byte> result;
+			result.reserve(std::ceil(expanded_binary_number.size() / BitsPerByte));
 
 			for (auto i = 0; i < expanded_binary_number.size(); i += BitsPerByte)
 			{
 				Byte b = 0b00000000;
 				for (auto j = BitsPerByte - 1; j >= 0; --j)
-					if(expanded_binary_number[i + j] == BinaryDigit::ONE)
+					if (expanded_binary_number[i + j] == BinaryDigit::ONE)
 						b += static_cast<Byte>(std::pow(2, (BitsPerByte - 1 - j)));
+					
 				result.push_back(b);
 			}
 			return result;
