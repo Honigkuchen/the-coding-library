@@ -5,17 +5,25 @@
 #include <queue>
 #include <iostream>
 
-#include <cassert>
+// Project includes
+#include "types.h"
 
 namespace huffman
 {
-	using Byte = char;
-
+	/*!
+	 * \brief enum class BinaryDigit This enum represents the two binary digits zero and one.
+	 */
 	enum class BinaryDigit
 	{
 		ZERO = 0,
 		ONE = 1
 	};
+	/*!
+	 * \brief PrintBinaryDigit This function prints a binary digit on the specified output stream.
+	 *
+	 * \param d The digit to print
+	 * \param o The output stream to write to
+	 */
 	void PrintBinaryDigit(const BinaryDigit& d, std::ostream& o)
 	{
 		switch (d)
@@ -28,6 +36,12 @@ namespace huffman
 			break;
 		}
 	}
+	/*!
+	 * \brief PrintByte This function prints a byte in binary representation on the specified output stream.
+	 *
+	 * \param b The byte to print
+	 * \param o The output stream to write to
+	 */
 	void PrintByte(const Byte& b, std::ostream& o)
 	{
 		for (auto i = 7; i >= 0; --i)
@@ -39,6 +53,9 @@ namespace huffman
 				PrintBinaryDigit(BinaryDigit::ZERO, o);
 		}
 	}
+	/*!
+	 * \brief class BinaryNumber 
+	 */
 	class BinaryNumber
 	{
 	public:
@@ -102,10 +119,8 @@ namespace huffman
 
 			expanded_binary_number.insert(iterator, local_copy.begin(), local_copy.end());
 
-			assert(expanded_binary_number.size() % BitsPerByte == 0);
-
 			std::vector<Byte> result;
-			result.reserve(std::ceil(expanded_binary_number.size() / BitsPerByte));
+			result.reserve(static_cast<std::size_t>(std::ceil(expanded_binary_number.size() / BitsPerByte)));
 
 			for (auto i = 0; i < expanded_binary_number.size(); i += BitsPerByte)
 			{

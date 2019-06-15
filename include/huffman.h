@@ -12,6 +12,7 @@
 // STL includes
 #include <vector>
 #include <deque>
+#include <map>
 #include <memory>
 #include <algorithm>
 
@@ -23,15 +24,20 @@
 namespace huffman
 {
 /*!
- * \brief TraverseTree TODO
- * \param node
- * \param prefix
- * \return
+ * \brief TraverseTree This function creates the binary codes by traversing the Huffman graph.
+ *
+ * The traversal is done recursively. If the graph is too large (like really really large...) this may lead to a stack overflow, pay attention!
+ *
+ * \param node The current node to traverse from
+ * \param prefix The current prefix to append the current and all child nodes to
+ *
+ * \return A map of symbols and their corresponding Huffman binary representation
  */
-template<typename SymbolType, typename FrequencyType = long long, typename = std::enable_if_t<std::is_signed_v<FrequencyType>>>
-std::map<SymbolType, BinaryNumber> TraverseTree(const std::unique_ptr<Node_<FrequencyType>>& node, const BinaryNumber& prefix)
+template<typename S, typename F = long long, typename = std::enable_if_t<std::is_signed_v<F>>>
+Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node, const BinaryNumber& prefix)
 {
-    std::map<SymbolType, BinaryNumber> result;
+	using SymbolType = S;
+	using FrequencyType = F;
 
 	using NodeType = Node_<FrequencyType>;
 	using InternalNodeType = InternalNode_<FrequencyType>;
@@ -42,43 +48,45 @@ std::map<SymbolType, BinaryNumber> TraverseTree(const std::unique_ptr<Node_<Freq
         BinaryNumber internal_prefix;
         if(prefix.empty()) internal_prefix.AppendBack(BinaryDigit::ZERO);
         else internal_prefix = prefix;
-        std::map<SymbolType, BinaryNumber> codes;
-        codes[ln->symbol] = internal_prefix;
+		const Table<S, F> codes = { {ln->symbol, ln->frequency, internal_prefix} };
         return codes;
     }
     else if(InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get()); in != nullptr)
     {
-        std::map<SymbolType, BinaryNumber> codes, left_codes, right_codes;
+		Table<S, F> codes;
         BinaryNumber left_prefix = prefix;
         left_prefix.AppendBack(BinaryDigit::ZERO);
-        left_codes = TraverseTree<SymbolType>(in->left, left_prefix);
-        codes.insert(left_codes.begin(), left_codes.end());
+        codes.Append(TraverseTree<SymbolType>(in->left, left_prefix));
         BinaryNumber right_prefix = prefix;
         right_prefix.AppendBack(BinaryDigit::ONE);
-        right_codes = TraverseTree<SymbolType>(in->right, right_prefix);
-        codes.insert(right_codes.begin(), right_codes.end());
+        codes.Append(TraverseTree<SymbolType>(in->right, right_prefix));
         return codes;
     }
     else
     {
         // Should never happen!
-        throw std::runtime_error("ERROR: This should never happen, unknown Node Pointer detected. Aborting.");
+        throw std::runtime_error("ERROR: This should never happen, unknown Node_ Pointer detected. Aborting.");
     }
 }
 
 /*!
- * \brief Encode TODO
- * \param symbols
- * \return
+ * \brief Encode This function creates Huffman codes for the passed symbols.
+
+ * \param symbols The symbols to get the Huffman codes for
+
+ * \return A table of codes for each individual symbol
  */
-template<typename SymbolType, typename FrequencyType = long long>
-Table<SymbolType> Encode(const std::vector<SymbolType>& symbols)
+template<typename S, typename F = long long, typename = std::enable_if_t<std::is_signed_v<F>>>
+Table<S> Encode(const std::vector<S>& symbols)
 {
-    std::map<SymbolType, FrequencyType> frequencies;
+	using SymbolType = S;
+	using FrequencyType = F;
 
 	using NodeType = Node_<FrequencyType>;
 	using InternalNodeType = InternalNode_<FrequencyType>;
 	using LeafNodeType = LeafNode_<SymbolType, FrequencyType>;
+
+    std::map<SymbolType, FrequencyType> frequencies;
 
     for(const SymbolType& symbol : symbols)
     {
@@ -91,7 +99,7 @@ Table<SymbolType> Encode(const std::vector<SymbolType>& symbols)
     std::deque<std::unique_ptr<NodeType>> nodes;
 
     for(const auto& [symbol, frequency] : frequencies)
-        nodes.push_back(std::make_unique<LeafNodeType>(frequency, symbol));
+        nodes.push_back(std::make_unique<LeafNodeType>(symbol, frequency));
 
     constexpr auto NodeComparator = [](const std::unique_ptr<NodeType>& lhs, const std::unique_ptr<NodeType>& rhs)
     {
@@ -112,7 +120,7 @@ Table<SymbolType> Encode(const std::vector<SymbolType>& symbols)
 
     std::unique_ptr<NodeType> root = std::move(nodes.front());
 
-    return Table<SymbolType>(TraverseTree<SymbolType>(root, {}));
+    return TraverseTree<SymbolType>(root, {});
 }
 
 }

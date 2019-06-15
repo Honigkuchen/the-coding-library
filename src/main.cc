@@ -8,30 +8,47 @@
 
 int main()
 {
-//    std::vector<char> message = {'a', 'b', 'c', 'a', 'd', 'e', 'd'};
-    std::string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam justo enim, cursus nec diam a, hendrerit ultricies mauris. Nullam porta turpis vestibulum accumsan faucibus. Pellentesque sit amet dictum risus, vitae faucibus felis. Quisque mi diam, maximus ut semper eget, auctor sit amet lectus. Sed gravida lectus purus, eu pulvinar orci ultrices vitae. Integer dictum posuere vulputate. Ut vitae ipsum lacinia, semper nisl eu, tristique erat.";
-    std::vector<char> message(s.begin(), s.end());
-
-    auto start = std::chrono::system_clock::now();
-    huffman::Table<char> table = huffman::Encode(message);
-    auto end = std::chrono::system_clock::now();
-
-    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-    huffman::BinaryNumber a_binary_number = table['s'];
-
-	a_binary_number.PrintOn(std::cout);
-	std::cout << std::endl;
-	auto byte_stream = a_binary_number.ToByteRepresentation();
-
-	for (const auto& byte : byte_stream)
 	{
-		huffman::PrintByte(byte, std::cout);
+		auto mean_ns = std::chrono::nanoseconds::zero();
+		auto mean_us = std::chrono::microseconds::zero();
+		auto mean_ms = std::chrono::milliseconds::zero();
+		auto mean_s = std::chrono::seconds::zero();
+
+		const std::string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+		const std::vector<char> message(s.begin(), s.end());
+
+		huffman::Table<char> table;
+
+		constexpr auto benchmark_runs = 1000;
+
+		for (auto i = 0; i < benchmark_runs; ++i)
+		{
+			const auto start = std::chrono::system_clock::now();
+			table = huffman::Encode(message);
+			const auto end = std::chrono::system_clock::now();
+
+			const auto elapsed = end - start;
+
+			mean_ns += std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed);
+			mean_us += std::chrono::duration_cast<std::chrono::microseconds>(elapsed);
+			mean_ms += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+			mean_s += std::chrono::duration_cast<std::chrono::seconds>(elapsed);
+		}
+
+		mean_ns /= benchmark_runs;
+		mean_us /= benchmark_runs;
+		mean_ms /= benchmark_runs;
+		mean_s /= benchmark_runs;
+
+		auto& output_stream = std::cout;
+
+		table.PrintOn(output_stream);
+
+		output_stream << std::endl;
+		output_stream << "Mean duration: " << mean_ns.count() << "ns" << std::endl;
+		output_stream << "Mean duration: " << mean_us.count() << "us" << std::endl;
+		output_stream << "Mean duration: " << mean_ms.count() << "ms" << std::endl;
+		output_stream << "Mean duration: " << mean_s.count() << "s" << std::endl;
 	}
-
-	std::cout << std::endl;
-
-    std::cout << "Duration: " << elapsed.count() << "ns" << std::endl;
-
     return 0;
 }
