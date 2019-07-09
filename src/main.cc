@@ -9,23 +9,27 @@
 int main()
 {
 	{
+		using namespace huffman;
 		auto mean_ns = std::chrono::nanoseconds::zero();
 		auto mean_us = std::chrono::microseconds::zero();
 		auto mean_ms = std::chrono::milliseconds::zero();
 		auto mean_s = std::chrono::seconds::zero();
 
-		const std::string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+		std::string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+		for (auto i = 0; i < 5; ++i)
+			s += s;
+
 		const std::vector<char> message(s.begin(), s.end());
 
-		huffman::Table<char> table;
+		Table<char> table;
 
-		constexpr auto benchmark_runs = 1000;
+		constexpr auto benchmark_runs = 1;
 
 		for (auto i = 0; i < benchmark_runs; ++i)
 		{
-			const auto start = std::chrono::system_clock::now();
-			table = huffman::Encode(message);
-			const auto end = std::chrono::system_clock::now();
+			const auto start = std::chrono::high_resolution_clock::now();
+			table = Encode(message);
+			const auto end = std::chrono::high_resolution_clock::now();
 
 			const auto elapsed = end - start;
 

@@ -43,18 +43,18 @@ public:
     /*!
      * \brief Table Creates an empty table.
      */
-    explicit Table() {}
+	constexpr Table() noexcept = default;
 	/*!
 	 *
 	 */
-	Table(std::initializer_list<EntryType>&& v) :
+	constexpr Table(std::initializer_list<EntryType>&& v) noexcept :
 		symbols_(std::move(v)) {}
     /*!
      * \brief Table Creates a table with the passed data.
      * \param data The new data of the table
      */
     template<typename T>
-    explicit Table(const T& data) :
+    explicit constexpr Table(const T& data) :
         symbols_(data) {}
     /*!
      * \brief Table Creates a table with the passed data.
@@ -64,7 +64,7 @@ public:
      * \param data The new data of the table
      */
     template<typename T>
-    explicit Table(T&& data) :
+    explicit constexpr Table(T&& data) noexcept :
         symbols_(std::move(data)) {}
     /*!
      * \brief operator [] Lookup operator for the table.
@@ -73,7 +73,7 @@ public:
 
      * \return The Huffman binary number of the symbol
      */
-    BinaryNumber operator[](const SymbolType& symbol) const
+    [[nodiscard]] constexpr BinaryNumber operator[](const SymbolType& symbol) const
     {
         if(auto iter = std::find_if(symbols_.begin(), symbols_.end(), [&symbol](const EntryType& entry)
 		{ return entry.symbol == symbol; }); iter != symbols_.end())
@@ -85,7 +85,7 @@ public:
 	 *
 	 * \param o The output stream to write to
 	 */
-	void PrintOn(std::ostream& o) const
+	constexpr void PrintOn(std::ostream& o) const noexcept
 	{
 		for (const auto& s : symbols_)
 			s.PrintOn(o);
@@ -93,7 +93,7 @@ public:
 	/*!
 	 *
 	 */
-	void Append(const Table<S, F>& other)
+	constexpr void Append(const Table<S, F>& other)
 	{
 		symbols_.insert(symbols_.end(), other.symbols_.begin(), other.symbols_.end());
 	}

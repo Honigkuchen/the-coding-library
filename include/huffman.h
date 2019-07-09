@@ -34,7 +34,7 @@ namespace huffman
  * \return A map of symbols and their corresponding Huffman binary representation
  */
 template<typename S, typename F = long long, typename = std::enable_if_t<std::is_signed_v<F>>>
-Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node, const BinaryNumber& prefix)
+[[nodiscard]] Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node, const BinaryNumber& prefix)
 {
 	using SymbolType = S;
 	using FrequencyType = F;
@@ -43,25 +43,26 @@ Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node, const BinaryNumb
 	using InternalNodeType = InternalNode_<FrequencyType>;
 	using LeafNodeType = LeafNode_<SymbolType, FrequencyType>;
 
-    if(LeafNodeType* ln = dynamic_cast<LeafNodeType*>(node.get()); ln != nullptr)
-    {
-        BinaryNumber internal_prefix;
-        if(prefix.empty()) internal_prefix.AppendBack(BinaryDigit::ZERO);
-        else internal_prefix = prefix;
-		const Table<S, F> codes = { {ln->symbol, ln->frequency, internal_prefix} };
-        return codes;
-    }
-    else if(InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get()); in != nullptr)
+    if(InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get()); in != nullptr)
     {
 		Table<S, F> codes;
         BinaryNumber left_prefix = prefix;
         left_prefix.AppendBack(BinaryDigit::ZERO);
-        codes.Append(TraverseTree<SymbolType>(in->left, left_prefix));
+		codes.Append(TraverseTree<SymbolType>(in->left, left_prefix));
+
         BinaryNumber right_prefix = prefix;
         right_prefix.AppendBack(BinaryDigit::ONE);
-        codes.Append(TraverseTree<SymbolType>(in->right, right_prefix));
-        return codes;
+		codes.Append(TraverseTree<SymbolType>(in->right, right_prefix));
+        return std::move(codes);
     }
+	else if (LeafNodeType* ln = dynamic_cast<LeafNodeType*>(node.get()); ln != nullptr)
+	{
+		BinaryNumber internal_prefix;
+		if (prefix.empty()) internal_prefix.AppendBack(BinaryDigit::ZERO);
+		else internal_prefix = prefix;
+		const Table<S, F> codes = { {ln->symbol, ln->frequency, internal_prefix} };
+		return std::move(codes);
+	}
     else
     {
         // Should never happen!
@@ -77,12 +78,13 @@ Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node, const BinaryNumb
  * \return A table of codes for each individual symbol
  */
 template<typename S, typename F = long long, typename = std::enable_if_t<std::is_signed_v<F>>>
-Table<S> Encode(const std::vector<S>& symbols)
+[[nodiscard]] Table<S> Encode(const std::vector<S>& symbols)
 {
 	using SymbolType = S;
 	using FrequencyType = F;
 
 	using NodeType = Node_<FrequencyType>;
+	using NodeTypePtr = std::unique_ptr<NodeType>;
 	using InternalNodeType = InternalNode_<FrequencyType>;
 	using LeafNodeType = LeafNode_<SymbolType, FrequencyType>;
 
@@ -96,12 +98,12 @@ Table<S> Encode(const std::vector<S>& symbols)
             frequencies.insert(std::make_pair(symbol, 1));
     }
 
-    std::deque<std::unique_ptr<NodeType>> nodes;
+    std::deque<NodeTypePtr> nodes;
 
-    for(const auto& [symbol, frequency] : frequencies)
-        nodes.push_back(std::make_unique<LeafNodeType>(symbol, frequency));
-
-    constexpr auto NodeComparator = [](const std::unique_ptr<NodeType>& lhs, const std::unique_ptr<NodeType>& rhs)
+	for (const auto&[symbol, frequency] : frequencies)
+		nodes.push_back(std::make_unique<LeafNodeType>(symbol, frequency));
+	
+    constexpr auto NodeComparator = [](const NodeTypePtr& lhs, const NodeTypePtr& rhs)
     {
         return lhs->frequency < rhs->frequency;
     };
@@ -110,15 +112,15 @@ Table<S> Encode(const std::vector<S>& symbols)
 
     while(nodes.size() > 1)
     {
-        std::unique_ptr<NodeType> right_child = std::move(nodes.front());
+		NodeTypePtr right_child = std::move(nodes.front());
         nodes.pop_front();
-        std::unique_ptr<NodeType> left_child = std::move(nodes.front());
+		NodeTypePtr left_child = std::move(nodes.front());
         nodes.pop_front();
         nodes.push_front(std::make_unique<InternalNodeType>(right_child, left_child));
         std::sort(nodes.begin(), nodes.end(), NodeComparator);
     }
 
-    std::unique_ptr<NodeType> root = std::move(nodes.front());
+	NodeTypePtr root = std::move(nodes.front());
 
     return TraverseTree<SymbolType>(root, {});
 }

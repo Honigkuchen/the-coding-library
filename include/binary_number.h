@@ -24,7 +24,7 @@ namespace huffman
 	 * \param d The digit to print
 	 * \param o The output stream to write to
 	 */
-	void PrintBinaryDigit(const BinaryDigit& d, std::ostream& o)
+	constexpr void PrintBinaryDigit(const BinaryDigit& d, std::ostream& o)
 	{
 		switch (d)
 		{
@@ -42,7 +42,7 @@ namespace huffman
 	 * \param b The byte to print
 	 * \param o The output stream to write to
 	 */
-	void PrintByte(const Byte& b, std::ostream& o)
+	constexpr void PrintByte(const Byte& b, std::ostream& o)
 	{
 		for (auto i = 7; i >= 0; --i)
 		{
@@ -60,8 +60,13 @@ namespace huffman
 	{
 	public:
 		BinaryNumber() = default;
+		BinaryNumber(const BinaryNumber& other) = default;
+		BinaryNumber& operator=(const BinaryNumber& other) = default;
+		BinaryNumber(BinaryNumber&& other) noexcept = default;
+		BinaryNumber& operator=(BinaryNumber&& other) noexcept = default;
+
 		template<typename T>
-		BinaryNumber(std::initializer_list<T>&& new_digits)
+		constexpr BinaryNumber(std::initializer_list<T>&& new_digits) noexcept
 		{
 			AppendBack(std::move(new_digits));
 		}
@@ -80,32 +85,44 @@ namespace huffman
 				digits.push_back(BinaryDigit(d));
 		}
 		template<typename T>
-		void AppendBack(std::initializer_list<T>&& new_digits)
+		constexpr void AppendBack(std::initializer_list<T>&& new_digits)
 		{
 			for(const auto& d : new_digits)
 				AppendBack(d);
 		}
-		auto begin()
+		[[nodiscard]] auto begin() noexcept
 		{
 			return digits.begin();
 		}
-		auto begin() const
+		[[nodiscard]] auto begin() const noexcept
 		{
 			return digits.begin();
 		}
-		auto end()
+		[[nodiscard]] auto end() noexcept
 		{
 			return digits.end();
 		}
-		auto end() const
+		[[nodiscard]] auto end() const noexcept
 		{
 			return digits.end();
 		}
-		auto empty() const
+		[[nodiscard]] auto empty() const noexcept
 		{
 			return digits.empty();
 		}
-		std::vector<Byte> ToByteRepresentation() const
+		[[nodiscard]] auto size() const noexcept
+		{
+			return digits.size();
+		}
+		[[nodiscard]] const auto& operator[](const std::size_t& pos) const
+		{
+			return digits[pos];
+		}
+		[[nodiscard]] const auto& at(const std::size_t& pos) const
+		{
+			return digits.at(pos);
+		}
+		std::vector<Byte> ToByteRepresentation() const noexcept
 		{
 			constexpr auto BitsPerByte = 8;
 			std::deque<BinaryDigit> local_copy = digits;
@@ -133,7 +150,7 @@ namespace huffman
 			}
 			return result;
 		}
-		bool operator==(const BinaryNumber& other) const
+		bool operator==(const BinaryNumber& other) const noexcept
 		{
 			if (digits.size() != other.digits.size()) return false;
 			for (auto this_iter = digits.rbegin(), other_iter = other.digits.rbegin();
@@ -143,6 +160,14 @@ namespace huffman
 				if (*this_iter != *other_iter) return false;
 			}
 			return true;
+		}
+		void swap(BinaryNumber& rhs) noexcept
+		{
+			digits.swap(rhs.digits);
+		}
+		friend void swap(BinaryNumber& first, BinaryNumber& second) noexcept
+		{
+			first.swap(second);
 		}
 	private:
 		std::deque<BinaryDigit> digits;
