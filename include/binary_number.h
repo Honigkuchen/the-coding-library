@@ -1,7 +1,10 @@
 #ifndef HUFFMAN_BINARY_NUMBER_H
 #define HUFFMAN_BINARY_NUMBER_H
 
-// STL includes
+// C includes
+#include <math.h>
+
+// C++ includes
 #include <queue>
 #include <iostream>
 

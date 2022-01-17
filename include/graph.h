@@ -3,6 +3,7 @@
 
 // STL includes
 #include <memory>
+#include <type_traits>
 
 namespace huffman
 {
@@ -68,7 +69,7 @@ namespace huffman
 		 * \param left The left child node
 		 * \param right The right child node
 		 */
-		constexpr InternalNode_(std::unique_ptr<Node_>& left, std::unique_ptr<Node_>& right) :
+		constexpr InternalNode_(std::unique_ptr<Node_<F>>& left, std::unique_ptr<Node_<F>>& right) :
 			Node(left->frequency + right->frequency),
 			left(std::move(left)),
 			right(std::move(right)) {}
@@ -104,7 +105,7 @@ namespace huffman
 		 * \param frequency The frequency of the symbol
 		 */
 		constexpr LeafNode_(const SymbolType& symbol, const FrequencyType& frequency) :
-			Node_(frequency),
+			Node_<F>(frequency),
 			symbol(symbol) {}
 	public:
 		const SymbolType symbol; //! symbol The symbol represented by this node
