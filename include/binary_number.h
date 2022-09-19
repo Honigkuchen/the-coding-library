@@ -132,7 +132,7 @@ namespace huffman
 
 			auto remainder = BitsPerByte - (local_copy.size() % BitsPerByte);
 			std::deque<BinaryDigit> expanded_binary_number(remainder);
-			for (auto i = 0; i < remainder; ++i)
+			for (std::size_t i = 0; i < remainder; ++i)
 				expanded_binary_number[i] = BinaryDigit::ZERO;
 
 			auto iterator = expanded_binary_number.begin() + remainder;
@@ -142,7 +142,7 @@ namespace huffman
 			std::vector<Byte> result;
 			result.reserve(static_cast<std::size_t>(std::ceil(expanded_binary_number.size() / BitsPerByte)));
 
-			for (auto i = 0; i < expanded_binary_number.size(); i += BitsPerByte)
+			for (std::size_t i = 0; i < expanded_binary_number.size(); i += BitsPerByte)
 			{
 				Byte b = 0b00000000;
 				for (auto j = BitsPerByte - 1; j >= 0; --j)

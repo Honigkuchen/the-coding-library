@@ -2,10 +2,12 @@
 #define HUFFMAN_TABLE_H
 
 // STL includes
+#include <string>
 #include <vector>
 
 // Project includes
 #include "types.h"
+#include "binary_number.h"
 
 namespace huffman
 {
