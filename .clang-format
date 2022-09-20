@@ -7,6 +7,7 @@ Language: Cpp
 # Force pointers to the type for C++.
 DerivePointerAlignment: false
 PointerAlignment: Left
+ColumnLimit: 0
 BraceWrapping:
   AfterClass:      true
   AfterControlStatement: true

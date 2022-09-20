@@ -15,7 +15,8 @@ public:
     return this->encode(symbols.begin(), symbols.end());
   }
 
-  const std::vector<std::string> encode(auto begin, auto end) const
+  template <typename Iter>
+  const std::vector<std::string> encode(Iter begin, Iter end) const
   {
     std::vector<std::string> result;
     if (begin >= end)
