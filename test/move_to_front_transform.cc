@@ -1,32 +1,9 @@
 #include <array>
-#include <iostream>
 
 #include <gtest/gtest.h>
 
+#include <alphabets.h>
 #include <lossless/other/move_to_front_transform.h>
-
-static constexpr auto LOWER_CASE_ALPHABET = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                             's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-static constexpr auto LOWER_UPPER_ALPHABET = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                              'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                              's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
-                                              'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                                              'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-                                              'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-[[nodiscard]] constexpr auto generate_ASCII_alphabet()
-{
-  constexpr auto char_size_alphabet = 2 << (sizeof(char) * 8 - 1);
-  std::array<char, char_size_alphabet> alphabet = {};
-
-  for (auto i = 0; i < char_size_alphabet; ++i)
-    alphabet[i] = char(i);
-
-  return alphabet;
-}
-
-static constexpr auto BYTE_ALPHABET = generate_ASCII_alphabet();
 
 class MoveToFrontTransformTest : public ::testing::Test
 {
@@ -35,14 +12,14 @@ class MoveToFrontTransformTest : public ::testing::Test
 TEST_F(MoveToFrontTransformTest, NoSymbols)
 {
   const std::vector<char> symbols = {};
-  cl::lossless::other::MoveToFrontTransform mtft(LOWER_CASE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::LOWER_CASE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
 }
 TEST_F(MoveToFrontTransformTest, SymbolsSet1)
 {
   const std::vector<char> symbols = {'b', 'a', 'n', 'a', 'n', 'a', 'a', 'a'};
-  cl::lossless::other::MoveToFrontTransform mtft(LOWER_CASE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::LOWER_CASE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(1, code_sequence[0]);
@@ -57,7 +34,7 @@ TEST_F(MoveToFrontTransformTest, SymbolsSet1)
 TEST_F(MoveToFrontTransformTest, SymbolsSet2)
 {
   const std::vector<char> symbols = {'W', 'i', 'k', 'i', 'p', 'e', 'd', 'i', 'a'};
-  cl::lossless::other::MoveToFrontTransform mtft(BYTE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::BYTE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(87, code_sequence[0]);
