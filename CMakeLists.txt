@@ -11,13 +11,15 @@ add_subdirectory(src)
 option(TESTING_ENABLED "Enable testing" OFF)
 
 if(${TESTING_ENABLED})
+  enable_testing()
+
   # Download and unpack googletest at configure time
   include(FetchContent)
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG release-1.12.1
-)
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1
+  )
 
   # Prevent overriding the parent project's compiler/linker
   # settings on Windows

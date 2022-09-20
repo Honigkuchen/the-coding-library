@@ -1,5 +1,4 @@
 # Now simply link against gtest or gtest_main as needed. Eg
-enable_testing()
 add_executable(the-coding-library
   main_test.cc
   huffman_coding.cc
