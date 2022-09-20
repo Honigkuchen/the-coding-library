@@ -30,7 +30,7 @@ public:
       if (pos == frequencies.end())
         frequencies.emplace_back(s, 1);
       else
-        pos->second += 1; // Creates the entry in the table if it does not exist yet!
+        pos->second += 1;
     }
 
     std::sort(frequencies.begin(), frequencies.end(), [](auto& left, auto& right)
