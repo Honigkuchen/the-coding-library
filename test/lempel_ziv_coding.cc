@@ -2,25 +2,25 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/dictionary/byte_pair_coding.h>
+#include <lossless/dictionary/lempel_ziv_77_coding.h>
 
-class BytePairCodingTest : public ::testing::Test
+class LempelZiv77CodingTest : public ::testing::Test
 {
 };
 
-TEST_F(BytePairCodingTest, NoSymbols)
+TEST_F(LempelZiv77CodingTest, NoSymbols)
 {
   std::vector<char> symbols = {};
-  cl::lossless::dictionary::BytePairCoding bpc;
-  const auto code_symbols = bpc.encode(symbols);
+  cl::lossless::dictionary::LempelZiv77Coding lz77;
+  const auto code_symbols = lz77.encode(symbols);
   EXPECT_EQ(0, code_symbols.first.size());
   EXPECT_EQ(0, code_symbols.second.size());
 }
-TEST_F(BytePairCodingTest, SymbolsSet1)
+TEST_F(LempelZiv77CodingTest, SymbolsSet1)
 {
-  std::vector<char> symbols = {'a', 'a', 'a', 'b', 'd', 'a', 'a', 'a', 'b', 'a', 'c'};
-  cl::lossless::dictionary::BytePairCoding bpc;
-  const auto code_symbols = bpc.encode(symbols);
+  std::vector<char> symbols = {'a', 'a', 'a', 'a', 'b', 'b', 'c', 'c', 'c'};
+  cl::lossless::dictionary::LempelZiv77Coding lz77;
+  const auto code_symbols = lz77.encode(symbols);
   EXPECT_EQ(3, code_symbols.second.size());
   EXPECT_EQ(5, code_symbols.first.size());
   EXPECT_EQ('X', code_symbols.first[0]);

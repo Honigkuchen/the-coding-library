@@ -6,10 +6,7 @@
 #include <tuple>
 #include <vector>
 
-// Debug includes
-#include <iostream>
-
-namespace cl::lossless::other
+namespace cl::lossless::dictionary
 {
 class BytePairCoding
 {
@@ -40,15 +37,6 @@ public:
               {
                 return left.second > right.second;
               });
-#if DEBUG
-    auto print_frequencies = [&frequencies]()
-    {
-      for (const auto& [k, v] : frequencies)
-        std::cout << k << ", " << v << '\n';
-      std::cout << std::endl;
-    };
-    print_frequencies();
-#endif
     if (frequencies.front().second > 1)
     {
       static unsigned int replace_symbol_offset = 0;
@@ -71,4 +59,4 @@ public:
     return std::make_pair(result, symbol_replace_table);
   }
 };
-} // namespace cl::lossless::other
+} // namespace cl::lossless::dictionary

@@ -6,7 +6,8 @@ add_executable(the-coding-library
   run_length_coding.cc
   move_to_front_transform.cc
   burrows_wheeler_transform.cc
-  byte_pair_coding.cc)
+  byte_pair_coding.cc
+  lempel_ziv_coding.cc)
 target_link_libraries(the-coding-library GTest::gtest_main)
 # add_test(NAME unit_test COMMAND unit_test)
 include(GoogleTest)
