@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <vector>
 
-#include <iostream>
-
 namespace cl::lossless::other
 {
 class BurrowsWheelerTransform

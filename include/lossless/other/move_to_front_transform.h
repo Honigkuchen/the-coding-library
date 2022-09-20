@@ -4,8 +4,6 @@
 #include <deque>
 #include <iterator>
 
-#include <iostream>
-
 namespace cl::lossless::other
 {
 class MoveToFrontTransform
