@@ -1,16 +1,30 @@
 #pragma once
 
 // STL includes
+#include <algorithm>
 #include <map>
 #include <string>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 namespace cl::lossless::dictionary
 {
+/**
+ * \brief This class performs the encoding on symbols using the Byte-Pair-Coding algorithm.
+ * \author Jonas 'Honigkuchen' Haubold
+ * \date 2022
+ * \copyright GNU Public License
+ */
 class BytePairCoding
 {
 public:
+/**
+ * @brief Encodes a collection of given symbols using the 'Byte-Pair-Coding' algorithm.
+ * 
+ * @param symbols The symbols to be encoded
+ * @return const std::pair<std::vector<char>, std::map<char, std::string>> The resulting encoded collection of symbols
+ */
   [[nodiscard]] const std::pair<std::vector<char>, std::map<char, std::string>> encode(const std::vector<char>& symbols) const
   {
     std::vector<char> result;

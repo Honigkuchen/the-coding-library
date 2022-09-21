@@ -21,12 +21,12 @@ public:
   static constexpr unsigned int ADDITIONAL_SYMBOL_COUNT = 2;
 public:
 /**
- * @brief Encodes a collection of given symbols using the 'Burrows-Wheeler-Transform' algorithm.
+ * @brief Transforms a collection of given symbols using the 'Burrows-Wheeler-Transform' algorithm.
  * 
  * @details The algorithm transforms a collection of symbols in a way that repeating symbols or symbol groups are put next to each other so that e.g.
  * a byte-pair-coding or some other algorithm can use this to improve it's efficiency.
  * 
- * @param symbols The symbols to be encoded
+ * @param symbols The symbols to be transformed
  * @return const std::vector<char> The resulting transformed collection of symbols
  * 
  * @author Jonas 'Honigkuchen' Haubold
