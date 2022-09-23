@@ -21,11 +21,15 @@ class BytePairCoding
 public:
   /**
    * @brief Encodes a collection of given symbols using the 'Byte-Pair-Coding' algorithm.
+   * The output symbol type T must be able to represent the input symbol type S aswell as the generated output symbol types T, such that T completely contains S.
    *
+   * @tparam S Input symbol type
+   * @tparam T Output symbol type
+   * @tparam U Generator function to create new output symbols of type T
    * @param symbols The symbols to be encoded
-   * @return const std::pair<std::vector<char>, std::map<char, std::string>> The resulting encoded collection of symbols
+   * @param replacement_symbol_generator
+   * @return const std::pair<std::vector<T>, std::map<T, std::vector<S>>> The resulting encoded collection of symbols
    */
-
   template <typename S, typename T, typename U>
   [[nodiscard]] const std::pair<std::vector<T>, std::map<T, std::vector<S>>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
   {
@@ -58,7 +62,7 @@ public:
               });
     if (frequencies.front().second > 1)
     {
-      ReplacementSymbolType replace_symbol = replacement_symbol_generator(); // Yes, we can only replace a limited amount of symbols. But good enough here...
+      ReplacementSymbolType replace_symbol = replacement_symbol_generator();
       for (std::size_t i = 0; i < result.size() - 1; ++i)
       {
         const std::vector<SymbolType> s{result[i], result[i + 1]};
