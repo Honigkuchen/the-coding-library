@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-#include <alphabets.h>
 #include <lossless/other/move_to_front_transform.h>
+#include <utils/alphabets.h>
 
 class MoveToFrontTransformTest : public ::testing::Test
 {
@@ -12,14 +12,14 @@ class MoveToFrontTransformTest : public ::testing::Test
 TEST_F(MoveToFrontTransformTest, NoSymbols)
 {
   const std::vector<char> symbols = {};
-  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::LOWER_CASE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
 }
 TEST_F(MoveToFrontTransformTest, SymbolsSet1)
 {
   const std::vector<char> symbols = {'b', 'a', 'n', 'a', 'n', 'a', 'a', 'a'};
-  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::LOWER_CASE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(1, code_sequence[0]);
@@ -34,7 +34,7 @@ TEST_F(MoveToFrontTransformTest, SymbolsSet1)
 TEST_F(MoveToFrontTransformTest, SymbolsSet2)
 {
   const std::vector<char> symbols = {'W', 'i', 'k', 'i', 'p', 'e', 'd', 'i', 'a'};
-  cl::lossless::other::MoveToFrontTransform mtft(cl::lossless::other::BYTE_ALPHABET);
+  cl::lossless::other::MoveToFrontTransform mtft(cl::utils::alphabets::BYTE_ALPHABET);
   const std::vector<unsigned int> code_sequence = mtft.encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(87, code_sequence[0]);

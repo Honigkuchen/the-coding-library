@@ -5,7 +5,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace huffman
+namespace cl::data_structures
 {
 /*!
  * \brief The Node_ class represents a node in the Huffman graph.
@@ -68,7 +68,8 @@ using Node = Node_<>;
  * @see Node_
  * @see LeafNode_
  */
-template <typename F = long long> class InternalNode_ : public Node_<F>
+template <typename F = long long>
+class InternalNode_ : public Node_<F>
 {
 public:
   /*!
@@ -100,7 +101,8 @@ using InternalNode = InternalNode_<>;
  * @see Node_
  * @see InternalNode_
  */
-template <typename S, typename F = long long> class LeafNode_ : public Node_<F>
+template <typename S, typename F = long long>
+class LeafNode_ : public Node_<F>
 {
 public:
   /*! \brief The type of the symbol. */
@@ -122,7 +124,8 @@ public:
 public:
   const SymbolType symbol; //! symbol The symbol represented by this node
 };
-template <typename SymbolType> using LeafNode = LeafNode_<SymbolType>;
-} // namespace huffman
+template <typename SymbolType>
+using LeafNode = LeafNode_<SymbolType>;
+} // namespace cl::data_structures
 
 #endif // HUFFMAN_GRAPH_H

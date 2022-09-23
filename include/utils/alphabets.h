@@ -3,7 +3,7 @@
 // STL includes
 #include <array>
 
-namespace cl::lossless::other
+namespace cl::utils::alphabets
 {
 static constexpr auto LOWER_CASE_ALPHABET = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                              'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
@@ -27,4 +27,4 @@ static constexpr auto LOWER_UPPER_ALPHABET = {'a', 'b', 'c', 'd', 'e', 'f', 'g',
 }
 
 static constexpr auto BYTE_ALPHABET = generate_ASCII_alphabet();
-} // namespace cl::lossless::other
+} // namespace cl::utils::alphabets

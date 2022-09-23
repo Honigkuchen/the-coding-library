@@ -1,9 +1,12 @@
-#ifndef HUFFMAN_TYPES_H
-#define HUFFMAN_TYPES_H
+#pragma once
 
-namespace huffman
+// C includes
+#include <cstddef>
+#include <cstdint>
+
+namespace cl::types
 {
-	using Byte = char;
+static_assert(sizeof(std::byte) == sizeof(uint_least8_t));
+// using Byte = std::byte;
+using Byte = unsigned char;
 }
-
-#endif // HUFFMAN_TYPES_H

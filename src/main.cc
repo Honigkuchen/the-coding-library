@@ -3,13 +3,16 @@
 #include <iostream>
 
 // Project includes
-#include <binary_number.h>
+#include <data_structures/binary_number.h>
+#include <data_structures/table.h>
 #include <lossless/entropy/huffman/huffman.h>
 
 int main()
 {
   {
-    using namespace huffman;
+    using cl::data_structures::BinaryNumber;
+    using cl::data_structures::Table;
+
     auto mean_ns = std::chrono::nanoseconds::zero();
     auto mean_us = std::chrono::microseconds::zero();
     auto mean_ms = std::chrono::milliseconds::zero();
@@ -26,21 +29,21 @@ int main()
     constexpr auto benchmark_runs = 1;
 
     for (auto i = 0; i < benchmark_runs; ++i)
-      {
-        const auto start = std::chrono::high_resolution_clock::now();
-        table = Encode(message);
-        const auto end = std::chrono::high_resolution_clock::now();
+    {
+      const auto start = std::chrono::high_resolution_clock::now();
+      table = cl::lossless::entropy::huffman::Encode(message);
+      const auto end = std::chrono::high_resolution_clock::now();
 
-        const auto elapsed = end - start;
+      const auto elapsed = end - start;
 
-        mean_ns +=
-            std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed);
-        mean_us +=
-            std::chrono::duration_cast<std::chrono::microseconds>(elapsed);
-        mean_ms +=
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
-        mean_s += std::chrono::duration_cast<std::chrono::seconds>(elapsed);
-      }
+      mean_ns +=
+          std::chrono::duration_cast<std::chrono::nanoseconds>(elapsed);
+      mean_us +=
+          std::chrono::duration_cast<std::chrono::microseconds>(elapsed);
+      mean_ms +=
+          std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+      mean_s += std::chrono::duration_cast<std::chrono::seconds>(elapsed);
+    }
 
     mean_ns /= benchmark_runs;
     mean_us /= benchmark_runs;

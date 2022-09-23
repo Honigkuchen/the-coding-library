@@ -17,11 +17,11 @@
 #include <vector>
 
 // Project includes
-#include "../../../binary_number.h"
+#include "../../../data_structures/binary_number.h"
 #include "../../../data_structures/graph.h"
 #include "../../../data_structures/table.h"
 
-namespace huffman
+namespace cl::lossless::entropy::huffman
 {
 /*!
  * \brief TraverseTree This function creates the binary codes by traversing the
@@ -38,14 +38,17 @@ namespace huffman
  */
 template <typename S, typename F = long long,
           typename = std::enable_if_t<std::is_signed_v<F>>>
-[[nodiscard]] Table<S, F> TraverseTree(const std::unique_ptr<Node_<F>>& node,
-                                       const BinaryNumber& prefix)
+[[nodiscard]] cl::data_structures::Table<S, F> TraverseTree(const std::unique_ptr<cl::data_structures::Node_<F>>& node,
+                                                            const cl::data_structures::BinaryNumber& prefix)
 {
   using SymbolType = S;
   using FrequencyType = F;
 
-  using InternalNodeType = InternalNode_<FrequencyType>;
-  using LeafNodeType = LeafNode_<SymbolType, FrequencyType>;
+  using InternalNodeType = cl::data_structures::InternalNode_<FrequencyType>;
+  using LeafNodeType = cl::data_structures::LeafNode_<SymbolType, FrequencyType>;
+  using cl::data_structures::BinaryDigit;
+  using cl::data_structures::BinaryNumber;
+  using cl::data_structures::Table;
 
   if (InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get());
       in != nullptr)
@@ -88,15 +91,15 @@ template <typename S, typename F = long long,
  */
 template <typename S, typename F = long long,
           typename = std::enable_if_t<std::is_signed_v<F>>>
-[[nodiscard]] Table<S> Encode(const std::vector<S>& symbols)
+[[nodiscard]] cl::data_structures::Table<S> Encode(const std::vector<S>& symbols)
 {
   using SymbolType = S;
   using FrequencyType = F;
 
-  using NodeType = Node_<FrequencyType>;
+  using NodeType = cl::data_structures::Node_<FrequencyType>;
   using NodeTypePtr = std::unique_ptr<NodeType>;
-  using InternalNodeType = InternalNode_<FrequencyType>;
-  using LeafNodeType = LeafNode_<SymbolType, FrequencyType>;
+  using InternalNodeType = cl::data_structures::InternalNode_<FrequencyType>;
+  using LeafNodeType = cl::data_structures::LeafNode_<SymbolType, FrequencyType>;
 
   std::map<SymbolType, FrequencyType> frequencies;
 
@@ -115,7 +118,9 @@ template <typename S, typename F = long long,
 
   constexpr auto NodeComparator =
       [](const NodeTypePtr& lhs, const NodeTypePtr& rhs)
-  { return lhs->frequency < rhs->frequency; };
+  {
+    return lhs->frequency < rhs->frequency;
+  };
 
   std::sort(nodes.begin(), nodes.end(), NodeComparator);
 
@@ -135,6 +140,6 @@ template <typename S, typename F = long long,
   return TraverseTree<SymbolType>(root, {});
 }
 
-} // namespace huffman
+} // namespace cl::lossless::entropy::huffman
 
 #endif // HUFFMAN_H

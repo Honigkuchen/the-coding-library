@@ -9,9 +9,9 @@
 #include <queue>
 
 // Project includes
-#include "types.h"
+#include "../types.h"
 
-namespace huffman
+namespace cl::data_structures
 {
 /*!
  * \brief enum class BinaryDigit This enum represents the two binary digits zero and one.
@@ -45,7 +45,7 @@ constexpr void PrintBinaryDigit(const BinaryDigit& d, std::ostream& o)
  * \param b The byte to print
  * \param o The output stream to write to
  */
-constexpr void PrintByte(const Byte& b, std::ostream& o)
+constexpr void PrintByte(const cl::types::Byte& b, std::ostream& o)
 {
   for (auto i = 7; i >= 0; --i)
   {
@@ -125,11 +125,11 @@ public:
   {
     return digits.at(pos);
   }
-  std::vector<Byte> ToByteRepresentation() const noexcept
+  std::vector<cl::types::Byte> ToByteRepresentation() const noexcept
   {
     constexpr auto BitsPerByte = 8;
     std::deque<BinaryDigit> local_copy = digits;
-
+    using cl::types::Byte;
     auto remainder = BitsPerByte - (local_copy.size() % BitsPerByte);
     std::deque<BinaryDigit> expanded_binary_number(remainder);
     for (std::size_t i = 0; i < remainder; ++i)
@@ -178,6 +178,6 @@ public:
 private:
   std::deque<BinaryDigit> digits;
 };
-} // namespace huffman
+} // namespace cl::data_structures
 
 #endif // HUFFMAN_BINARY_NUMBER_H
