@@ -59,6 +59,12 @@
     "unordered_set": "cpp",
     "iomanip": "cpp",
     "mutex": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "strstream": "cpp",
+    "complex": "cpp",
+    "cfenv": "cpp",
+    "cinttypes": "cpp",
+    "typeindex": "cpp",
+    "valarray": "cpp"
   }
 }
