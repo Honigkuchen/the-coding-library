@@ -31,7 +31,8 @@ int main()
     for (auto i = 0; i < benchmark_runs; ++i)
     {
       const auto start = std::chrono::high_resolution_clock::now();
-      table = cl::lossless::entropy::huffman::Encode(message);
+      cl::lossless::entropy::huffman::HuffmanCoding hc;
+      table = hc.encode(message);
       const auto end = std::chrono::high_resolution_clock::now();
 
       const auto elapsed = end - start;

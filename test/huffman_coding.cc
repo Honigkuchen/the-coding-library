@@ -40,7 +40,9 @@ TEST_F(HuffmanTest, InternalNodeFalseConstruction)
 TEST_F(HuffmanTest, HuffmanCreateTable1)
 {
   const std::vector<char> message = {'H', 'e', 'l', 'l', 'o'};
-  cl::data_structures::Table<char> table = cl::lossless::entropy::huffman::Encode(message);
+  cl::lossless::entropy::huffman::HuffmanCoding hc;
+  cl::data_structures::Table<char>
+      table = hc.encode(message);
   cl::data_structures::BinaryNumber l = {0};
   EXPECT_EQ(table['l'], l);
   cl::data_structures::BinaryNumber o = {1, 0};
@@ -50,8 +52,3 @@ TEST_F(HuffmanTest, HuffmanCreateTable1)
   cl::data_structures::BinaryNumber e = {1, 1, 1};
   EXPECT_EQ(table['e'], e);
 }
-// int main(int argc, char** argv)
-// {
-//   ::testing::InitGoogleTest(&argc, argv);
-//   return RUN_ALL_TESTS();
-// }

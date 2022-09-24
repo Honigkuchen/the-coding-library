@@ -2,6 +2,7 @@
 add_executable(the-coding-library
   main_test.cc
   huffman_coding.cc
+  modified_huffman_coding.cc
   run_length_coding.cc
   move_to_front_transform.cc
   burrows_wheeler_transform.cc
