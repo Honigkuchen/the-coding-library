@@ -8,7 +8,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 include_directories(include)
 add_subdirectory(src)
 
-option(TESTING_ENABLED "Enable testing" OFF)
+option(TESTING_ENABLED "Enable testing" ON)
 
 if(${TESTING_ENABLED})
   enable_testing()
