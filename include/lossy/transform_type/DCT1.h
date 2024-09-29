@@ -7,19 +7,19 @@
 #include <type_traits>
 #include <vector>
 
-// Debug includes
-#include <iostream>
-
 namespace cl::lossy::transform_type
 {
 class DCT1
 {
 private:
-  template <typename T>
+  /**
+   * @brief Returns 1.0 if w is 0, otherwise this function returns 1/sqrt(2) as double.
+   */
+  template <typename T, typename = std::enable_if_t<std::is_unsigned_v<T>>>
   [[nodiscard]] constexpr double alpha(const T& w) const
   {
     if (w == 0)
-      return 1 / std::sqrt(2);
+      return 1.0 / std::sqrt(2.0);
     return 1.0;
   }
 
