@@ -40,7 +40,7 @@ public:
         double sum = 0;
         for (std::size_t x = 0; x != X; ++x)
           for (std::size_t y = 0; y != Y; ++y)
-            sum += p(numbers, x, y) * std::cos((2.0 * x + 1.0) / 16.0 * u * M_PI) * std::cos((2.0 * y + 1.0) / 16.0 * v * M_PI);
+            sum += p(numbers, x, y) * std::cos((2.0 * static_cast<double>(x) + 1.0) / 16.0 * static_cast<double>(u) * M_PI) * std::cos((2.0 * static_cast<double>(y) + 1.0) / 16.0 * static_cast<double>(v) * M_PI);
 
         p(result, u, v) = G_u_v * sum;
       }

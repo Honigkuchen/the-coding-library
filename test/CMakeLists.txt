@@ -1,13 +1,13 @@
-add_executable(the-coding-library
+set(PROJECT_TESTS_NAME "coding-library-tests")
+add_executable(${PROJECT_TESTS_NAME}
   main_test.cc
-  huffman_coding.cc
-  modified_huffman_coding.cc
-  run_length_coding.cc
-  move_to_front_transform.cc
-  burrows_wheeler_transform.cc
-  byte_pair_coding.cc
-  lempel_ziv_77_coding.cc
-  DCT1.cc)
-target_link_libraries(the-coding-library GTest::gtest_main)
+  huffman_coding_test.cc
+  run_length_coding_test.cc
+  move_to_front_transform_test.cc
+  burrows_wheeler_transform_test.cc
+  byte_pair_coding_test.cc
+  lempel_ziv_77_coding_test.cc
+  DCT1_test.cc)
+target_link_libraries(${PROJECT_TESTS_NAME} GTest::gtest_main)
 include(GoogleTest)
-gtest_discover_tests(the-coding-library)
+gtest_discover_tests(${PROJECT_TESTS_NAME})

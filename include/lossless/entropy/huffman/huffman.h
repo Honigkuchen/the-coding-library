@@ -1,11 +1,4 @@
 #pragma once
-#ifndef __cplusplus
-#error This library can only be used in C++.
-#else
-#if !(__cplusplus >= 201703L || _MSVC_LANG >= 201703L)
-#error C++17 is needed for this library.
-#endif
-#endif
 
 // STL includes
 #include <algorithm>
@@ -86,9 +79,7 @@ private:
 public:
   /*!
    * \brief Encode This function creates Huffman codes for the passed symbols.
-
    * \param symbols The symbols to get the Huffman codes for
-
    * \return A table of codes for each individual symbol
    */
   template <typename S, typename F = long long,

@@ -4,41 +4,41 @@
 
 #include <lossless/dictionary/byte_pair_coding.h>
 
-class BytePairCodingTest : public ::testing::Test
+TEST(BytePairCodingTest, NoSymbols)
 {
-};
-
-TEST_F(BytePairCodingTest, NoSymbols)
-{
-  std::vector<char> symbols = {};
+  using InputSymbolType = char;
+  using OutputSymbolType = char;
+  std::vector<InputSymbolType> symbols = {};
   cl::lossless::dictionary::BytePairCoding bpc;
-  constexpr auto symbol_replacement_generator = []()
+  constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
   {
-    static unsigned int symbol_A_offset = 0;
+    static OutputSymbolType symbol_A_offset = 0;
     if (symbol_A_offset == 26)
       throw std::runtime_error("Cannot generate more symbols for byte pair encoding");
-    const auto symbol = 'Z' - symbol_A_offset;
+    const OutputSymbolType symbol = 'Z' - symbol_A_offset;
     symbol_A_offset += 1;
     return symbol;
   };
-  const auto code_symbols = bpc.encode<char, char>(symbols, symbol_replacement_generator);
+  const auto code_symbols = bpc.encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
   EXPECT_EQ(0, code_symbols.first.size());
   EXPECT_EQ(0, code_symbols.second.size());
 }
-TEST_F(BytePairCodingTest, SymbolsSet1)
+TEST(BytePairCodingTest, SymbolsSet1)
 {
-  std::vector<char> symbols = {'a', 'a', 'a', 'b', 'd', 'a', 'a', 'a', 'b', 'a', 'c'};
+  using InputSymbolType = char;
+  using OutputSymbolType = char;
+  std::vector<InputSymbolType> symbols = {'a', 'a', 'a', 'b', 'd', 'a', 'a', 'a', 'b', 'a', 'c'};
   cl::lossless::dictionary::BytePairCoding bpc;
-  constexpr auto symbol_replacement_generator = []()
+  constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
   {
-    static unsigned int symbol_A_offset = 0;
+    static OutputSymbolType symbol_A_offset = 0;
     if (symbol_A_offset == 26)
       throw std::runtime_error("Cannot generate more symbols for byte pair encoding");
-    const auto symbol = 'Z' - symbol_A_offset;
+    const OutputSymbolType symbol = 'Z' - symbol_A_offset;
     symbol_A_offset += 1;
     return symbol;
   };
-  const auto code_symbols = bpc.encode<char, char>(symbols, symbol_replacement_generator);
+  const auto code_symbols = bpc.encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
   EXPECT_EQ(3, code_symbols.second.size());
   EXPECT_EQ(5, code_symbols.first.size());
   EXPECT_EQ('X', code_symbols.first[0]);

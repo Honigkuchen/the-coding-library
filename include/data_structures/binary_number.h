@@ -68,14 +68,13 @@ public:
   BinaryNumber(BinaryNumber&& other) noexcept = default;
   BinaryNumber& operator=(BinaryNumber&& other) noexcept = default;
 
-  template <typename T>
-  constexpr BinaryNumber(std::initializer_list<T>&& new_digits) noexcept
+  BinaryNumber(std::initializer_list<short unsigned int>&& new_digits) noexcept
   {
     AppendBack(std::move(new_digits));
   }
   void PrintOn(std::ostream& o) const
   {
-    for (const auto& digit : digits)
+    for (const BinaryDigit& digit : digits)
       PrintBinaryDigit(digit, o);
   }
   void AppendBack(const BinaryDigit& d)
@@ -87,10 +86,9 @@ public:
     if (d == 0 || d == 1)
       digits.push_back(BinaryDigit(d));
   }
-  template <typename T>
-  constexpr void AppendBack(std::initializer_list<T>&& new_digits)
+  constexpr void AppendBack(std::initializer_list<short unsigned int>&& new_digits)
   {
-    for (const auto& d : new_digits)
+    for (const short unsigned int& d : new_digits)
       AppendBack(d);
   }
   [[nodiscard]] auto begin() noexcept
@@ -109,19 +107,19 @@ public:
   {
     return digits.end();
   }
-  [[nodiscard]] auto empty() const noexcept
+  [[nodiscard]] bool empty() const noexcept
   {
     return digits.empty();
   }
-  [[nodiscard]] auto size() const noexcept
+  [[nodiscard]] std::size_t size() const noexcept
   {
     return digits.size();
   }
-  [[nodiscard]] const auto& operator[](const std::size_t& pos) const
+  [[nodiscard]] const BinaryDigit& operator[](const std::size_t& pos) const
   {
     return digits[pos];
   }
-  [[nodiscard]] const auto& at(const std::size_t& pos) const
+  [[nodiscard]] const BinaryDigit& at(const std::size_t& pos) const
   {
     return digits.at(pos);
   }

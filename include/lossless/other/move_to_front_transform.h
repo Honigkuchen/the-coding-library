@@ -9,8 +9,12 @@ namespace cl::lossless::other
 {
 class MoveToFrontTransform
 {
+public:
+  using DictionaryType = std::deque<char>;
+  using ResultType = std::vector<DictionaryType::difference_type>;
+
 private:
-  std::deque<char> dictionary;
+  DictionaryType dictionary;
 
 public:
   template <typename C>
@@ -18,25 +22,22 @@ public:
   {
     this->dictionary.assign(dictionary.begin(), dictionary.end());
   }
-  [[nodiscard]] const std::vector<unsigned int>
+  [[nodiscard]] const std::vector<DictionaryType::difference_type>
   encode(const std::vector<char>& symbols) const
   {
     std::deque<char> dictionary_copy = dictionary;
-    std::vector<unsigned int> result;
+    std::vector<DictionaryType::difference_type> result;
     result.reserve(symbols.size());
 
-    for (const auto& s : symbols)
-    {
-      const auto symbol_position = std::find(dictionary_copy.begin(), dictionary_copy.end(), s);
-      if (symbol_position != dictionary_copy.end())
+    for (const char& s : symbols)
+      if (const auto symbol_position = std::find(dictionary_copy.begin(), dictionary_copy.end(), s); symbol_position != dictionary_copy.end())
       {
-        const unsigned int rank =
+        const std::deque<char>::difference_type rank =
             std::distance(dictionary_copy.begin(), symbol_position);
         result.push_back(rank);
         dictionary_copy.erase(symbol_position);
         dictionary_copy.push_front(s);
       }
-    }
     result.shrink_to_fit();
     return result;
   }

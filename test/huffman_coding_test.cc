@@ -43,12 +43,12 @@ TEST_F(HuffmanTest, HuffmanCreateTable1)
   cl::lossless::entropy::huffman::HuffmanCoding hc;
   cl::data_structures::Table<char>
       table = hc.encode(message);
-  cl::data_structures::BinaryNumber l = {0};
+  cl::data_structures::BinaryNumber l = {0U};
   EXPECT_EQ(table['l'], l);
-  cl::data_structures::BinaryNumber o = {1, 0};
+  cl::data_structures::BinaryNumber o = {1U, 0U};
   EXPECT_EQ(table['o'], o);
-  cl::data_structures::BinaryNumber H = {1, 1, 0};
+  cl::data_structures::BinaryNumber H = {1U, 1U, 0U};
   EXPECT_EQ(table['H'], H);
-  cl::data_structures::BinaryNumber e = {1, 1, 1};
+  cl::data_structures::BinaryNumber e = {1U, 1U, 1U};
   EXPECT_EQ(table['e'], e);
 }
