@@ -79,7 +79,7 @@ public:
   }
   CL_NODISCARD std::vector<cl::types::Byte> ToByteRepresentation() const CL_NOEXCEPT
   {
-    CL_CONSTEXPR auto BitsPerByte = 8;
+    CL_CONSTEXPR auto BitsPerByte = 8U;
     std::deque<BinaryDigit> local_copy = digits_;
     using cl::types::Byte;
     auto remainder = BitsPerByte - (local_copy.size() % BitsPerByte);
@@ -97,7 +97,7 @@ public:
     for (std::size_t i = 0; i < expanded_binary_number.size(); i += BitsPerByte)
     {
       Byte b = 0b00000000;
-      for (auto j = BitsPerByte - 1; j >= 0; --j)
+      for (auto j = BitsPerByte - 1; j != 0; --j)
         if (expanded_binary_number[i + j] == BinaryDigit::ONE)
           b += static_cast<Byte>(std::pow(2, (BitsPerByte - 1 - j)));
 
