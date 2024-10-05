@@ -123,38 +123,21 @@ public:
 private:
   std::vector<EntryType> symbols_;
 };
-namespace details
-{
-template <class... Ts>
-std::string ToString(const Ts&...) = delete;
 
+template <typename S>
+CL_NODISCARD std::string ToString(const typename Table<S>::EntryType& entry)
+{
+  std::stringstream ss;
+  ss << "'" << entry.symbol << "': " << entry.frequency << " -> " << ToString(entry.binary_number) << "\n";
+  return ss.str();
+}
 template <typename T>
 CL_NODISCARD std::string ToString(const Table<T>& table)
 {
   std::stringstream ss;
   for (const typename Table<T>::EntryType& s : table.symbols_)
-    ss << ToString(s);
+    ss << ToString<T>(s);
   return ss.str();
-}
-template <typename S>
-CL_NODISCARD std::string ToString(const typename Table<S>::EntryType& entry)
-{
-  std::stringstream ss;
-  ss << "'" << entry.symbol << "': " << entry.frequency << " -> ";
-  entry.binary_number.PrintOn(ss);
-  return ss.str();
-}
-template <class T>
-std::string ToString_impl(T const& t)
-{
-  return ToString(t);
-}
-} // namespace details
-
-template <typename T>
-CL_NODISCARD std::string ToString(const T& t)
-{
-  return details::ToString_impl(t);
 }
 } // namespace cl::data_structures
 

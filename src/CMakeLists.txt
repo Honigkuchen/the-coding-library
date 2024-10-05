@@ -1,5 +1,5 @@
-set(EXECUTABLE_NAME Huffman_Encoding)
-add_executable(${EXECUTABLE_NAME} main.cpp)
+set(EXECUTABLE_NAME huffman_encoding)
+add_executable(${EXECUTABLE_NAME} huffman_enoding.cpp)
 
 target_compile_options(${EXECUTABLE_NAME} PRIVATE -Wall -Werror -Wextra -Wpedantic)
 # add_subdirectory(fast)

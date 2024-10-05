@@ -6,6 +6,7 @@
 #include <defines.hpp>
 
 // Project includes
+#include <coding_library.hpp>
 #include <data_structures/binary_number.hpp>
 #include <data_structures/table.hpp>
 #include <lossless/entropy/huffman/huffman.hpp>
@@ -58,7 +59,7 @@ int main()
 
     // using cl::data_structures::details::ToString;
 
-    // output_stream << ToString(table);
+    output_stream << ToString(table);
 
     output_stream << std::endl;
     output_stream << "Mean duration: " << mean_ns.count() << "ns" << std::endl;
