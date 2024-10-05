@@ -2,14 +2,8 @@
 #include <chrono>
 #include <iostream>
 
-// Project's defines
-#include <defines.hpp>
-
 // Project includes
 #include <coding_library.hpp>
-#include <data_structures/binary_number.hpp>
-#include <data_structures/table.hpp>
-#include <lossless/entropy/huffman/huffman.hpp>
 
 int main()
 {

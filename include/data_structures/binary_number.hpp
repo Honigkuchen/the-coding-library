@@ -139,10 +139,6 @@ CL_NODISCARD std::string ToString(const BinaryNumber& b)
     ss << ToString(digit);
   return ss.str();
 }
-namespace detail
-{
-
-} // namespace detail
 } // namespace cl::data_structures
 
 #endif // CL_BINARY_NUMBER_HPP_
