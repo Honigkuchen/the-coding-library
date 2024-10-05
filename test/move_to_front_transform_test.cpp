@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
+#include <common/alphabets.hpp>
 #include <lossless/other/move_to_front_transform.hpp>
-#include <utils/alphabets.hpp>
 
 TEST(MoveToFrontTransformTest, NoSymbols)
 {

@@ -2,11 +2,14 @@
 #ifndef CL_HPP_
 #define CL_HPP_
 
+// Defines
 #include "defines.hpp"
-#include "types.hpp"
+
+// Types
+#include "common/types.hpp"
 
 // Data structures
-#include "data_structures/data_structures.hpp"
+#include "common/data_structures.hpp"
 
 // Lossless
 #include "lossless/lossless.hpp"
@@ -15,6 +18,6 @@
 #include "lossy/transform_type/DCT1.hpp"
 
 // Utils
-#include "utils/to_string.hpp"
+#include "common/to_string.hpp"
 
 #endif

@@ -17,16 +17,16 @@ int main()
     auto mean_s = std::chrono::seconds::zero();
 
     std::string s = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-    for (auto i = 0; i < 5; ++i)
+    for (unsigned int i = 0; i < 5; ++i)
       s += s;
 
     const std::vector<char> message(s.begin(), s.end());
 
     Table<char> table;
 
-    constexpr auto benchmark_runs = 1;
+    constexpr unsigned int benchmark_runs = 1;
 
-    for (auto i = 0; i < benchmark_runs; ++i)
+    for (unsigned int i = 0; i < benchmark_runs; ++i)
     {
       const auto start = std::chrono::high_resolution_clock::now();
       cl::lossless::entropy::huffman::HuffmanCoding hc;

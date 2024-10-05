@@ -14,9 +14,9 @@
 #endif
 
 // Project includes
-#include "../types.hpp"
-#include "../utils/print.hpp"
 #include "binary_number.hpp"
+#include "print.hpp"
+#include "types.hpp"
 
 namespace cl::data_structures
 {

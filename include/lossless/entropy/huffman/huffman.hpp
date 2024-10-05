@@ -10,9 +10,9 @@
 #include <vector>
 
 // Project includes
-#include "../../../data_structures/binary_number.hpp"
-#include "../../../data_structures/graph.hpp"
-#include "../../../data_structures/table.hpp"
+#include "../../../common/binary_number.hpp"
+#include "../../../common/graph.hpp"
+#include "../../../common/table.hpp"
 
 namespace cl::lossless::entropy::huffman
 {

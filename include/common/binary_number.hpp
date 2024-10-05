@@ -11,8 +11,8 @@
 
 // Project includes
 #include "../defines.hpp"
-#include "../types.hpp"
 #include "binary_digit.hpp"
+#include "types.hpp"
 namespace cl::data_structures
 {
 /*!
