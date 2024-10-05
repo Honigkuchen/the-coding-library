@@ -37,6 +37,7 @@
 
 #ifdef CL_CPP17
 #define CL_NODISCARD [[nodiscard]]
+#define CL_MAYBE_UNUSED [[maybe_unused]]
 #define CL_NOEXCEPT_WITH(s) noexcept(s)
 #endif
 

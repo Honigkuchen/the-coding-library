@@ -8,15 +8,15 @@
 
 namespace cl::utils::alphabets
 {
-static CL_CONSTEXPR std::array LOWER_CASE_ALPHABET{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                                   'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                                   's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-static CL_CONSTEXPR std::array LOWER_UPPER_ALPHABET{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                                    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
-                                                    'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-                                                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-                                                    'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+CL_MAYBE_UNUSED static CL_CONSTEXPR std::array LOWER_CASE_ALPHABET{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                                                                   'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                                                   's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+CL_MAYBE_UNUSED static CL_CONSTEXPR std::array LOWER_UPPER_ALPHABET{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                                                                    'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                                                    's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A',
+                                                                    'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                                                                    'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                                                                    'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 CL_NODISCARD CL_CONSTEXPR auto generate_ASCII_alphabet()
 {
