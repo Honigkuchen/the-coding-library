@@ -5,6 +5,9 @@
 #include <memory>
 #include <type_traits>
 
+// Project defines
+#include "../defines.hpp"
+
 namespace cl::data_structures
 {
 /*!
@@ -34,7 +37,7 @@ public:
    *
    * \param frequency The frequency of the symbol
    */
-  explicit constexpr Node_(const FrequencyType& frequency)
+  CL_EXPLICIT CL_CONSTEXPR Node_(const FrequencyType& frequency)
       : frequency(frequency)
   {
     if (frequency < 0)
@@ -77,8 +80,8 @@ public:
    * setting the child nodes. \param left The left child node \param right The
    * right child node
    */
-  constexpr InternalNode_(std::unique_ptr<Node_<F>>& left,
-                          std::unique_ptr<Node_<F>>& right)
+  CL_CONSTEXPR InternalNode_(std::unique_ptr<Node_<F>>& left,
+                             std::unique_ptr<Node_<F>>& right)
       : Node(left->frequency + right->frequency), left(std::move(left)),
         right(std::move(right))
   {
@@ -116,10 +119,8 @@ public:
    * \param symbol The symbol represented by this node
    * \param frequency The frequency of the symbol
    */
-  constexpr LeafNode_(const SymbolType& symbol, const FrequencyType& frequency)
-      : Node_<F>(frequency), symbol(symbol)
-  {
-  }
+  CL_CONSTEXPR LeafNode_(const SymbolType& symbol, const FrequencyType& frequency)
+      : Node_<F>(frequency), symbol(symbol) {}
 
 public:
   const SymbolType symbol; //! symbol The symbol represented by this node

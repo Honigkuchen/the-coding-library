@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/dictionary/lempel_ziv_77_coding.h>
+#include <lossless/dictionary/lempel_ziv_77_coding.hpp>
 
 TEST(LempelZiv77CodingTest, NoSymbols)
 {

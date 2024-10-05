@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CL_HUFFMAN_HPP_
+#define CL_HUFFMAN_HPP_
 
 // STL includes
 #include <algorithm>
@@ -8,9 +10,9 @@
 #include <vector>
 
 // Project includes
-#include "../../../data_structures/binary_number.h"
-#include "../../../data_structures/graph.h"
-#include "../../../data_structures/table.h"
+#include "../../../data_structures/binary_number.hpp"
+#include "../../../data_structures/graph.hpp"
+#include "../../../data_structures/table.hpp"
 
 namespace cl::lossless::entropy::huffman
 {
@@ -32,8 +34,8 @@ private:
    */
   template <typename S, typename F = long long,
             typename = std::enable_if_t<std::is_signed_v<F>>>
-  [[nodiscard]] cl::data_structures::Table<S, F> traverse_tree(const std::unique_ptr<cl::data_structures::Node_<F>>& node,
-                                                               const cl::data_structures::BinaryNumber& prefix) const
+  [[nodiscard]] cl::data_structures::Table<S> traverse_tree(const std::unique_ptr<cl::data_structures::Node_<F>>& node,
+                                                            const cl::data_structures::BinaryNumber& prefix) const
   {
     using SymbolType = S;
     using FrequencyType = F;
@@ -47,7 +49,7 @@ private:
     if (InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get());
         in != nullptr)
     {
-      Table<S, F> codes;
+      Table<S> codes;
       BinaryNumber left_prefix = prefix;
       left_prefix.AppendBack(BinaryDigit::ZERO);
       codes.Append(traverse_tree<SymbolType>(in->left, left_prefix));
@@ -65,7 +67,10 @@ private:
         internal_prefix.AppendBack(BinaryDigit::ZERO);
       else
         internal_prefix = prefix;
-      const Table<S, F> codes = {{ln->symbol, ln->frequency, internal_prefix}};
+
+      typename Table<S>::EntryType e(ln->symbol, ln->frequency, internal_prefix);
+      const Table<S> codes(std::move(e));
+
       return codes;
     }
     else
@@ -132,6 +137,6 @@ public:
 
     return traverse_tree<SymbolType>(root, {});
   }
-
-}; // namespace cl::lossless::entropy::huffman
+};
 } // namespace cl::lossless::entropy::huffman
+#endif

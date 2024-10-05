@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossy/transform_type/DCT1.h>
+#include <lossy/transform_type/DCT1.hpp>
 
 constexpr auto X = 8;
 constexpr auto Y = 8;

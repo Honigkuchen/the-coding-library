@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/other/run_length_coding.h>
+#include <lossless/other/run_length_coding.hpp>
 
 TEST(RunLengthCodingTest, NoSymbols)
 {

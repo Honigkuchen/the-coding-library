@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/entropy/huffman/huffman.h>
+#include <lossless/entropy/huffman/huffman.hpp>
 
 TEST(HuffmanTest, LeafNodeCorrectConstruction)
 {

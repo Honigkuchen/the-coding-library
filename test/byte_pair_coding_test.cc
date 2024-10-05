@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/dictionary/byte_pair_coding.h>
+#include <lossless/dictionary/byte_pair_coding.hpp>
 
 TEST(BytePairCodingTest, NoSymbols)
 {

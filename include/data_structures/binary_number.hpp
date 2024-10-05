@@ -1,15 +1,17 @@
-#ifndef HUFFMAN_BINARY_NUMBER_H
-#define HUFFMAN_BINARY_NUMBER_H
+#ifndef CL_BINARY_NUMBER_HPP_
+#define CL_BINARY_NUMBER_HPP_
 
 // C includes
 #include <math.h>
 
 // C++ includes
-#include <iostream>
 #include <queue>
+#include <sstream>
+#include <string_view>
 
 // Project includes
-#include "../types.h"
+#include "../defines.hpp"
+#include "../types.hpp"
 
 namespace cl::data_structures
 {
@@ -22,39 +24,38 @@ enum class BinaryDigit
   ONE = 1
 };
 /*!
- * \brief PrintBinaryDigit This function prints a binary digit on the specified output stream.
+ * \brief ToString This function converts a binary digit to it's specific std::string_view representation.
  *
  * \param d The digit to print
- * \param o The output stream to write to
  */
-constexpr void PrintBinaryDigit(const BinaryDigit& d, std::ostream& o)
+CL_NODISCARD std::string_view ToString(const BinaryDigit& d)
 {
   switch (d)
   {
   case BinaryDigit::ZERO:
-    o << 0;
-    break;
+    return "0";
   case BinaryDigit::ONE:
-    o << 1;
-    break;
+    return "1";
   }
+  return "";
 }
 /*!
- * \brief PrintByte This function prints a byte in binary representation on the specified output stream.
+ * \brief ToString This function converts a byte in binary representation to it's specific std::string representation.
  *
  * \param b The byte to print
- * \param o The output stream to write to
  */
-constexpr void PrintByte(const cl::types::Byte& b, std::ostream& o)
+CL_NODISCARD std::string ToString(const cl::types::Byte& b)
 {
-  for (auto i = 7; i >= 0; --i)
+  std::stringstream ss;
+  for (uint8_t i = 7; i != 0; --i)
   {
-    auto mask = 1 << i;
+    const uint8_t mask = 1 << i;
     if ((b & mask) != 0)
-      PrintBinaryDigit(BinaryDigit::ONE, o);
+      ss << ToString(BinaryDigit::ONE);
     else
-      PrintBinaryDigit(BinaryDigit::ZERO, o);
+      ss << ToString(BinaryDigit::ZERO);
   }
+  return ss.str();
 }
 /*!
  * \brief class BinaryNumber
@@ -65,17 +66,17 @@ public:
   BinaryNumber() = default;
   BinaryNumber(const BinaryNumber& other) = default;
   BinaryNumber& operator=(const BinaryNumber& other) = default;
-  BinaryNumber(BinaryNumber&& other) noexcept = default;
-  BinaryNumber& operator=(BinaryNumber&& other) noexcept = default;
+  BinaryNumber(BinaryNumber&& other) CL_NOEXCEPT = default;
+  BinaryNumber& operator=(BinaryNumber&& other) CL_NOEXCEPT = default;
 
-  BinaryNumber(std::initializer_list<short unsigned int>&& new_digits) noexcept
+  BinaryNumber(std::initializer_list<short unsigned int>&& new_digits) CL_NOEXCEPT
   {
     AppendBack(std::move(new_digits));
   }
   void PrintOn(std::ostream& o) const
   {
     for (const BinaryDigit& digit : digits)
-      PrintBinaryDigit(digit, o);
+      o << ToString(digit);
   }
   void AppendBack(const BinaryDigit& d)
   {
@@ -86,32 +87,32 @@ public:
     if (d == 0 || d == 1)
       digits.push_back(BinaryDigit(d));
   }
-  constexpr void AppendBack(std::initializer_list<short unsigned int>&& new_digits)
+  CL_CONSTEXPR void AppendBack(std::initializer_list<short unsigned int>&& new_digits)
   {
-    for (const short unsigned int& d : new_digits)
+    for (const short unsigned int d : new_digits)
       AppendBack(d);
   }
-  [[nodiscard]] auto begin() noexcept
+  [[nodiscard]] auto begin() CL_NOEXCEPT
   {
     return digits.begin();
   }
-  [[nodiscard]] auto begin() const noexcept
+  [[nodiscard]] auto begin() const CL_NOEXCEPT
   {
     return digits.begin();
   }
-  [[nodiscard]] auto end() noexcept
+  [[nodiscard]] auto end() CL_NOEXCEPT
   {
     return digits.end();
   }
-  [[nodiscard]] auto end() const noexcept
+  [[nodiscard]] auto end() const CL_NOEXCEPT
   {
     return digits.end();
   }
-  [[nodiscard]] bool empty() const noexcept
+  [[nodiscard]] bool empty() const CL_NOEXCEPT
   {
     return digits.empty();
   }
-  [[nodiscard]] std::size_t size() const noexcept
+  [[nodiscard]] std::size_t size() const CL_NOEXCEPT
   {
     return digits.size();
   }
@@ -123,9 +124,9 @@ public:
   {
     return digits.at(pos);
   }
-  std::vector<cl::types::Byte> ToByteRepresentation() const noexcept
+  CL_NODISCARD std::vector<cl::types::Byte> ToByteRepresentation() const CL_NOEXCEPT
   {
-    constexpr auto BitsPerByte = 8;
+    CL_CONSTEXPR auto BitsPerByte = 8;
     std::deque<BinaryDigit> local_copy = digits;
     using cl::types::Byte;
     auto remainder = BitsPerByte - (local_copy.size() % BitsPerByte);
@@ -133,7 +134,7 @@ public:
     for (std::size_t i = 0; i < remainder; ++i)
       expanded_binary_number[i] = BinaryDigit::ZERO;
 
-    auto iterator = expanded_binary_number.begin() + remainder;
+    const auto iterator = expanded_binary_number.begin() + remainder;
 
     expanded_binary_number.insert(iterator, local_copy.begin(), local_copy.end());
 
@@ -151,7 +152,7 @@ public:
     }
     return result;
   }
-  bool operator==(const BinaryNumber& other) const noexcept
+  bool operator==(const BinaryNumber& other) const CL_NOEXCEPT
   {
     if (digits.size() != other.digits.size())
       return false;
@@ -164,11 +165,11 @@ public:
     }
     return true;
   }
-  void swap(BinaryNumber& rhs) noexcept
+  void swap(BinaryNumber& rhs) CL_NOEXCEPT
   {
     digits.swap(rhs.digits);
   }
-  friend void swap(BinaryNumber& first, BinaryNumber& second) noexcept
+  friend void swap(BinaryNumber& first, BinaryNumber& second) CL_NOEXCEPT
   {
     first.swap(second);
   }
@@ -178,4 +179,4 @@ private:
 };
 } // namespace cl::data_structures
 
-#endif // HUFFMAN_BINARY_NUMBER_H
+#endif // CL_BINARY_NUMBER_HPP_

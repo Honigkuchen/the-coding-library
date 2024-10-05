@@ -2,10 +2,13 @@
 #include <chrono>
 #include <iostream>
 
+// Project's defines
+#include <defines.hpp>
+
 // Project includes
-#include <data_structures/binary_number.h>
-#include <data_structures/table.h>
-#include <lossless/entropy/huffman/huffman.h>
+#include <data_structures/binary_number.hpp>
+#include <data_structures/table.hpp>
+#include <lossless/entropy/huffman/huffman.hpp>
 
 int main()
 {
@@ -53,7 +56,9 @@ int main()
 
     auto& output_stream = std::cout;
 
-    table.PrintOn(output_stream);
+    // using cl::data_structures::details::ToString;
+
+    output_stream << ToString(table);
 
     output_stream << std::endl;
     output_stream << "Mean duration: " << mean_ns.count() << "ns" << std::endl;

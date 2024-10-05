@@ -1,15 +1,24 @@
 #pragma once
 
 // STL includes
-#include <concepts>
 #include <stack>
 #include <string>
 #include <type_traits>
 #include <vector>
 
+// Project includes
+#include "../../defines.hpp"
+
 namespace cl::lossless::other
 {
+#ifdef CL_CPP20
+#include <concepts>
+template <typename T>
+CL_CONCEPT Symbol = std::equality_comparable<T> && std::is_default_constructible_v<T>;
+template <Symbol T>
+#elif defined(CL_CPP17)
 template <typename T, typename = std::enable_if_t<std::is_default_constructible_v<T>>>
+#endif
 class RunLengthCoding
 {
 public:
@@ -17,13 +26,15 @@ public:
   struct SymbolRunLengthCoding
   {
     using CountType = uint64_t;
+
+    CL_CONSTEXPR CL_EXPLICIT SymbolRunLengthCoding(const SymbolType& s, const CountType& c) CL_NOEXCEPT : symbol(s), count(c) {}
+
     SymbolType symbol;
     CountType count;
   };
-
   using ResultType = std::vector<SymbolRunLengthCoding>;
 
-  [[nodiscard]] const ResultType encode(const std::vector<SymbolType>& symbols) const
+  CL_NODISCARD const ResultType encode(const std::vector<SymbolType>& symbols) const
   {
     return this->encode(symbols.begin(), symbols.end());
   }

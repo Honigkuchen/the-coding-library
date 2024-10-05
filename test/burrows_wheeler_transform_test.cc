@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/other/burrows_wheeler_transform.h>
+#include <lossless/other/burrows_wheeler_transform.hpp>
 
 TEST(BurrowsWheelerTransformTest, NoSymbols)
 {
