@@ -4,18 +4,14 @@
 
 #include <lossless/other/run_length_coding.h>
 
-class RunLengthCodingTest : public ::testing::Test
-{
-};
-
-TEST_F(RunLengthCodingTest, NoSymbols)
+TEST(RunLengthCodingTest, NoSymbols)
 {
   std::vector<char> symbols = {};
   cl::lossless::other::RunLengthCoding rlc;
   std::vector<char> code_symbols = rlc.encode(symbols);
   EXPECT_EQ(0, code_symbols.size());
 }
-TEST_F(RunLengthCodingTest, SymbolsSet1)
+TEST(RunLengthCodingTest, SymbolsSet1)
 {
   std::vector<char> symbols = {'a', 'a', 'a', 'a', 'b', 'b', 'c', 'c', 'c'};
   cl::lossless::other::RunLengthCoding rlc;

@@ -5,9 +5,6 @@
 
 #include <lossy/transform_type/DCT1.h>
 
-class DCT1CodingTest : public ::testing::Test
-{
-};
 constexpr auto X = 8;
 constexpr auto Y = 8;
 const auto accessor = [](auto& m, const auto& x, const auto& y) -> auto&
@@ -19,7 +16,8 @@ const auto accessor = [](auto& m, const auto& x, const auto& y) -> auto&
 
   return m[x * X + y];
 };
-TEST_F(DCT1CodingTest, NoSymbols)
+
+TEST(DCT1CodingTest, NoSymbols)
 {
   std::vector<double> numbers = {};
   cl::lossy::transform_type::DCT1 dct;
@@ -27,16 +25,16 @@ TEST_F(DCT1CodingTest, NoSymbols)
       numbers, accessor);
   EXPECT_EQ(0, transformed_numbers.size());
 }
-TEST_F(DCT1CodingTest, NumbersTest1)
+TEST(DCT1CodingTest, NumbersTest1)
 {
-  constexpr std::array<double, X* Y> m = {-76, -73, -67, -62, -58, -67, -64, -55,
-                                          -65, -69, -73, -38, -19, -43, -59, -56,
-                                          -66, -69, -60, -15, 16, -24, -62, -55,
-                                          -65, -70, -57, -6, 26, -22, -58, -59,
-                                          -61, -67, -60, -24, -2, -40, -60, -58,
-                                          -49, -63, -68, -58, -51, -60, -70, -53,
-                                          -43, -57, -64, -69, -73, -67, -63, -45,
-                                          -41, -49, -59, -60, -63, -52, -50, -34};
+  constexpr std::array<double, X * Y> m = {-76, -73, -67, -62, -58, -67, -64, -55,
+                                           -65, -69, -73, -38, -19, -43, -59, -56,
+                                           -66, -69, -60, -15, 16, -24, -62, -55,
+                                           -65, -70, -57, -6, 26, -22, -58, -59,
+                                           -61, -67, -60, -24, -2, -40, -60, -58,
+                                           -49, -63, -68, -58, -51, -60, -70, -53,
+                                           -43, -57, -64, -69, -73, -67, -63, -45,
+                                           -41, -49, -59, -60, -63, -52, -50, -34};
   cl::lossy::transform_type::DCT1 dct;
   const auto transformed_numbers = dct.transform<X, Y>(m, accessor);
 
