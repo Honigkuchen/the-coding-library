@@ -1,5 +1,5 @@
-#ifndef HUFFMAN_GRAPH_H
-#define HUFFMAN_GRAPH_H
+#ifndef CL_GRAPH_HPP_
+#define CL_GRAPH_HPP_
 
 // STL includes
 #include <memory>
@@ -129,4 +129,4 @@ template <typename SymbolType>
 using LeafNode = LeafNode_<SymbolType>;
 } // namespace cl::data_structures
 
-#endif // HUFFMAN_GRAPH_H
+#endif // CL_GRAPH_HPP_
