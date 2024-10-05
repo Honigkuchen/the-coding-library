@@ -1,5 +1,3 @@
-find_package(fmt REQUIRED)
-
 set(EXECUTABLE_NAME huffman_encoding)
 add_executable(${EXECUTABLE_NAME} huffman_enoding.cpp)
 
