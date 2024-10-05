@@ -1,48 +1,49 @@
 #pragma once
 
 // STL includes
+#include <concepts>
 #include <stack>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace cl::lossless::other
 {
+template <typename T, typename = std::enable_if_t<std::is_default_constructible_v<T>>>
 class RunLengthCoding
 {
 public:
-  const std::vector<char> encode(const std::vector<char>& symbols) const
+  using SymbolType = T;
+  struct SymbolRunLengthCoding
+  {
+    using CountType = uint64_t;
+    SymbolType symbol;
+    CountType count;
+  };
+
+  using ResultType = std::vector<SymbolRunLengthCoding>;
+
+  [[nodiscard]] const ResultType encode(const std::vector<SymbolType>& symbols) const
   {
     return this->encode(symbols.begin(), symbols.end());
   }
 
   template <typename Iter>
-  const std::vector<char> encode(Iter begin, Iter end) const
+  const ResultType encode(Iter begin, Iter end) const
   {
-    std::vector<char> result;
+    ResultType result;
     if (begin >= end)
       return result;
-    char previous_symbol = *begin;
-    auto c = 1;
+    SymbolType current_symbol = *begin;
+    typename SymbolRunLengthCoding::CountType c = 1;
     begin += 1;
     for (auto iter = begin; iter != end + 1; ++iter)
     {
-      if (*iter != previous_symbol || iter == end)
+      if ((*iter != current_symbol || iter == end) && c > 0)
       {
-        if (c > 0)
-        {
-          std::vector<char> tmp;
-          while (c != 0)
-          {
-            const int last = c % 10;
-            tmp.push_back(static_cast<char>('0' + last));
-            c = (c - last) / 10;
-          }
-          std::reverse(tmp.begin(), tmp.end());
-          result.insert(result.end(), tmp.begin(), tmp.end());
-        }
-        result.push_back(previous_symbol);
+        result.emplace_back(current_symbol, c);
         c = 0;
-        previous_symbol = *iter;
+        current_symbol = *iter;
       }
       ++c;
     }
