@@ -58,7 +58,7 @@ int main()
 
     // using cl::data_structures::details::ToString;
 
-    output_stream << ToString(table);
+    // output_stream << ToString(table);
 
     output_stream << std::endl;
     output_stream << "Mean duration: " << mean_ns.count() << "ns" << std::endl;
