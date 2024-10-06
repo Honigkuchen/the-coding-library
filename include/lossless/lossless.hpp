@@ -12,6 +12,6 @@
 // Other
 #include "other/burrows_wheeler_transform.hpp"
 #include "other/move_to_front_transform.hpp"
-#include "other/run_length_coding.hpp"
+#include "other/run_length_coding/run_length_coding.hpp"
 
 #endif

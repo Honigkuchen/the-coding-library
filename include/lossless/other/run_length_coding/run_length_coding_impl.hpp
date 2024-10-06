@@ -1,4 +1,6 @@
 #pragma once
+#ifndef RUN_LENGTH_CODING_IMPL_HPP_
+#define RUN_LENGTH_CODING_IMPL_HPP_
 
 // STL includes
 #include <stack>
@@ -7,19 +9,12 @@
 #include <vector>
 
 // Project includes
-#include "../../defines.hpp"
+#include "../../../defines.hpp"
 
-namespace cl::lossless::other
+namespace cl::lossless::other::detail
 {
-#ifdef CL_CPP20
-#include <concepts>
 template <typename T>
-CL_CONCEPT Symbol = std::equality_comparable<T> && std::is_default_constructible_v<T>;
-template <Symbol T>
-#elif defined(CL_CPP17)
-template <typename T, typename = std::enable_if_t<std::is_default_constructible_v<T>>>
-#endif
-class RunLengthCoding
+class RunLengthCodingImpl
 {
 public:
   using SymbolType = T;
@@ -61,4 +56,6 @@ public:
     return result;
   }
 };
-} // namespace cl::lossless::other
+} // namespace cl::lossless::other::detail
+
+#endif

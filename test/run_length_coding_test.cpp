@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/other/run_length_coding.hpp>
+#include <lossless/other/run_length_coding/run_length_coding.hpp>
 
 using cl::lossless::other::RunLengthCoding;
 
