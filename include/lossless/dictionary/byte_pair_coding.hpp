@@ -46,7 +46,7 @@ public:
    * @return const std::pair<std::vector<T>, std::map<T, std::vector<S>>> The resulting encoded collection of symbols
    */
   template <typename S, typename T, typename U, typename = std::enable_if_t<std::is_unsigned_v<T>>>
-  CL_NODISCARD const std::pair<std::vector<T>, std::map<T, BytePair>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
+  CL_NODISCARD const std::pair<std::vector<T>, std::map<T, BytePair>> Encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
   {
     using SymbolType = S;
     using ReplacementSymbolType = T;
@@ -94,7 +94,7 @@ public:
           result.erase(result.begin() + static_cast<typename std::vector<ReplacementSymbolType>::difference_type>(i + 1));
         }
       }
-      const auto recursive_result = encode<SymbolType, ReplacementSymbolType>(result, replacement_symbol_generator);
+      const auto recursive_result = Encode<SymbolType, ReplacementSymbolType>(result, replacement_symbol_generator);
       symbol_replace_table.insert(recursive_result.second.begin(), recursive_result.second.end());
       result = recursive_result.first;
     }

@@ -30,7 +30,7 @@ int main()
     {
       const auto start = std::chrono::high_resolution_clock::now();
       cl::lossless::entropy::huffman::HuffmanCoding hc;
-      table = hc.encode(message);
+      table = hc.Encode(message);
       const auto end = std::chrono::high_resolution_clock::now();
 
       const auto elapsed = end - start;

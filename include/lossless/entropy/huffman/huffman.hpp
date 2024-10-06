@@ -25,7 +25,7 @@ public:
    * \return A table of codes for each individual symbol
    */
   template <typename S>
-  CL_NODISCARD data_structures::Table<S> encode(const std::vector<S>& symbols) const
+  CL_NODISCARD data_structures::Table<S> Encode(const std::vector<S>& symbols) const
   {
     using SymbolType = S;
 

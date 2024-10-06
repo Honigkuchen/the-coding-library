@@ -30,7 +30,7 @@ TEST(HuffmanTest, HuffmanCreateTable1)
   const std::vector<char> message = {'H', 'e', 'l', 'l', 'o'};
   cl::lossless::entropy::huffman::HuffmanCoding hc;
   Table<char>
-      table = hc.encode(message);
+      table = hc.Encode(message);
   BinaryNumber l = {0U};
   EXPECT_EQ(table['l'], l);
   BinaryNumber o = {1U, 0U};

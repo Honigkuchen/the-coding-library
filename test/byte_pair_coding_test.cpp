@@ -21,7 +21,7 @@ TEST(BytePairCodingTest, NoSymbols)
     symbol_A_offset += 1;
     return symbol;
   };
-  const auto code_symbols = bpc.encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
+  const auto code_symbols = bpc.Encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
   EXPECT_EQ(0, code_symbols.first.size());
   EXPECT_EQ(0, code_symbols.second.size());
 }
@@ -40,7 +40,7 @@ TEST(BytePairCodingTest, SymbolsSet1)
     symbol_A_offset += 1;
     return symbol;
   };
-  const auto code_symbols = bpc.encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
+  const auto code_symbols = bpc.Encode<InputSymbolType, OutputSymbolType>(symbols, symbol_replacement_generator);
   EXPECT_EQ(3, code_symbols.second.size());
   EXPECT_EQ(5, code_symbols.first.size());
   EXPECT_EQ('X', code_symbols.first[0]);

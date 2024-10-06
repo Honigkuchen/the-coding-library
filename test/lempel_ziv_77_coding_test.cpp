@@ -10,14 +10,14 @@ TEST(LempelZiv77CodingTest, NoSymbols)
 {
   std::vector<char> symbols = {};
   LempelZiv77Coding lz77;
-  const auto code_symbols = lz77.encode(symbols);
+  const auto code_symbols = lz77.Encode(symbols);
   EXPECT_EQ(0, code_symbols.size());
 }
 TEST(LempelZiv77CodingTest, SymbolsSet1)
 {
   std::vector<char> symbols = {'a', 'b', 'a', 'b', 'c', 'b', 'a', 'b', 'a', 'b', 'a', 'a'};
   LempelZiv77Coding lz77;
-  const auto code_symbols = lz77.encode(symbols);
+  const auto code_symbols = lz77.Encode(symbols);
   EXPECT_EQ(5, code_symbols.size());
   EXPECT_EQ(0, std::get<0>(code_symbols[0]));
   EXPECT_EQ(0, std::get<1>(code_symbols[0]));

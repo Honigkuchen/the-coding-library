@@ -33,7 +33,7 @@ public:
    * @author Jonas 'Honigkuchen' Haubold
    * @see BytePairCoding
    */
-  [[nodiscard]] const std::vector<char> transform(const std::vector<char>& symbols) const
+  [[nodiscard]] const std::vector<char> Transform(const std::vector<char>& symbols) const
   {
     std::vector<char> result;
     if (symbols.empty())

@@ -11,14 +11,14 @@ TEST(MoveToFrontTransformTest, NoSymbols)
 {
   const std::vector<char> symbols = {};
   MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
-  const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
+  const MoveToFrontTransform::ResultType code_sequence = mtft.Encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
 }
 TEST(MoveToFrontTransformTest, SymbolsSet1)
 {
   const std::vector<char> symbols = {'b', 'a', 'n', 'a', 'n', 'a', 'a', 'a'};
   MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
-  const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
+  const MoveToFrontTransform::ResultType code_sequence = mtft.Encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(1, code_sequence[0]);
   EXPECT_EQ(1, code_sequence[1]);
@@ -33,7 +33,7 @@ TEST(MoveToFrontTransformTest, SymbolsSet2)
 {
   const std::vector<char> symbols = {'W', 'i', 'k', 'i', 'p', 'e', 'd', 'i', 'a'};
   MoveToFrontTransform mtft(cl::utils::alphabets::BYTE_ALPHABET);
-  const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
+  const MoveToFrontTransform::ResultType code_sequence = mtft.Encode(symbols);
   EXPECT_EQ(symbols.size(), code_sequence.size());
   EXPECT_EQ(87, code_sequence[0]);
   EXPECT_EQ(105, code_sequence[1]);

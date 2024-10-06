@@ -5,12 +5,15 @@
 #include <tuple>
 #include <vector>
 
+// Project defines
+#include "../../defines.hpp"
+
 namespace cl::lossless::dictionary
 {
 class LempelZiv77Coding
 {
 public:
-  [[nodiscard]] const std::vector<std::tuple<std::size_t, std::size_t, char>> encode(const std::vector<char>& symbols) const
+  CL_NODISCARD const std::vector<std::tuple<std::size_t, std::size_t, char>> Encode(const std::vector<char>& symbols) const
   {
     std::vector<std::tuple<std::size_t, std::size_t, char>> triplets;
     if (symbols.empty())

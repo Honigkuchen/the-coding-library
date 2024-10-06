@@ -10,14 +10,14 @@ TEST(RunLengthCodingTest, NoSymbols)
 {
   std::vector<char> symbols = {};
   RunLengthCoding<char> rlc;
-  RunLengthCoding<char>::ResultType code_symbols = rlc.encode(symbols);
+  RunLengthCoding<char>::ResultType code_symbols = rlc.Encode(symbols);
   EXPECT_EQ(0, code_symbols.size());
 }
 TEST(RunLengthCodingTest, SymbolsSet1)
 {
   std::vector<char> symbols = {'a', 'a', 'a', 'a', 'b', 'b', 'c', 'c', 'c'};
   RunLengthCoding<char> rlc;
-  RunLengthCoding<char>::ResultType code_symbols = rlc.encode(symbols);
+  RunLengthCoding<char>::ResultType code_symbols = rlc.Encode(symbols);
   EXPECT_EQ(3, code_symbols.size());
   EXPECT_EQ(4, code_symbols[0].count);
   EXPECT_EQ('a', code_symbols[0].symbol);

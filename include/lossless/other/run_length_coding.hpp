@@ -34,13 +34,13 @@ public:
   };
   using ResultType = std::vector<SymbolRunLengthCoding>;
 
-  CL_NODISCARD const ResultType encode(const std::vector<SymbolType>& symbols) const
+  CL_NODISCARD const ResultType Encode(const std::vector<SymbolType>& symbols) const
   {
-    return this->encode(symbols.begin(), symbols.end());
+    return this->Encode(symbols.begin(), symbols.end());
   }
 
   template <typename Iter>
-  const ResultType encode(Iter begin, Iter end) const
+  const ResultType Encode(Iter begin, Iter end) const
   {
     ResultType result;
     if (begin >= end)

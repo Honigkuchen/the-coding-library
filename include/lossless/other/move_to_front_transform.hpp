@@ -22,8 +22,7 @@ public:
   {
     this->dictionary.assign(dictionary.begin(), dictionary.end());
   }
-  [[nodiscard]] const std::vector<DictionaryType::difference_type>
-  encode(const std::vector<char>& symbols) const
+  CL_NODISCARD const std::vector<DictionaryType::difference_type> Encode(const std::vector<char>& symbols) const
   {
     std::deque<char> dictionary_copy = dictionary;
     std::vector<DictionaryType::difference_type> result;

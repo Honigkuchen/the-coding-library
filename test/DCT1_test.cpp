@@ -23,7 +23,7 @@ TEST(DCT1CodingTest, NoSymbols)
 {
   std::vector<double> numbers = {};
   DCT1 dct;
-  const auto transformed_numbers = dct.transform<X, Y>(
+  const auto transformed_numbers = dct.Transform<X, Y>(
       numbers, accessor);
   EXPECT_EQ(0, transformed_numbers.size());
 }
@@ -38,7 +38,7 @@ TEST(DCT1CodingTest, NumbersTest1)
                                            -43, -57, -64, -69, -73, -67, -63, -45,
                                            -41, -49, -59, -60, -63, -52, -50, -34};
   DCT1 dct;
-  const auto transformed_numbers = dct.transform<X, Y>(m, accessor);
+  const auto transformed_numbers = dct.Transform<X, Y>(m, accessor);
 
   const auto round = [](const auto& v)
   {
