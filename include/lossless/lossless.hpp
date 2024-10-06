@@ -3,7 +3,7 @@
 #define CL_LOSSLESS_HPP_
 
 // Dictionary
-#include "dictionary/byte_pair_coding.hpp"
+#include "dictionary/byte_pair_coding/byte_pair_coding.hpp"
 #include "dictionary/lempel_ziv_77_coding.hpp"
 
 // Entropy

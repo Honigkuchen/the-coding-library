@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-#include <lossless/dictionary/byte_pair_coding.hpp>
+#include <lossless/dictionary/byte_pair_coding/byte_pair_coding.hpp>
 
 using cl::lossless::dictionary::BytePairCoding;
 

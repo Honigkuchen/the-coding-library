@@ -24,7 +24,7 @@ public:
 
     bool end_reached = false;
 
-    auto index_is_valid = [&symbols](auto i)
+    auto index_is_valid = [&symbols](const std::size_t i)
     {
       return i < symbols.size();
     };
@@ -42,16 +42,16 @@ public:
         current.push_back(symbols[i + j]);
       }
 
-      std::string current_search_buffer;
+      std::string current_search_buffer{""};
       for (unsigned int j = 0; j != SIZE_SEARCH_BUFFER; ++j)
         if (index_is_valid(i - SIZE_SEARCH_BUFFER + j))
           current_search_buffer.push_back(symbols[i - SIZE_SEARCH_BUFFER + j]);
 
-      std::size_t o = 0; // How many steps to go back to find the start of the matching string
-      std::size_t l = 0; // Length of the match
-      char c = ' ';
+      std::size_t o{0}; // How many steps to go back to find the start of the matching string
+      std::size_t l{0}; // Length of the match
+      char c{' '};
 
-      bool match_found = false;
+      bool match_found{false};
       for (unsigned int j = 0; j != SIZE_LOOK_AHEAD_BUFFER - 1; ++j)
       {
         if (j != 0)
@@ -59,7 +59,7 @@ public:
         if (const auto index = current_search_buffer.rfind(current); index != std::string::npos)
         {
           match_found = true;
-          const std::size_t pos = current_search_buffer.size() - index;
+          const std::size_t pos{current_search_buffer.size() - index};
           o = pos;
           l = current.size();
 

@@ -8,23 +8,14 @@
 #include <utility>
 #include <vector>
 
-#include "../../defines.hpp"
+// Project defines
+#include "../../../defines.hpp"
+
+// Project includes
+#include "byte_pair.hpp"
 
 namespace cl::lossless::dictionary
 {
-struct BytePair
-{
-  CL_CONSTEXPR BytePair() CL_NOEXCEPT = default;
-  CL_EXPLICIT CL_CONSTEXPR BytePair(const unsigned char f, const unsigned char s) CL_NOEXCEPT : first(f), second(s) {}
-  CL_EXPLICIT CL_CONSTEXPR BytePair(unsigned char&& f, unsigned char&& s) CL_NOEXCEPT : first(f), second(s) {}
-  unsigned char first{0};
-  unsigned char second{0};
-};
-
-CL_NODISCARD CL_CONSTEXPR bool operator==(const BytePair& lhs, const BytePair& rhs) noexcept
-{
-  return lhs.first == rhs.first && lhs.second == rhs.second;
-}
 /**
  * \brief This class performs the encoding on symbols using the Byte-Pair-Coding algorithm.
  * \author Jonas 'Honigkuchen' Haubold
