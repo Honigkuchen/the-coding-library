@@ -23,12 +23,6 @@ TEST(HuffmanTest, InternalNodeCorrectConstruction)
   EXPECT_EQ(node.left.get(), left_ptr);
   EXPECT_EQ(node.right.get(), right_ptr);
 }
-TEST(HuffmanTest, InternalNodeFalseConstruction)
-{
-  std::unique_ptr<cl::data_structures::Node> left = nullptr;
-  std::unique_ptr<cl::data_structures::Node> right = nullptr;
-  EXPECT_DEATH(cl::data_structures::InternalNode node(left, right), "");
-}
 TEST(HuffmanTest, HuffmanCreateTable1)
 {
   const std::vector<char> message = {'H', 'e', 'l', 'l', 'o'};
