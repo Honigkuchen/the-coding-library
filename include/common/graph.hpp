@@ -20,13 +20,11 @@ namespace cl::data_structures
  * @see LeafNode_
  * @see InternalNode_
  */
-template <typename F = long long,
-          typename = std::enable_if_t<std::is_signed_v<F>>>
 class Node_
 {
 public:
   /*! \brief The type of the frequency. */
-  using FrequencyType = F;
+  using FrequencyType = uint64_t;
 
 public:
   /*!
@@ -37,12 +35,7 @@ public:
    *
    * \param frequency The frequency of the symbol
    */
-  CL_EXPLICIT CL_CONSTEXPR Node_(const FrequencyType& frequency)
-      : frequency(frequency)
-  {
-    if (frequency < 0)
-      throw std::runtime_error("The frequency of a node must not be negative");
-  }
+  CL_EXPLICIT CL_CONSTEXPR Node_(const FrequencyType& frequency) : frequency(frequency) {}
   // Prevent slicing
   Node_(const Node_&) = delete;
   Node_& operator=(const Node_&) = delete;
@@ -59,7 +52,7 @@ public:
 /*!
  * \brief Default node type, default frequency type is 'long long'.
  */
-using Node = Node_<>;
+using Node = Node_;
 /*!
  * \brief The InternalNode_ class represents an internal node in the Huffman
  * graph.
@@ -71,8 +64,7 @@ using Node = Node_<>;
  * @see Node_
  * @see LeafNode_
  */
-template <typename F = long long>
-class InternalNode_ : public Node_<F>
+class InternalNode_ : public Node_
 {
 public:
   /*!
@@ -80,8 +72,8 @@ public:
    * setting the child nodes. \param left The left child node \param right The
    * right child node
    */
-  CL_CONSTEXPR InternalNode_(std::unique_ptr<Node_<F>>& left,
-                             std::unique_ptr<Node_<F>>& right)
+  InternalNode_(std::unique_ptr<Node_>& left,
+                std::unique_ptr<Node_>& right)
       : Node(left->frequency + right->frequency), left(std::move(left)),
         right(std::move(right))
   {
@@ -94,7 +86,7 @@ public:
 /*!
  * \brief Default internal node type, default frequency type is 'long long'.
  */
-using InternalNode = InternalNode_<>;
+using InternalNode = InternalNode_;
 /*!
  * \brief The LeafNode_ class represents the leafes of the Huffman graph.
  *
@@ -104,14 +96,14 @@ using InternalNode = InternalNode_<>;
  * @see Node_
  * @see InternalNode_
  */
-template <typename S, typename F = long long>
-class LeafNode_ : public Node_<F>
+template <typename S>
+class LeafNode_ : public Node_
 {
 public:
   /*! \brief The type of the symbol. */
   using SymbolType = S;
   /*! \brief The type of the frequency. */
-  using FrequencyType = F;
+  using FrequencyType = Node_::FrequencyType;
 
 public:
   /*!
@@ -120,7 +112,7 @@ public:
    * \param frequency The frequency of the symbol
    */
   CL_CONSTEXPR LeafNode_(const SymbolType& symbol, const FrequencyType& frequency)
-      : Node_<F>(frequency), symbol(symbol) {}
+      : Node_(frequency), symbol(symbol) {}
 
 public:
   const SymbolType symbol; //! symbol The symbol represented by this node

@@ -32,16 +32,14 @@ private:
    * \return A map of symbols and their corresponding Huffman binary
    * representation
    */
-  template <typename S, typename F = long long,
-            typename = std::enable_if_t<std::is_signed_v<F>>>
-  [[nodiscard]] cl::data_structures::Table<S> traverse_tree(const std::unique_ptr<cl::data_structures::Node_<F>>& node,
-                                                            const cl::data_structures::BinaryNumber& prefix) const
+  template <typename S>
+  CL_NODISCARD cl::data_structures::Table<S> traverse_tree(const std::unique_ptr<cl::data_structures::Node_>& node,
+                                                           const cl::data_structures::BinaryNumber& prefix) const
   {
     using SymbolType = S;
-    using FrequencyType = F;
 
-    using InternalNodeType = cl::data_structures::InternalNode_<FrequencyType>;
-    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType, FrequencyType>;
+    using InternalNodeType = cl::data_structures::InternalNode_;
+    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType>;
     using cl::data_structures::BinaryDigit;
     using cl::data_structures::BinaryNumber;
     using cl::data_structures::Table;
@@ -87,19 +85,17 @@ public:
    * \param symbols The symbols to get the Huffman codes for
    * \return A table of codes for each individual symbol
    */
-  template <typename S, typename F = long long,
-            typename = std::enable_if_t<std::is_signed_v<F>>>
-  [[nodiscard]] cl::data_structures::Table<S> encode(const std::vector<S>& symbols) const
+  template <typename S>
+  CL_NODISCARD cl::data_structures::Table<S> encode(const std::vector<S>& symbols) const
   {
     using SymbolType = S;
-    using FrequencyType = F;
 
-    using NodeType = cl::data_structures::Node_<FrequencyType>;
+    using NodeType = cl::data_structures::Node_;
     using NodeTypePtr = std::unique_ptr<NodeType>;
-    using InternalNodeType = cl::data_structures::InternalNode_<FrequencyType>;
-    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType, FrequencyType>;
+    using InternalNodeType = cl::data_structures::InternalNode_;
+    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType>;
 
-    std::map<SymbolType, FrequencyType> frequencies;
+    std::map<SymbolType, NodeType::FrequencyType> frequencies;
 
     for (const SymbolType& symbol : symbols)
     {
