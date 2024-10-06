@@ -14,8 +14,11 @@ namespace cl::lossless::dictionary
 {
 struct BytePair
 {
-  unsigned char first;
-  unsigned char second;
+  CL_CONSTEXPR BytePair() CL_NOEXCEPT = default;
+  CL_EXPLICIT CL_CONSTEXPR BytePair(const unsigned char f, const unsigned char s) CL_NOEXCEPT : first(f), second(s) {}
+  CL_EXPLICIT CL_CONSTEXPR BytePair(unsigned char&& f, unsigned char&& s) CL_NOEXCEPT : first(f), second(s) {}
+  unsigned char first{0};
+  unsigned char second{0};
 };
 
 CL_NODISCARD CL_CONSTEXPR bool operator==(const BytePair& lhs, const BytePair& rhs) noexcept
@@ -43,7 +46,7 @@ public:
    * @return const std::pair<std::vector<T>, std::map<T, std::vector<S>>> The resulting encoded collection of symbols
    */
   template <typename S, typename T, typename U, typename = std::enable_if_t<std::is_unsigned_v<T>>>
-  [[nodiscard]] const std::pair<std::vector<T>, std::map<T, BytePair>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
+  CL_NODISCARD const std::pair<std::vector<T>, std::map<T, BytePair>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
   {
     using SymbolType = S;
     using ReplacementSymbolType = T;
@@ -57,20 +60,20 @@ public:
 
     struct BytePairFrequencyType
     {
+      CL_EXPLICIT CL_CONSTEXPR BytePairFrequencyType(BytePair&& b, uint64_t&& f) CL_NOEXCEPT : byte_pair(b), frequency(f) {}
       BytePair byte_pair;
       uint64_t frequency;
     };
-
     std::vector<BytePairFrequencyType> bytepair_frequencies;
     for (std::size_t i = 0; i < result.size() - 1; ++i)
     {
-      const BytePair s{result[i], result[i + 1]};
+      BytePair s{result[i], result[i + 1]};
       const auto pos = std::find_if(bytepair_frequencies.begin(), bytepair_frequencies.end(), [&s](const BytePairFrequencyType& f)
                                     {
                                       return f.byte_pair == s;
                                     });
       if (pos == bytepair_frequencies.end())
-        bytepair_frequencies.emplace_back(s, 1);
+        bytepair_frequencies.emplace_back(std::move(s), 1);
       else
         pos->frequency += 1;
     }
@@ -88,7 +91,7 @@ public:
         {
           symbol_replace_table[replace_symbol] = s;
           result[i] = replace_symbol;
-          result.erase(result.begin() + static_cast<std::vector<ReplacementSymbolType>::difference_type>(i + 1));
+          result.erase(result.begin() + static_cast<typename std::vector<ReplacementSymbolType>::difference_type>(i + 1));
         }
       }
       const auto recursive_result = encode<SymbolType, ReplacementSymbolType>(result, replacement_symbol_generator);

@@ -4,12 +4,14 @@
 
 #include <lossless/dictionary/byte_pair_coding.hpp>
 
+using cl::lossless::dictionary::BytePairCoding;
+
 TEST(BytePairCodingTest, NoSymbols)
 {
   using InputSymbolType = unsigned char;
   using OutputSymbolType = unsigned char;
   std::vector<InputSymbolType> symbols = {};
-  cl::lossless::dictionary::BytePairCoding bpc;
+  BytePairCoding bpc;
   constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
   {
     static OutputSymbolType symbol_A_offset = 0;
@@ -28,7 +30,7 @@ TEST(BytePairCodingTest, SymbolsSet1)
   using InputSymbolType = unsigned char;
   using OutputSymbolType = unsigned char;
   std::vector<InputSymbolType> symbols = {'a', 'a', 'a', 'b', 'd', 'a', 'a', 'a', 'b', 'a', 'c'};
-  cl::lossless::dictionary::BytePairCoding bpc;
+  BytePairCoding bpc;
   constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
   {
     static OutputSymbolType symbol_A_offset = 0;
