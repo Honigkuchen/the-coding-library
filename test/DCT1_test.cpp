@@ -5,6 +5,8 @@
 
 #include <lossy/transform_type/DCT1.hpp>
 
+using cl::lossy::transform_type::DCT1;
+
 constexpr auto X = 8;
 constexpr auto Y = 8;
 const auto accessor = [](auto& m, const auto& x, const auto& y) -> auto&
@@ -20,7 +22,7 @@ const auto accessor = [](auto& m, const auto& x, const auto& y) -> auto&
 TEST(DCT1CodingTest, NoSymbols)
 {
   std::vector<double> numbers = {};
-  cl::lossy::transform_type::DCT1 dct;
+  DCT1 dct;
   const auto transformed_numbers = dct.transform<X, Y>(
       numbers, accessor);
   EXPECT_EQ(0, transformed_numbers.size());
@@ -35,7 +37,7 @@ TEST(DCT1CodingTest, NumbersTest1)
                                            -49, -63, -68, -58, -51, -60, -70, -53,
                                            -43, -57, -64, -69, -73, -67, -63, -45,
                                            -41, -49, -59, -60, -63, -52, -50, -34};
-  cl::lossy::transform_type::DCT1 dct;
+  DCT1 dct;
   const auto transformed_numbers = dct.transform<X, Y>(m, accessor);
 
   const auto round = [](const auto& v)

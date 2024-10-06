@@ -5,9 +5,10 @@
 #include <common/alphabets.hpp>
 #include <lossless/other/move_to_front_transform.hpp>
 
+using cl::lossless::other::MoveToFrontTransform;
+
 TEST(MoveToFrontTransformTest, NoSymbols)
 {
-  using cl::lossless::other::MoveToFrontTransform;
   const std::vector<char> symbols = {};
   MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
   const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
@@ -15,7 +16,6 @@ TEST(MoveToFrontTransformTest, NoSymbols)
 }
 TEST(MoveToFrontTransformTest, SymbolsSet1)
 {
-  using cl::lossless::other::MoveToFrontTransform;
   const std::vector<char> symbols = {'b', 'a', 'n', 'a', 'n', 'a', 'a', 'a'};
   MoveToFrontTransform mtft(cl::utils::alphabets::LOWER_CASE_ALPHABET);
   const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
@@ -31,7 +31,6 @@ TEST(MoveToFrontTransformTest, SymbolsSet1)
 }
 TEST(MoveToFrontTransformTest, SymbolsSet2)
 {
-  using cl::lossless::other::MoveToFrontTransform;
   const std::vector<char> symbols = {'W', 'i', 'k', 'i', 'p', 'e', 'd', 'i', 'a'};
   MoveToFrontTransform mtft(cl::utils::alphabets::BYTE_ALPHABET);
   const MoveToFrontTransform::ResultType code_sequence = mtft.encode(symbols);
