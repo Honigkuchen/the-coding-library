@@ -8,8 +8,20 @@
 #include <utility>
 #include <vector>
 
+#include "../../defines.hpp"
+
 namespace cl::lossless::dictionary
 {
+struct BytePair
+{
+  unsigned char first;
+  unsigned char second;
+};
+
+CL_NODISCARD CL_CONSTEXPR bool operator==(const BytePair& lhs, const BytePair& rhs) noexcept
+{
+  return lhs.first == rhs.first && lhs.second == rhs.second;
+}
 /**
  * \brief This class performs the encoding on symbols using the Byte-Pair-Coding algorithm.
  * \author Jonas 'Honigkuchen' Haubold
@@ -30,43 +42,49 @@ public:
    * @param replacement_symbol_generator
    * @return const std::pair<std::vector<T>, std::map<T, std::vector<S>>> The resulting encoded collection of symbols
    */
-  template <typename S, typename T, typename U>
-  [[nodiscard]] const std::pair<std::vector<T>, std::map<T, std::vector<S>>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
+  template <typename S, typename T, typename U, typename = std::enable_if_t<std::is_unsigned_v<T>>>
+  [[nodiscard]] const std::pair<std::vector<T>, std::map<T, BytePair>> encode(const std::vector<S>& symbols, U replacement_symbol_generator) const
   {
     using SymbolType = S;
     using ReplacementSymbolType = T;
 
-    std::vector<ReplacementSymbolType>
-        result;
-    std::map<ReplacementSymbolType, std::vector<SymbolType>> symbol_replace_table;
+    std::vector<ReplacementSymbolType> result;
+    std::map<ReplacementSymbolType, BytePair> symbol_replace_table;
 
     if (symbols.empty())
       return std::make_pair(result, symbol_replace_table);
     result.insert(result.end(), symbols.begin(), symbols.end());
-    std::vector<std::pair<std::vector<SymbolType>, unsigned int>> frequencies;
+
+    struct BytePairFrequencyType
+    {
+      BytePair byte_pair;
+      uint64_t frequency;
+    };
+
+    std::vector<BytePairFrequencyType> bytepair_frequencies;
     for (std::size_t i = 0; i < result.size() - 1; ++i)
     {
-      const std::vector<SymbolType> s{result[i], result[i + 1]};
-      const auto pos = std::find_if(frequencies.begin(), frequencies.end(), [&s](const auto& f)
+      const BytePair s{result[i], result[i + 1]};
+      const auto pos = std::find_if(bytepair_frequencies.begin(), bytepair_frequencies.end(), [&s](const BytePairFrequencyType& f)
                                     {
-                                      return f.first == s;
+                                      return f.byte_pair == s;
                                     });
-      if (pos == frequencies.end())
-        frequencies.emplace_back(s, 1);
+      if (pos == bytepair_frequencies.end())
+        bytepair_frequencies.emplace_back(s, 1);
       else
-        pos->second += 1;
+        pos->frequency += 1;
     }
-    std::sort(frequencies.begin(), frequencies.end(), [](auto& left, auto& right)
+    std::sort(bytepair_frequencies.begin(), bytepair_frequencies.end(), [](const BytePairFrequencyType& left, const BytePairFrequencyType& right)
               {
-                return left.second > right.second;
+                return left.frequency > right.frequency;
               });
-    if (frequencies.front().second > 1)
+    if (bytepair_frequencies.front().frequency > 1)
     {
       ReplacementSymbolType replace_symbol = replacement_symbol_generator();
       for (std::size_t i = 0; i < result.size() - 1; ++i)
       {
-        const std::vector<SymbolType> s{result[i], result[i + 1]};
-        if (s == frequencies.front().first)
+        const BytePair s{result[i], result[i + 1]};
+        if (s == bytepair_frequencies.front().byte_pair)
         {
           symbol_replace_table[replace_symbol] = s;
           result[i] = replace_symbol;

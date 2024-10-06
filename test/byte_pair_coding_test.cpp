@@ -6,8 +6,8 @@
 
 TEST(BytePairCodingTest, NoSymbols)
 {
-  using InputSymbolType = char;
-  using OutputSymbolType = char;
+  using InputSymbolType = unsigned char;
+  using OutputSymbolType = unsigned char;
   std::vector<InputSymbolType> symbols = {};
   cl::lossless::dictionary::BytePairCoding bpc;
   constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
@@ -25,8 +25,8 @@ TEST(BytePairCodingTest, NoSymbols)
 }
 TEST(BytePairCodingTest, SymbolsSet1)
 {
-  using InputSymbolType = char;
-  using OutputSymbolType = char;
+  using InputSymbolType = unsigned char;
+  using OutputSymbolType = unsigned char;
   std::vector<InputSymbolType> symbols = {'a', 'a', 'a', 'b', 'd', 'a', 'a', 'a', 'b', 'a', 'c'};
   cl::lossless::dictionary::BytePairCoding bpc;
   constexpr auto symbol_replacement_generator = []() -> OutputSymbolType
@@ -49,10 +49,10 @@ TEST(BytePairCodingTest, SymbolsSet1)
   EXPECT_TRUE(code_symbols.second.find('Z') != code_symbols.second.end());
   EXPECT_TRUE(code_symbols.second.find('Y') != code_symbols.second.end());
   EXPECT_TRUE(code_symbols.second.find('X') != code_symbols.second.end());
-  EXPECT_EQ('a', code_symbols.second.at('Z')[0]);
-  EXPECT_EQ('a', code_symbols.second.at('Z')[1]);
-  EXPECT_EQ('Z', code_symbols.second.at('Y')[0]);
-  EXPECT_EQ('a', code_symbols.second.at('Y')[1]);
-  EXPECT_EQ('Y', code_symbols.second.at('X')[0]);
-  EXPECT_EQ('b', code_symbols.second.at('X')[1]);
+  EXPECT_EQ('a', code_symbols.second.at('Z').first);
+  EXPECT_EQ('a', code_symbols.second.at('Z').second);
+  EXPECT_EQ('Z', code_symbols.second.at('Y').first);
+  EXPECT_EQ('a', code_symbols.second.at('Y').second);
+  EXPECT_EQ('Y', code_symbols.second.at('X').first);
+  EXPECT_EQ('b', code_symbols.second.at('X').second);
 }
