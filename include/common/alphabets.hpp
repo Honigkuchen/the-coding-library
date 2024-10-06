@@ -23,7 +23,7 @@ CL_NODISCARD CL_CONSTEXPR auto generate_ASCII_alphabet()
   CL_CONSTEXPR uint16_t kCharSizeAlphabet = 2 << (sizeof(char) * 8 - 1);
   std::array<char, kCharSizeAlphabet> alphabet = {};
 
-  for (auto i = 0; i < kCharSizeAlphabet; ++i)
+  for (uint16_t i = 0; i < kCharSizeAlphabet; ++i)
     alphabet[i] = char(i);
 
   return alphabet;

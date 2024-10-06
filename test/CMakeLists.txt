@@ -8,6 +8,7 @@ add_executable(${PROJECT_TESTS_NAME}
   byte_pair_coding_test.cpp
   lempel_ziv_77_coding_test.cpp
   DCT1_test.cpp)
+  target_compile_options(${PROJECT_TESTS_NAME} PUBLIC -Wall -Werror -Wextra -Wpedantic -Wconversion -Wsign-conversion)
 target_link_libraries(${PROJECT_TESTS_NAME} GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_TESTS_NAME})

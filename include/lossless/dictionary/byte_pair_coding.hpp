@@ -70,7 +70,7 @@ public:
         {
           symbol_replace_table[replace_symbol] = s;
           result[i] = replace_symbol;
-          result.erase(result.begin() + i + 1);
+          result.erase(result.begin() + static_cast<std::vector<ReplacementSymbolType>::difference_type>(i + 1));
         }
       }
       const auto recursive_result = encode<SymbolType, ReplacementSymbolType>(result, replacement_symbol_generator);

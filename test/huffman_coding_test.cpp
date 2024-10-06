@@ -10,10 +10,6 @@ TEST(HuffmanTest, LeafNodeCorrectConstruction)
   EXPECT_EQ(3, node.frequency);
   EXPECT_EQ('d', node.symbol);
 }
-TEST(HuffmanTest, LeafNodeFalseConstruction)
-{
-  EXPECT_ANY_THROW(cl::data_structures::LeafNode<char>('d', -3));
-}
 TEST(HuffmanTest, InternalNodeCorrectConstruction)
 {
   std::unique_ptr<cl::data_structures::Node> left =

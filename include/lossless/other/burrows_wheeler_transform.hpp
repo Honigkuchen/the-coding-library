@@ -6,32 +6,33 @@
 
 namespace cl::lossless::other
 {
-  /**
-   * \brief This class performs the forward-transformation of the so called Buttows-Wheeler-Transform.
-   * \author Jonas 'Honigkuchen' Haubold
-   * \date 2022
-   * \copyright GNU Public License
-   */
+/**
+ * \brief This class performs the forward-transformation of the so called Buttows-Wheeler-Transform.
+ * \author Jonas 'Honigkuchen' Haubold
+ * \date 2022
+ * \copyright GNU Public License
+ */
 class BurrowsWheelerTransform
 {
 public:
-/**
- * @brief This static member indicates the number of extra symbols added to the encoded stream for decoding purpose.
- */
+  /**
+   * @brief This static member indicates the number of extra symbols added to the encoded stream for decoding purpose.
+   */
   static constexpr unsigned int ADDITIONAL_SYMBOL_COUNT = 2;
+
 public:
-/**
- * @brief Transforms a collection of given symbols using the 'Burrows-Wheeler-Transform' algorithm.
- * 
- * @details The algorithm transforms a collection of symbols in a way that repeating symbols or symbol groups are put next to each other so that e.g.
- * a byte-pair-coding or some other algorithm can use this to improve it's efficiency.
- * 
- * @param symbols The symbols to be transformed
- * @return const std::vector<char> The resulting transformed collection of symbols
- * 
- * @author Jonas 'Honigkuchen' Haubold
- * @see BytePairCoding
- */
+  /**
+   * @brief Transforms a collection of given symbols using the 'Burrows-Wheeler-Transform' algorithm.
+   *
+   * @details The algorithm transforms a collection of symbols in a way that repeating symbols or symbol groups are put next to each other so that e.g.
+   * a byte-pair-coding or some other algorithm can use this to improve it's efficiency.
+   *
+   * @param symbols The symbols to be transformed
+   * @return const std::vector<char> The resulting transformed collection of symbols
+   *
+   * @author Jonas 'Honigkuchen' Haubold
+   * @see BytePairCoding
+   */
   [[nodiscard]] const std::vector<char> transform(const std::vector<char>& symbols) const
   {
     std::vector<char> result;
@@ -49,7 +50,7 @@ public:
     for (std::size_t i = 0; i < symbols_appended.size() - 1; ++i)
     {
       std::vector<char> symbols_copy(symbols_appended.size());
-      std::rotate_copy(symbols_appended.begin(), symbols_appended.end() - (i + 1), symbols_appended.end(), symbols_copy.begin());
+      std::rotate_copy(symbols_appended.begin(), symbols_appended.end() - static_cast<std::vector<char>::difference_type>(i + 1), symbols_appended.end(), symbols_copy.begin());
       table.push_back(symbols_copy);
     }
     for (std::size_t i = 0; i < symbols_appended.size(); ++i)

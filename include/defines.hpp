@@ -46,11 +46,13 @@
 #define CL_CONCEPT concept
 #define CL_REQUIRES requires
 
-// #undef CL_EXPLICIT
 #define CL_EXPLICIT_WITH(s) explicit(s)
 
-// #undef CL_NODISCARD
 #define CL_NODISCARD_BECAUSE(s) [[nodiscard(s)]]
+
+#if defined(__cpp_lib_format) && __cpp_lib_format >= 201907L
+#define CL_CPP_FORMAT20
+#endif
 
 #endif
 

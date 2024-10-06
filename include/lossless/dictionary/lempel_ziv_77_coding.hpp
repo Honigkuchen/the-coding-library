@@ -29,7 +29,7 @@ public:
     for (std::size_t i = 0; i < symbols.size();)
     {
       std::string current = "";
-      for (auto j = 0; j != SIZE_LOOK_AHEAD_BUFFER; ++j)
+      for (unsigned int j = 0; j != SIZE_LOOK_AHEAD_BUFFER; ++j)
       {
         if (!index_is_valid(i + j))
         {
@@ -40,7 +40,7 @@ public:
       }
 
       std::string current_search_buffer;
-      for (auto j = 0; j != SIZE_SEARCH_BUFFER; ++j)
+      for (unsigned int j = 0; j != SIZE_SEARCH_BUFFER; ++j)
         if (index_is_valid(i - SIZE_SEARCH_BUFFER + j))
           current_search_buffer.push_back(symbols[i - SIZE_SEARCH_BUFFER + j]);
 
@@ -49,18 +49,18 @@ public:
       char c = ' ';
 
       bool match_found = false;
-      for (auto j = 0; j != SIZE_LOOK_AHEAD_BUFFER - 1; ++j)
+      for (unsigned int j = 0; j != SIZE_LOOK_AHEAD_BUFFER - 1; ++j)
       {
         if (j != 0)
           current.erase(current.size() - 1);
         if (const auto index = current_search_buffer.rfind(current); index != std::string::npos)
         {
           match_found = true;
-          const auto pos = current_search_buffer.size() - index;
+          const std::size_t pos = current_search_buffer.size() - index;
           o = pos;
           l = current.size();
 
-          if (const auto index = i + l; index_is_valid(index))
+          if (const std::size_t index = i + l; index_is_valid(index))
             c = symbols[index];
           else
             end_reached = true;

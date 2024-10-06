@@ -8,7 +8,9 @@
 #include <vector>
 
 #ifdef CL_CPP20
+#ifdef CL_CPP_FORMAT20
 #include <format>
+#endif
 #else
 #include <sstream>
 #endif
@@ -127,9 +129,13 @@ private:
 template <typename S>
 CL_NODISCARD std::string ToString(const typename Table<S>::EntryType& entry)
 {
+#ifdef CL_CPP_FORMAT20
+  return std::format("'{}': {} -> {}\n", entry.symbol, entry.frequency, ToString(entry.binary_number));
+#else
   std::stringstream ss;
   ss << "'" << entry.symbol << "': " << entry.frequency << " -> " << ToString(entry.binary_number) << "\n";
   return ss.str();
+#endif
 }
 template <typename T>
 CL_NODISCARD std::string ToString(const Table<T>& table)

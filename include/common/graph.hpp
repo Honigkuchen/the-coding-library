@@ -25,8 +25,6 @@ class Node_
 public:
   /*! \brief The type of the frequency. */
   using FrequencyType = uint64_t;
-
-public:
   /*!
    * \brief Node_ Creates a Node_ object with a specified frequency for the
    * represented symbol.
@@ -43,11 +41,8 @@ public:
    * \brief ~Node_ Default Node_ destructor.
    */
   virtual ~Node_() = default;
-
-public:
-  const FrequencyType
-      frequency; //! frequency This is the frequency of the symbol or of the
-                 //! intermediate node in thje graph.
+  const FrequencyType frequency; //! frequency This is the frequency of the symbol or of the
+                                 //! intermediate node in thje graph.
 };
 /*!
  * \brief Default node type, default frequency type is 'long long'.
@@ -78,8 +73,6 @@ public:
         right(std::move(right))
   {
   }
-
-public:
   const std::unique_ptr<Node> left;  //! left The left child node
   const std::unique_ptr<Node> right; //! right The right child node
 };
@@ -104,17 +97,12 @@ public:
   using SymbolType = S;
   /*! \brief The type of the frequency. */
   using FrequencyType = Node_::FrequencyType;
-
-public:
   /*!
    * \brief LeafNode_ Creates a leaf node for a given symbol and frequency.
    * \param symbol The symbol represented by this node
    * \param frequency The frequency of the symbol
    */
-  CL_CONSTEXPR LeafNode_(const SymbolType& symbol, const FrequencyType& frequency)
-      : Node_(frequency), symbol(symbol) {}
-
-public:
+  CL_EXPLICIT CL_CONSTEXPR LeafNode_(const SymbolType& symbol, const FrequencyType& frequency) CL_NOEXCEPT : Node_(frequency), symbol(symbol) {}
   const SymbolType symbol; //! symbol The symbol represented by this node
 };
 template <typename SymbolType>

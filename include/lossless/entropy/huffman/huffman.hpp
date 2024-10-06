@@ -18,6 +18,61 @@ namespace cl::lossless::entropy::huffman
 {
 class HuffmanCoding
 {
+public:
+  /*!
+   * \brief Encode This function creates Huffman codes for the passed symbols.
+   * \param symbols The symbols to get the Huffman codes for
+   * \return A table of codes for each individual symbol
+   */
+  template <typename S>
+  CL_NODISCARD data_structures::Table<S> encode(const std::vector<S>& symbols) const
+  {
+    using SymbolType = S;
+
+    using NodeType = data_structures::Node_;
+    using NodeTypePtr = std::unique_ptr<NodeType>;
+    using InternalNodeType = data_structures::InternalNode_;
+    using LeafNodeType = data_structures::LeafNode_<SymbolType>;
+
+    std::map<SymbolType, NodeType::FrequencyType> frequencies;
+
+    for (const SymbolType& symbol : symbols)
+    {
+      if (auto iter = frequencies.find(symbol); iter != frequencies.end())
+        iter->second += 1;
+      else
+        frequencies.insert(std::make_pair(symbol, 1));
+    }
+
+    std::deque<NodeTypePtr> nodes;
+
+    for (const auto& [symbol, frequency] : frequencies)
+      nodes.push_back(std::make_unique<LeafNodeType>(symbol, frequency));
+
+    constexpr auto NodeComparator =
+        [](const NodeTypePtr& lhs, const NodeTypePtr& rhs)
+    {
+      return lhs->frequency < rhs->frequency;
+    };
+
+    std::sort(nodes.begin(), nodes.end(), NodeComparator);
+
+    while (nodes.size() > 1)
+    {
+      NodeTypePtr right_child = std::move(nodes.front());
+      nodes.pop_front();
+      NodeTypePtr left_child = std::move(nodes.front());
+      nodes.pop_front();
+      nodes.push_front(
+          std::make_unique<InternalNodeType>(right_child, left_child));
+      std::sort(nodes.begin(), nodes.end(), NodeComparator);
+    }
+
+    NodeTypePtr root = std::move(nodes.front());
+
+    return traverse_tree<SymbolType>(root, {});
+  }
+
 private:
   /*!
    * \brief TraverseTree This function creates the binary codes by traversing the
@@ -33,16 +88,16 @@ private:
    * representation
    */
   template <typename S>
-  CL_NODISCARD cl::data_structures::Table<S> traverse_tree(const std::unique_ptr<cl::data_structures::Node_>& node,
-                                                           const cl::data_structures::BinaryNumber& prefix) const
+  CL_NODISCARD data_structures::Table<S> traverse_tree(const std::unique_ptr<cl::data_structures::Node_>& node,
+                                                       const data_structures::BinaryNumber& prefix) const
   {
     using SymbolType = S;
 
-    using InternalNodeType = cl::data_structures::InternalNode_;
-    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType>;
-    using cl::data_structures::BinaryDigit;
-    using cl::data_structures::BinaryNumber;
-    using cl::data_structures::Table;
+    using InternalNodeType = data_structures::InternalNode_;
+    using LeafNodeType = data_structures::LeafNode_<SymbolType>;
+    using data_structures::BinaryDigit;
+    using data_structures::BinaryNumber;
+    using data_structures::Table;
 
     if (InternalNodeType* in = dynamic_cast<InternalNodeType*>(node.get());
         in != nullptr)
@@ -77,61 +132,6 @@ private:
       throw std::runtime_error("ERROR: This should never happen, unknown Node_ "
                                "Pointer detected. Aborting.");
     }
-  }
-
-public:
-  /*!
-   * \brief Encode This function creates Huffman codes for the passed symbols.
-   * \param symbols The symbols to get the Huffman codes for
-   * \return A table of codes for each individual symbol
-   */
-  template <typename S>
-  CL_NODISCARD cl::data_structures::Table<S> encode(const std::vector<S>& symbols) const
-  {
-    using SymbolType = S;
-
-    using NodeType = cl::data_structures::Node_;
-    using NodeTypePtr = std::unique_ptr<NodeType>;
-    using InternalNodeType = cl::data_structures::InternalNode_;
-    using LeafNodeType = cl::data_structures::LeafNode_<SymbolType>;
-
-    std::map<SymbolType, NodeType::FrequencyType> frequencies;
-
-    for (const SymbolType& symbol : symbols)
-    {
-      if (auto iter = frequencies.find(symbol); iter != frequencies.end())
-        ++iter->second;
-      else
-        frequencies.insert(std::make_pair(symbol, 1));
-    }
-
-    std::deque<NodeTypePtr> nodes;
-
-    for (const auto& [symbol, frequency] : frequencies)
-      nodes.push_back(std::make_unique<LeafNodeType>(symbol, frequency));
-
-    constexpr auto NodeComparator =
-        [](const NodeTypePtr& lhs, const NodeTypePtr& rhs)
-    {
-      return lhs->frequency < rhs->frequency;
-    };
-
-    std::sort(nodes.begin(), nodes.end(), NodeComparator);
-
-    while (nodes.size() > 1)
-    {
-      NodeTypePtr right_child = std::move(nodes.front());
-      nodes.pop_front();
-      NodeTypePtr left_child = std::move(nodes.front());
-      nodes.pop_front();
-      nodes.push_front(
-          std::make_unique<InternalNodeType>(right_child, left_child));
-      std::sort(nodes.begin(), nodes.end(), NodeComparator);
-    }
-
-    NodeTypePtr root = std::move(nodes.front());
-
-    return traverse_tree<SymbolType>(root, {});
   }
 };
 } // namespace cl::lossless::entropy::huffman
