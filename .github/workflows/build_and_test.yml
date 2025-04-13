@@ -23,13 +23,16 @@ on:
       version_patch:
         required: true
         type: number
+
+env:
+  BUILD_DIR: /tmp/cmake_build_dir/
+
 jobs:
   build:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-    env:
-      BUILD_DIR: /tmp/cmake_build_dir/
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -65,11 +68,12 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: build_cpp${{inputs.cpp_standard}}
+        path: ${{env.BUILD_DIR}}
 
     - name: ls
       run: |
-        ls -alsh ${{github.workspace}}
-        tree ${{github.workspace}}
+        ls -alsh ${{env.BUILD_DIR}}
+        tree ${{env.BUILD_DIR}}
 
     - name: Test
       run: |
