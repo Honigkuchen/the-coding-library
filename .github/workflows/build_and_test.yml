@@ -43,7 +43,6 @@ jobs:
     - name: ls
       run: |
         ls -alsh ${{env.SRC_DIR}}
-        ls -alsh ${{env.BUILD_DIR}}
         
     - shell: bash
       run: |
