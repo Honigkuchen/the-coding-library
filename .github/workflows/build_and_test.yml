@@ -59,18 +59,6 @@ jobs:
       run: |
         ls -alsh ${{env.BUILD_DIR}}
 
-    - name: Upload src artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: |
-          ${{env.SRC_DIR}}
-        name: src_cpp${{inputs.cpp_standard}}
-        if-no-files-found: error
-        overwrite: true
-        compression-level: 6
-        include-hidden-files: true
-        retention-days: 1
-
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -89,9 +77,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:   
-    - uses: actions/download-artifact@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
-        name: src_cpp${{inputs.cpp_standard}}
+        path: ${{ github.event.repository.name }}
+        
     - uses: actions/download-artifact@v4
       with:
         name: build_cpp${{inputs.cpp_standard}}
