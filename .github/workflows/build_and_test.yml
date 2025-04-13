@@ -28,9 +28,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-    defaults:
-      run:
-        working-directory: .
 
     steps:
     - name: Checkout code
@@ -69,10 +66,9 @@ jobs:
         name: build_cpp${{inputs.cpp_standard}}
 
     - name: ls
-      
       run: |
         ls -alsh ${{github.workspace}}
-        ls -alsh ${{github.workspace}}/build
+        ls -alsh ${{github.workspace}}/../
 
     - name: Test
       run: |
