@@ -62,6 +62,9 @@ jobs:
       options: --user root
     needs: [build_cpp17, build_cpp20, build_cpp23]
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
       - name: Build
         run: |
           cmake -B ${{github.workspace}}/build \
