@@ -25,7 +25,8 @@ on:
         type: number
 
 env:
-  BUILD_DIR: ~/cmake_build_dir/
+  # BUILD_DIR: ~/cmake_build_dir/
+  BUILD_DIR: ${{github.workspace}}/cmake_build_dir/
 
 jobs:
   build:
@@ -36,10 +37,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        set-safe-directory: false
     
     - shell: bash
       run: |
-        mkdir -p ${{env.BUILD_DIR}}
         cmake -B ${{env.BUILD_DIR}} \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
@@ -47,7 +49,6 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
-        echo "Hello World!" > ${{env.BUILD_DIR}}/hello_world.txt
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
