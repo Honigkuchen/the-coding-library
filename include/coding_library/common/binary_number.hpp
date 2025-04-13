@@ -5,14 +5,15 @@
 #include <math.h>
 
 // C++ includes
-#include <queue>
+#include <deque>
 #include <sstream>
-#include <string_view>
+#include <vector>
 
 // Project includes
 #include "../defines.hpp"
 #include "binary_digit.hpp"
 #include "types.hpp"
+
 namespace cl::data_structures
 {
 /*!
@@ -128,11 +129,7 @@ public:
 private:
   std::deque<BinaryDigit> digits_;
 };
-void swap(BinaryNumber& first, BinaryNumber& second) CL_NOEXCEPT
-{
-  first.swap(second);
-}
-CL_NODISCARD std::string ToString(const BinaryNumber& b)
+CL_NODISCARD inline std::string ToString(const BinaryNumber& b)
 {
   std::stringstream ss;
   for (const BinaryDigit& digit : b.digits_)

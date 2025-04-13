@@ -76,5 +76,6 @@
     "stop_token": "cpp",
     "format": "cpp",
     "stack": "cpp"
-  }
+  },
+  "clangd.path": "clangd-20"
 }

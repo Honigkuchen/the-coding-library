@@ -1,9 +1,13 @@
 #pragma once
 
-// C includes
+// STL includes
 #include <cstddef>
 #include <cstdint>
 #include <sstream>
+#include <string>
+
+// Project includes
+#include "../defines.hpp"
 
 namespace cl::types
 {
@@ -14,12 +18,12 @@ using Byte = unsigned char;
  *
  * \param b The byte to print
  */
-CL_NODISCARD std::string ToString(const Byte& b)
+CL_NODISCARD inline std::string ToString(const Byte& b)
 {
   std::stringstream ss;
   for (uint8_t i = 7; i != 0; --i)
   {
-    const uint8_t mask = 1 << i;
+    const uint8_t mask = static_cast<uint8_t>(1 << i);
     if ((b & mask) != 0)
       ss << "1";
     else
@@ -27,4 +31,4 @@ CL_NODISCARD std::string ToString(const Byte& b)
   }
   return ss.str();
 }
-}
+} // namespace cl::types

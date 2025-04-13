@@ -1,8 +1,6 @@
-#include <iostream>
-
 #include <gtest/gtest.h>
 
-#include <lossless/entropy/huffman/huffman.hpp>
+#include <coding_library/lossless/entropy/huffman/huffman.hpp>
 
 TEST(HuffmanTest, LeafNodeCorrectConstruction)
 {

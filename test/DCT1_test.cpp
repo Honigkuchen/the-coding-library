@@ -1,9 +1,8 @@
 #include <array>
-#include <iostream>
 
 #include <gtest/gtest.h>
 
-#include <lossy/transform_type/DCT1.hpp>
+#include <coding_library/lossy/transform_type/DCT1.hpp>
 
 using cl::lossy::transform_type::DCT1;
 

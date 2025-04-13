@@ -17,8 +17,6 @@
 
 // Project includes
 #include "binary_number.hpp"
-#include "print.hpp"
-#include "types.hpp"
 
 namespace cl::data_structures
 {
@@ -76,7 +74,7 @@ public:
 
    * \return The Huffman binary number of the symbol
    */
-  CL_NODISCARD CL_CONSTEXPR BinaryNumber operator[](const SymbolType& symbol) const
+  CL_NODISCARD BinaryNumber operator[](const SymbolType& symbol) const
   {
     if (auto iter = std::find_if(symbols_.begin(), symbols_.end(), [&symbol](const EntryType& entry)
                                  {

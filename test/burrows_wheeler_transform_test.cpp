@@ -1,9 +1,8 @@
-#include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
-#include <lossless/other/burrows_wheeler_transform.hpp>
+#include <coding_library/lossless/other/burrows_wheeler_transform.hpp>
 
 using cl::lossless::other::BurrowsWheelerTransform;
 

@@ -1,8 +1,6 @@
-#include <iostream>
-
 #include <gtest/gtest.h>
 
-#include <lossless/other/run_length_coding/run_length_coding.hpp>
+#include <coding_library/lossless/other/run_length_coding/run_length_coding.hpp>
 
 using cl::lossless::other::RunLengthCoding;
 

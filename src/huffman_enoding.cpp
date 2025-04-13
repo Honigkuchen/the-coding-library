@@ -3,7 +3,7 @@
 #include <iostream>
 
 // Project includes
-#include <coding_library.hpp>
+#include <coding_library/coding_library.hpp>
 
 int main()
 {

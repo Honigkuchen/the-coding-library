@@ -1,8 +1,6 @@
-#include <iostream>
-
 #include <gtest/gtest.h>
 
-#include <lossless/dictionary/lempel_ziv_77_coding.hpp>
+#include <coding_library/lossless/dictionary/lempel_ziv_77_coding.hpp>
 
 using cl::lossless::dictionary::LempelZiv77Coding;
 

@@ -1,9 +1,7 @@
-#include <array>
-
 #include <gtest/gtest.h>
 
-#include <common/alphabets.hpp>
-#include <lossless/other/move_to_front_transform.hpp>
+#include <coding_library/common/alphabets.hpp>
+#include <coding_library/lossless/other/move_to_front_transform.hpp>
 
 using cl::lossless::other::MoveToFrontTransform;
 
