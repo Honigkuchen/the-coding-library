@@ -34,7 +34,7 @@ jobs:
       version_major: 1
       version_minor: 0
       version_patch: 0
-      
+
   build_cpp20:
     # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
     uses: ./.github/workflows/build_and_test.yml
@@ -54,3 +54,29 @@ jobs:
       version_major: 1
       version_minor: 0
       version_patch: 0
+
+  deploy:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
+      options: --user root
+    needs: [build_cpp17, build_cpp20, build_cpp23]
+    steps:
+      - name: Build
+        run: |
+          cmake -B ${{github.workspace}}/build \
+            -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+            -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
+            -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
+            -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}}
+          cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+      - name: Pack debian
+        run: |
+          cpack --config ${{github.workspace}}/build
+
+      - name: Upload debian
+        uses: actions/upload-artifact@v4
+        with:
+          name: Debian package
+          path: ${{github.workspace}}/*.deb
