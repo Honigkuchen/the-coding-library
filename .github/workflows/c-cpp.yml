@@ -21,6 +21,9 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
+  VERSION_MAJOR: 1
+  VERSION_MINOR: 0
+  VERSION_PATCH: 0
 
 jobs:
   build_cpp20:
@@ -35,13 +38,32 @@ jobs:
     
     - name: Build
       run: |
-        cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+        cmake -B ${{github.workspace}}/build \
+          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
+          -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
+          -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
+          -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
+          -DCPACK_PACKAGE_VERSION_MAJOR=${{env.VERSION_MAJOR}} \
+          -DCPACK_PACKAGE_VERSION_MINOR=${{env.VERSION_MINOR}} \
+          -DCPACK_PACKAGE_VERSION_PATCH=${{env.VERSION_PATCH}}
         cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
 
     - name: Test
       run: |
         ctest --test-dir ${{github.workspace}}/build
 
+    # - name: Upload test result
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: CTest result
+    #     path: path/to/artifact/world.txt
+
     - name: Pack
       run: |
         cpack --config ${{github.workspace}}/build/CPackConfig.cmake
+    
+    - name: Upload debian package
+      uses: actions/upload-artifact@v4
+      with:
+        name: CPack debian package
+        path: ${{github.workspace}}/build/CPackConfig.cmake
