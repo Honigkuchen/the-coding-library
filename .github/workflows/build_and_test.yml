@@ -53,9 +53,7 @@ jobs:
       id: setup-build-cache 
       uses: actions/cache/save@v4
       with:
-        path: |
-          ${{github.workspace}}/
-          /home/runner/work/the-coding-library/the-coding-library/
+        path: ${{github.workspace}}/build/
         key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
 
   test:
