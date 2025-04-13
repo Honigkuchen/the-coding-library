@@ -54,8 +54,8 @@ jobs:
       id: save-build-cache
       uses: actions/cache/save@v4
       with:
-        path: build
-        key: build-cache-cpp${{inputs.cpp_standard}}
+        path: src
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}
 
   test:
     needs: build
@@ -63,13 +63,13 @@ jobs:
 
     steps:
     - name: Create cache dirs
-      run: mkdir -p ${{github.workspace}}
+      run: mkdir -p src
     
     - uses: actions/cache/restore@v4
       id: restore-build-cache
       with:
-        path: build
-        key: build-cache-cpp${{inputs.cpp_standard}}
+        path: src
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}-${{github.job}}
         fail-on-cache-miss: true
 
     - name: List cache
