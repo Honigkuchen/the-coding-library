@@ -62,13 +62,13 @@ jobs:
 
     - name: ls
       run: |
-        ls -alsh ${{env.BUILD_DIR}}
+        ls -alsh ~/${{ github.event.repository.name }}/build
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         path: |
-          ${{env.BUILD_DIR}}
+          ~/${{ github.event.repository.name }}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
