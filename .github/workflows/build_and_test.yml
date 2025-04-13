@@ -50,11 +50,11 @@ jobs:
         ls -alsh ${{github.workspace}}/build
 
     - name: Setup build cache
-      id: setup-build-cache 
-      uses: actions/cache/save@v4
+      id: save-build-cache
+      uses: actions/cache@v4
       with:
-        path: ${{github.workspace}}/
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{github.workspace}}
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
 
   test:
     needs: build
@@ -64,10 +64,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - uses: actions/cache/restore@v4
+    - uses: actions/cache@v4
+      id: restore-build-cache
       with:
-        path: ${{github.workspace}}/
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{ github.run_id }}-${{ github.run_attempt }}
+        path: ${{github.workspace}}
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
         fail-on-cache-miss: true
 
     - name: List cache
