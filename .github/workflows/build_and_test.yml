@@ -25,6 +25,7 @@ on:
         type: number
 
 env:
+  WORKSPACE_DIR: ${GITHUB_WORKSPACE}
   BUILD_DIR: ${GITHUB_WORKSPACE}/build/
   SRC_DIR: ${GITHUB_WORKSPACE}/${{ github.event.repository.name }}
 
@@ -57,7 +58,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: ${GITHUB_WORKSPACE}
+        path: ${{env.WORKSPACE_DIR}}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
