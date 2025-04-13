@@ -54,7 +54,7 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: ${{github.workspace}}/
-        key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{ github.run_id }}-${{ github.run_attempt }}
 
   test:
     needs: build
@@ -68,6 +68,7 @@ jobs:
       with:
         path: ${{github.workspace}}/
         key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+        fail-on-cache-miss: true
 
     - name: List cache
       run: |
