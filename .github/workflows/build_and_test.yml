@@ -36,16 +36,29 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-
-    - name: Build cmake
+    
+    - name: Copy repo
       run: |
-        cmake -B ${{env.BUILD_DIR}} \
+        mkdir -p ~/${{ github.event.repository.name }}
+        cp -r ./* ~/${{ github.event.repository.name }}
+        ls -alsh ~/${{ github.event.repository.name }}
+        cmake -B ~/${{ github.event.repository.name }}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
-        cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
+        cmake --build ~/${{ github.event.repository.name }}/build --config ${{inputs.build_type}}
+
+    # - name: Build cmake
+    #   run: |
+    #     cmake -B ${{env.BUILD_DIR}} \
+    #       -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
+    #       -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
+    #       -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
+    #       -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
+    #       -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
+    #     cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
 
     - name: ls
       run: |
