@@ -45,6 +45,10 @@ jobs:
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
 
+    - name: List cache
+      run: |
+        ls -alsh ${{github.workspace}}/build
+        
     - name: Setup build cache
       id: setup-build-cache 
       uses: actions/cache/save@v4
