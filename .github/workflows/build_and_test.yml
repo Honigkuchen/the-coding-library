@@ -35,13 +35,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Setup build cache
-      id: setup-build-cache
-      uses: actions/cache/save@v4
-      with:
-        path: ${{github.workspace}}/build
-        key: build_artifacts
-
     - name: Build
       run: |
         cmake -B ${{github.workspace}}/build \
@@ -51,7 +44,14 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
-  
+
+    - name: Setup build cache
+      id: setup-build-cache 
+      uses: actions/cache/save@v4
+      with:
+        path: ${{github.workspace}}/build
+        key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
     - uses: actions/cache/restore@v4
       with:
         path: ${{github.workspace}}/build
-        key: build_artifacts
+        key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
 
     - name: List cache
       run: |
