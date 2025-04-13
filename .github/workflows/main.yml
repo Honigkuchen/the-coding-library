@@ -66,14 +66,3 @@ jobs:
         with:
           name: Debian package
           path: ${{github.workspace}}/*.deb
-
-  clean:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Delete all caches
-        continue-on-error: true
-        run: |
-          gh cache delete --all
-        env:
-          GH_TOKEN: ${{ github.token }}

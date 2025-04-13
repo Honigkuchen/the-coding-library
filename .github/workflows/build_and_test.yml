@@ -45,40 +45,21 @@ jobs:
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
 
-    - name: List cache
-      run: |
-        ls -alsh ${{github.workspace}}/build
-
-    - name: Setup build cache
-      id: save-build-cache
-      uses: actions/cache/save@v4
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
       with:
-        path: src
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
+        path: build
+        name: build-cpp${{inputs.cpp_standard}}
 
   test:
+    name: Test C++${{inputs.cpp_standard}}
     needs: build
     runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Create cache dirs
-      env:
-        GH_TOKEN: ${{ github.token }}
-      run: |
-        mkdir -p src
-        gh cache list
-    
-    - uses: actions/cache/restore@v4
-      id: restore-build-cache
-      continue-on-error: true
+    steps:   
+    - uses: actions/download-artifact@v4
       with:
-        path: src
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
-        restore-keys: |
-          build-cache-cpp${{inputs.cpp_standard}}
+        name: build-cpp${{inputs.cpp_standard}}
 
     - name: Test
       run: |
