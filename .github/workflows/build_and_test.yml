@@ -39,10 +39,15 @@ jobs:
       uses: actions/checkout@v4
       with:
         path: ${{ github.event.repository.name }}
-    
+
+    - name: ls
+      run: |
+        ls -alsh ${{env.SRC_DIR}}
+        ls -alsh ${{env.BUILD_DIR}}
+        
     - shell: bash
       run: |
-        cmake -B ${{env.BUILD_DIR}} \
+        cmake -S ${{env.SRC_DIR}} -B ${{env.BUILD_DIR}} \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
