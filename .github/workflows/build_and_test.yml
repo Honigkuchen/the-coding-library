@@ -90,12 +90,12 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: build_cpp${{inputs.cpp_standard}}
-        path: ${{env.BUILD_DIR}}
+        path: ~/${{ github.event.repository.name }}
 
     - name: ls
       run: |
-        ls -alsh
-        
+        ls -alsh ~/${{ github.event.repository.name }}
+
     - name: Test
       run: |
         ctest --test-dir ~/${{ github.event.repository.name }}/build
