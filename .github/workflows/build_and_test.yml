@@ -50,6 +50,10 @@ jobs:
       with:
         path: ./build
         name: build-cpp${{inputs.cpp_standard}}
+        if-no-files-found: error
+        overwrite: true
+        compression-level: 6
+        include-hidden-files: true
 
   test:
     name: Test C++${{inputs.cpp_standard}}
