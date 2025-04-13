@@ -62,6 +62,8 @@ jobs:
 
     steps:
     - name: Create cache dirs
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         mkdir -p src
         gh cache list
