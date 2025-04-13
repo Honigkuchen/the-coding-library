@@ -48,6 +48,7 @@ jobs:
     - name: Test
       run: |
         ctest --output-junit ctest_cpp${{inputs.cpp_standard}}_result.xml --test-dir ${{github.workspace}}/build
+        ls -alsh ${{github.workspace}}/build
 
     - name: Upload test result
       uses: actions/upload-artifact@v4
