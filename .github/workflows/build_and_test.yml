@@ -55,10 +55,16 @@ jobs:
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
 
+    - name: ls
+      run: |
+        ls -alsh ${{env.BUILD_DIR}}
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: ${{env.WORKSPACE_DIR}}
+        path: |
+          ${{env.SRC_DIR}}
+          ${{env.BUILD_DIR}}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
