@@ -29,7 +29,7 @@ jobs:
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
     env:
-      BUILD_DIR: ${{github.workspace}}/cmake_build_dir/
+      BUILD_DIR: /tmp/cmake_build_dir/
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
