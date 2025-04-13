@@ -26,8 +26,6 @@ on:
   
 jobs:
   build:
-    outputs:
-      cache-key: ${{ steps.cache-key.outputs.value }}
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
@@ -59,22 +57,19 @@ jobs:
         path: ${{github.workspace}}
         key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
 
-    - id: cache-key
-      run: echo "value=build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}" >> $GITHUB_OUTPUT
-
   test:
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - name: Create cache dirs
+      run: mkdir -p ${{github.workspace}}
     
     - uses: actions/cache/restore@v4
       id: restore-build-cache
       with:
         path: ${{github.workspace}}
-        key: ${{ needs.build.outputs.cache-key }}
+        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
         fail-on-cache-miss: true
 
     - name: List cache
