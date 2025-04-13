@@ -54,4 +54,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: CTest result
-        path: ${{github.workspace}}/build/ctest_cpp${{inputs.cpp_standard}}_result.xml
+        path: ${{github.workspace}}/build/*.xml
