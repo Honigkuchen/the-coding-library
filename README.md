@@ -1,6 +1,6 @@
 # The Coding Library
 
-[![Build](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build.yml)
+[![Build C++](https://github.com/Honigkuchen/the-coding-library/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/c-cpp.yml)
 
 This is a collection of coding algorithms.
 Algorithms were mostly derived from Wikipedia and other sources.
