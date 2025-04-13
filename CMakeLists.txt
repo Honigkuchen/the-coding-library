@@ -36,4 +36,7 @@ set(CPACK_PACKAGE_HOMEPAGE_URL
     "https://github.com/Honigkuchen/the-coding-library")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jonas 'HAUBOJO' Haubold")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfmt-dev, libgtest-dev")
+set(CPACK_PACKAGE_FILE_NAME
+    "${CPACK_PACKAGE_NAME}-cpp${CMAKE_CXX_STANDARD}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_PROCESSOR}"
+)
 include(CPack)
