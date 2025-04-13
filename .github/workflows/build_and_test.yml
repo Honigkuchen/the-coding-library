@@ -35,6 +35,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
+    - uses: actions/cache@v3
+      with:
+        path: ${{github.workspace}}/build
+        key: build_artifacts
+
     - name: Build
       run: |
         cmake -B ${{github.workspace}}/build \
@@ -44,6 +49,19 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
+  
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - uses: actions/cache@v3
+      with:
+        path: ${{github.workspace}}/build
+        key: build_artifacts
 
     - name: Test
       run: |
