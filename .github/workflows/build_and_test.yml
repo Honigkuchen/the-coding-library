@@ -35,7 +35,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - uses: actions/cache@v3
+    - name: Setup build cache
+      id: setup-build-cache
+      uses: actions/cache/save@v4
       with:
         path: ${{github.workspace}}/build
         key: build_artifacts
@@ -58,10 +60,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - uses: actions/cache@v3
+    - uses: actions/cache/restore@v4
       with:
         path: ${{github.workspace}}/build
         key: build_artifacts
+
+    - name: List cache
+      run: |
+        ls -alsh ${{github.workspace}}/build
 
     - name: Test
       run: |
