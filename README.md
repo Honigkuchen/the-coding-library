@@ -10,4 +10,4 @@ None of these algorithms is designed/optimized to be actually fast or efficient.
 
 # Credits
 Author: Jonas Haubold
-2022
+2025
