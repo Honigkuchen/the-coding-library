@@ -63,7 +63,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Create cache dirs
       env:
         GH_TOKEN: ${{ github.token }}
@@ -73,29 +73,24 @@ jobs:
     
     - uses: actions/cache/restore@v4
       id: restore-build-cache
+      continue-on-error: true
       with:
         path: src
         key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
         restore-keys: |
           build-cache-cpp${{inputs.cpp_standard}}
-        fail-on-cache-miss: true
-
-    - if: ${{steps.restore-build-cache.outputs.cache-hit == 'true'}}
-      name: List cache
-      run: |
-        ls -alsh ${{github.workspace}}/build
 
     - name: Test
       run: |
         ctest --test-dir ${{github.workspace}}/build
 
   clean:
-    needs: [build, test]
+    needs: [test]
     runs-on: ubuntu-latest
     steps:
-      - name: Delete Previous Cache
+      - name: Delete all caches
         continue-on-error: true
         run: |
-          gh actions-cache delete "build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}" --confirm
+          gh cache delete --all
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
