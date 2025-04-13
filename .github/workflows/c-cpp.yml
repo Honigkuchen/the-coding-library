@@ -64,7 +64,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
+
       - name: Build
         run: |
           cmake -B ${{github.workspace}}/build \
@@ -76,7 +76,7 @@ jobs:
 
       - name: Pack debian
         run: |
-          cpack --config ${{github.workspace}}/build
+          cpack --config ${{github.workspace}}/build/CPackConfig.cmake
 
       - name: Upload debian
         uses: actions/upload-artifact@v4
