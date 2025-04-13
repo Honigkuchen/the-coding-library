@@ -57,9 +57,7 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: |
-          ${{env.SRC_DIR}}
-          ${{env.BUILD_DIR}}
+        path: ${GITHUB_WORKSPACE}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
