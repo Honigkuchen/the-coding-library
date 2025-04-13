@@ -31,6 +31,25 @@ jobs:
     with:
       build_type: "Release"
       cpp_standard: 17
-      version_major: ${{env.VERSION_MAJOR}}
-      version_minor: ${{env.VERSION_MINOR}}
-      version_patch: ${{env.VERSION_PATCH}}
+      version_major: 1
+      version_minor: 0
+      
+  build_cpp20:
+    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
+    uses: ./.github/workflows/build_and_test.yml
+    with:
+      build_type: "Release"
+      cpp_standard: 20
+      version_major: 1
+      version_minor: 0
+      version_patch: 0
+
+  build_cpp23:
+    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
+    uses: ./.github/workflows/build_and_test.yml
+    with:
+      build_type: "Release"
+      cpp_standard: 23
+      version_major: 1
+      version_minor: 0
+      version_patch: 0
