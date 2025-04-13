@@ -24,38 +24,6 @@ on:
         required: true
         type: number
 jobs:
-  job_1:
-    name: Add 3 and 7
-    runs-on: ubuntu-latest
-    steps:
-      - shell: bash
-        run: |
-          expr 3 + 7 > math-homework.txt
-      - name: Upload math result for job 1
-        uses: actions/upload-artifact@v4
-        with:
-          name: homework_pre
-          path: math-homework.txt
-
-  job_2:
-    name: Multiply by 9
-    needs: job_1
-    runs-on: windows-latest
-    steps:
-      - name: Download math result for job 1
-        uses: actions/download-artifact@v4
-        with:
-          name: homework_pre
-      - shell: bash
-        run: |
-          value=`cat math-homework.txt`
-          expr $value \* 9 > math-homework.txt
-      - name: Upload math result for job 2
-        uses: actions/upload-artifact@v4
-        with:
-          name: homework_final
-          path: math-homework.txt
-          
   build:
     runs-on: ubuntu-latest
     container:
@@ -80,8 +48,8 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: "${{github.workspace}}/build/*"
-        name: build-cpp${{inputs.cpp_standard}}
+        path: ${{github.workspace}}
+        name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
         compression-level: 6
@@ -95,7 +63,7 @@ jobs:
     steps:   
     - uses: actions/download-artifact@v4
       with:
-        name: build-cpp${{inputs.cpp_standard}}
+        name: build_cpp${{inputs.cpp_standard}}
 
     - name: Test
       run: |
