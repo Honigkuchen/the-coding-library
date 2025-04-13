@@ -65,6 +65,11 @@ jobs:
       with:
         name: build_cpp${{inputs.cpp_standard}}
 
+    - name: ls
+      run: |
+        ls -alsh ${{github.workspace}}
+        ls -alsh ${{github.workspace}}/build
+
     - name: Test
       run: |
         ctest --test-dir ${{github.workspace}}/build
