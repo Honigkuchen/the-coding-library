@@ -23,7 +23,9 @@ on:
       version_patch:
         required: true
         type: number
-  
+    secrets:
+      personal_access_token:
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -74,7 +76,8 @@ jobs:
         key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
         fail-on-cache-miss: true
 
-    - name: List cache
+    - if: ${{steps.restore-build-cache.outputs.cache-hit == 'true'}}
+      name: List cache
       run: |
         ls -alsh ${{github.workspace}}/build
 

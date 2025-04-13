@@ -25,32 +25,15 @@ env:
   VERSION_PATCH: 0
 
 jobs:
-  build_cpp17:
-    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
+  build:
+    strategy:
+      matrix:
+        cpp_standard: [17, 20, 23]
     uses: ./.github/workflows/build_and_test.yml
+    secrets: inherit
     with:
       build_type: "Release"
-      cpp_standard: 17
-      version_major: 1
-      version_minor: 0
-      version_patch: 0
-
-  build_cpp20:
-    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
-    uses: ./.github/workflows/build_and_test.yml
-    with:
-      build_type: "Release"
-      cpp_standard: 20
-      version_major: 1
-      version_minor: 0
-      version_patch: 0
-
-  build_cpp23:
-    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
-    uses: ./.github/workflows/build_and_test.yml
-    with:
-      build_type: "Release"
-      cpp_standard: 23
+      cpp_standard: ${{ matrix.cpp_standard }}
       version_major: 1
       version_minor: 0
       version_patch: 0
@@ -60,7 +43,7 @@ jobs:
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
       options: --user root
-    needs: [build_cpp17, build_cpp20, build_cpp23]
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
