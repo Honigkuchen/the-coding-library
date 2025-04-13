@@ -34,8 +34,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Build
-      id: build
+    - shell: bash
       run: |
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
