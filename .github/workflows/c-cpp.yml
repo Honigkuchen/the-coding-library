@@ -96,6 +96,7 @@ jobs:
         path: ${{github.workspace}}/build/ctest_cpp20_result.xml
 
   deploy:
+    needs: [build_cpp17, build_cpp20]
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
