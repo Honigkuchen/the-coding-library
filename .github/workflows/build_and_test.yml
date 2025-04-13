@@ -62,15 +62,17 @@ jobs:
 
     steps:
     - name: Create cache dirs
-      run: mkdir -p src
+      run: |
+        mkdir -p src
+        gh cache list
     
     - uses: actions/cache/restore@v4
       id: restore-build-cache
       with:
-        restore-keys: |
-          build-cache-cpp${{inputs.cpp_standard}}
         path: src
         key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
+        restore-keys: |
+          build-cache-cpp${{inputs.cpp_standard}}
         fail-on-cache-miss: true
 
     - if: ${{steps.restore-build-cache.outputs.cache-hit == 'true'}}
@@ -81,3 +83,14 @@ jobs:
     - name: Test
       run: |
         ctest --test-dir ${{github.workspace}}/build
+
+  clean:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete Previous Cache
+        continue-on-error: true
+        run: |
+          gh actions-cache delete "build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}" --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
