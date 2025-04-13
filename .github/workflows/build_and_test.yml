@@ -59,6 +59,7 @@ jobs:
         overwrite: true
         compression-level: 6
         include-hidden-files: true
+        retention-days: 1
 
   test:
     name: Test C++${{inputs.cpp_standard}}
@@ -72,9 +73,8 @@ jobs:
 
     - name: ls
       run: |
-        ls -alsh ~
-        tree ~
-        tree ${{env.BUILD_DIR}}
+        ls -alsh ${{env.SRC_DIR}}
+        ls -alsh ${{env.BUILD_DIR}}
 
     - name: Test
       run: |
