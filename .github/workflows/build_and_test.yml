@@ -54,8 +54,8 @@ jobs:
       id: save-build-cache
       uses: actions/cache/save@v4
       with:
-        path: src
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
+        path: build
+        key: build-cache-cpp${{inputs.cpp_standard}}
 
   test:
     needs: build
@@ -68,8 +68,8 @@ jobs:
     - uses: actions/cache/restore@v4
       id: restore-build-cache
       with:
-        path: src
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
+        path: build
+        key: build-cache-cpp${{inputs.cpp_standard}}
         fail-on-cache-miss: true
 
     - name: List cache
