@@ -19,7 +19,6 @@ on:
       - main
   
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
   VERSION_MAJOR: 1
   VERSION_MINOR: 0
@@ -42,7 +41,7 @@ jobs:
       run: |
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}}
+          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}} \
           -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
           -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
           -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
@@ -87,7 +86,7 @@ jobs:
       run: |
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}}
+          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}} \
           -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
           -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
           -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
