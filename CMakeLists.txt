@@ -28,7 +28,8 @@ set(CPACK_PACKAGE_NAME "coding-library")
 set(CPACK_PACKAGE_VENDOR "Jonas 'HAUBOJO' Haubold")
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "A simple C++ library for coding")
-set(CPACK_PACKAGE_HOMEPAGE_URL "https://github.com/Honigkuchen/the-coding-library"
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jonas 'HAUBOJO' Haubold") # required
+set(CPACK_PACKAGE_HOMEPAGE_URL
+    "https://github.com/Honigkuchen/the-coding-library")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Jonas 'HAUBOJO' Haubold")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libfmt-dev, libgtest-dev")
 include(CPack)
