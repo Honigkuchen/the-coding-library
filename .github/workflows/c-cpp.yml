@@ -33,6 +33,7 @@ jobs:
       cpp_standard: 17
       version_major: 1
       version_minor: 0
+      version_patch: 0
       
   build_cpp20:
     # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
