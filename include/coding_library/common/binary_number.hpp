@@ -129,7 +129,7 @@ public:
 private:
   std::deque<BinaryDigit> digits_;
 };
-CL_NODISCARD inline std::string ToString(const BinaryNumber& b)
+CL_NODISCARD CL_INLINE std::string ToString(const BinaryNumber& b)
 {
   std::stringstream ss;
   for (const BinaryDigit& digit : b.digits_)

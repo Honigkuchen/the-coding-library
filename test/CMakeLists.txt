@@ -13,6 +13,8 @@ add_executable(
 target_compile_options(
   ${PROJECT_TESTS_NAME} PUBLIC -Wall -Werror -Wextra -Wpedantic -Wconversion
                                -Wsign-conversion)
+target_include_directories(${PROJECT_TESTS_NAME}
+                           PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_TESTS_NAME} GTest::gtest_main)
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_TESTS_NAME})

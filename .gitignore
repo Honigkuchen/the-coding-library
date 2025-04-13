@@ -13,6 +13,11 @@ Testing/
 # clangd
 .cache
 
+# cpack
+*.deb
+build/*.deb
+_CPack_Packages/
+
 # Local History for Visual Studio Code
 .history/
 

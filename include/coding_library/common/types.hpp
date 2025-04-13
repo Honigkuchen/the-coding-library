@@ -18,7 +18,7 @@ using Byte = unsigned char;
  *
  * \param b The byte to print
  */
-CL_NODISCARD inline std::string ToString(const Byte& b)
+CL_NODISCARD CL_INLINE std::string ToString(const Byte& b)
 {
   std::stringstream ss;
   for (uint8_t i = 7; i != 0; --i)

@@ -30,6 +30,7 @@
 #define CL_CONSTEXPR constexpr
 #define CL_EXPLICIT explicit
 #define CL_NOEXCEPT noexcept
+#define CL_INLINE inline
 #endif
 
 #ifdef CL_CPP14
