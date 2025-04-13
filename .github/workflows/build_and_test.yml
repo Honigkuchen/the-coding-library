@@ -68,7 +68,7 @@ jobs:
     - name: ls
       run: |
         ls -alsh ${{github.workspace}}
-        ls -alsh ${{github.workspace}}/../
+        tree ${{github.workspace}}
 
     - name: Test
       run: |
