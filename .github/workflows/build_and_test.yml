@@ -23,9 +23,6 @@ on:
       version_patch:
         required: true
         type: number
-    secrets:
-      personal_access_token:
-        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
