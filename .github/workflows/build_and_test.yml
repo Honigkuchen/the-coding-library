@@ -28,7 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-      options: --user root
+    defaults:
+      run:
+        working-directory: .
 
     steps:
     - name: Checkout code
