@@ -77,10 +77,11 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: build_cpp${{inputs.cpp_standard}}
+        path: ${{env.BUILD_DIR}}
 
     - name: ls
       run: |
-        ls -alsh ${{env.SRC_DIR}}
+        ls -alsh
         ls -alsh ${{env.BUILD_DIR}}
 
     - name: Test
