@@ -26,6 +26,8 @@ on:
   
 jobs:
   build:
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.value }}
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
@@ -36,6 +38,7 @@ jobs:
       uses: actions/checkout@v4
     
     - name: Build
+      id: build
       run: |
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
@@ -56,6 +59,9 @@ jobs:
         path: ${{github.workspace}}
         key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
 
+    - id: cache-key
+      run: echo "value=build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}" >> $GITHUB_OUTPUT
+
   test:
     needs: build
     runs-on: ubuntu-latest
@@ -68,7 +74,7 @@ jobs:
       id: restore-build-cache
       with:
         path: ${{github.workspace}}
-        key: build-cache-cpp${{inputs.cpp_standard}}-${{github.run_id}}-${{github.run_attempt}}
+        key: ${{ needs.build.outputs.cache-key }}
         fail-on-cache-miss: true
 
     - name: List cache
