@@ -52,7 +52,7 @@ jobs:
 
     - name: Test
       run: |
-        ctest --output-junit ctest_cpp17_result.xml --test-dir ${{github.workspace}}/build/ctest_result.xml
+        ctest --output-junit ctest_cpp17_result.xml --test-dir ${{github.workspace}}/build
 
     - name: Upload test result
       uses: actions/upload-artifact@v4
@@ -97,7 +97,7 @@ jobs:
 
     - name: Test
       run: |
-        ctest --output-junit ctest_cpp20_result.xml --test-dir ${{github.workspace}}/build/ctest_result.xml
+        ctest --output-junit ctest_cpp20_result.xml --test-dir ${{github.workspace}}/build
 
     - name: Upload test result
       uses: actions/upload-artifact@v4
