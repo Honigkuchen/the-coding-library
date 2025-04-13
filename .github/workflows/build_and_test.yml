@@ -48,12 +48,12 @@ jobs:
     - name: List cache
       run: |
         ls -alsh ${{github.workspace}}/build
-        
+
     - name: Setup build cache
       id: setup-build-cache 
       uses: actions/cache/save@v4
       with:
-        path: ${{github.workspace}}/build
+        path: /home/runner/work
         key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
 
   test:
