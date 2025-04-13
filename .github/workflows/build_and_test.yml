@@ -28,27 +28,28 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-
+    env:
+      BUILD_DIR: ${{github.workspace}}/cmake_build_dir/
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
     
     - shell: bash
       run: |
-        mkdir -p ${{github.workspace}}/build
-        cmake -B ${{github.workspace}}/build \
+        mkdir -p ${{env.BUILD_DIR}}
+        cmake -B ${{env.BUILD_DIR}} \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
-        cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
-        echo "Hello World!" > ${{github.workspace}}/build/hello_world.txt
+        cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
+        echo "Hello World!" > ${{env.BUILD_DIR}}/hello_world.txt
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: ${{github.workspace}}
+        path: ${{env.BUILD_DIR}}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
@@ -72,4 +73,4 @@ jobs:
 
     - name: Test
       run: |
-        ctest --test-dir ${{github.workspace}}/build
+        ctest --test-dir ${{env.BUILD_DIR}}
