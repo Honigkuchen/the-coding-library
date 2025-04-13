@@ -15,6 +15,8 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor -o /etc
     libc++-12-dev \
     libc++abi-12-dev \
     libfmt-dev \
+    libgtest-dev \
+    cmake-format \
     && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "bash" ]

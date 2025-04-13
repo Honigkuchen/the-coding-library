@@ -11,7 +11,8 @@
 				"llvm-vs-code-extensions.vscode-clangd",
 				"llvm-vs-code-extensions.lldb-dap",
 				"xaver.clang-format",
-				"ms-azuretools.vscode-docker"
+				"ms-azuretools.vscode-docker",
+				"cheshirekow.cmake-format"
 			]
 		}
 	}

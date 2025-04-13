@@ -12,19 +12,5 @@ option(TESTING_ENABLED "Enable testing" ON)
 
 if(${TESTING_ENABLED})
   enable_testing()
-
-  # Download and unpack googletest at configure time
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.12.1
-  )
-
-  # Prevent overriding the parent project's compiler/linker
-  # settings on Windows
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googletest)
-  
   add_subdirectory(test)
 endif()
