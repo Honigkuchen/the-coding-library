@@ -25,8 +25,8 @@ on:
         type: number
 
 env:
-  # BUILD_DIR: ~/cmake_build_dir/
-  BUILD_DIR: ${{github.workspace}}/cmake_build_dir/
+  BUILD_DIR: ~/build/
+  SRC_DIR: ~/${{ github.event.repository.name }}
 
 jobs:
   build:
@@ -37,8 +37,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        set-safe-directory: false
     
     - shell: bash
       run: |
@@ -53,7 +51,9 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        path: ${{env.BUILD_DIR}}
+        path: |
+          ${{env.SRC_DIR}}
+          ${{env.BUILD_DIR}}
         name: build_cpp${{inputs.cpp_standard}}
         if-no-files-found: error
         overwrite: true
