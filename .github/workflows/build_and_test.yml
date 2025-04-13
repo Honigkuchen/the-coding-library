@@ -36,6 +36,7 @@ jobs:
     
     - shell: bash
       run: |
+        mkdir -p build
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
