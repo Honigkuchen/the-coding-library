@@ -83,6 +83,8 @@ jobs:
       run: |
         ls -alsh
         ls -alsh ${{env.BUILD_DIR}}
+        echo $PWD
+        cat ${{env.BUILD_DIR}}/test/CTestTestfile.cmake
 
     - name: Test
       run: |
