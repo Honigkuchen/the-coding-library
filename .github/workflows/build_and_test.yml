@@ -36,7 +36,7 @@ jobs:
     
     - shell: bash
       run: |
-        mkdir -p build
+        mkdir -p ${{github.workspace}}/build
         cmake -B ${{github.workspace}}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
@@ -44,7 +44,7 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
-        echo "Hello World!" > hello_world.txt
+        echo "Hello World!" > ${{github.workspace}}/build/hello_world.txt
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
