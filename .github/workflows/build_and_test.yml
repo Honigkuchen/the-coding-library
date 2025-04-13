@@ -1,0 +1,56 @@
+# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+name: build & test
+
+on:
+  workflow_call:
+    inputs:
+      build_type:
+        required: true
+        type: string
+        default: "Release"
+        description: "Build type to by used by CMake"
+      cpp_standard:
+        required: true
+        type: number
+        description: "C++ standard to compile with. Must be a number e.g. 17 / 20 / 23 / etc."
+      version_major:
+        required: true
+        type: number
+      version_minor:
+        required: true
+        type: number
+      version_patch:
+        required: true
+        type: number
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
+      options: --user root
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Build
+      run: |
+        cmake -B ${{github.workspace}}/build \
+          -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
+          -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
+          -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
+          -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
+          -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
+        cmake --build ${{github.workspace}}/build --config ${{inputs.build_type}}
+
+    - name: Test
+      run: |
+        ctest --output-junit ctest_cpp${{inputs.cpp_standard}}_result.xml --test-dir ${{github.workspace}}/build
+
+    - name: Upload test result
+      uses: actions/upload-artifact@v4
+      with:
+        name: CTest result
+        path: ${{github.workspace}}/build/ctest_cpp${{inputs.cpp_standard}}_result.xml

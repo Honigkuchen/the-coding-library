@@ -26,104 +26,11 @@ env:
 
 jobs:
   build_cpp17:
-    env:
-      CPP_VERSION: 17
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-      options: --user root
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Build
-      run: |
-        cmake -B ${{github.workspace}}/build \
-          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}} \
-          -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
-          -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
-          -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
-          -DCPACK_PACKAGE_VERSION_MAJOR=${{env.VERSION_MAJOR}} \
-          -DCPACK_PACKAGE_VERSION_MINOR=${{env.VERSION_MINOR}} \
-          -DCPACK_PACKAGE_VERSION_PATCH=${{env.VERSION_PATCH}}
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      run: |
-        ctest --output-junit ctest_cpp17_result.xml --test-dir ${{github.workspace}}/build
-
-    - name: Upload test result
-      uses: actions/upload-artifact@v4
-      with:
-        name: CTest result
-        path: ${{github.workspace}}/build/ctest_cpp17_result.xml
-
-  build_cpp20:
-    env:
-      CPP_VERSION: 20
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-      options: --user root
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Build
-      run: |
-        cmake -B ${{github.workspace}}/build \
-          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DCMAKE_CXX_STANDARD:INT=${{env.CPP_VERSION}} \
-          -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
-          -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
-          -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
-          -DCPACK_PACKAGE_VERSION_MAJOR=${{env.VERSION_MAJOR}} \
-          -DCPACK_PACKAGE_VERSION_MINOR=${{env.VERSION_MINOR}} \
-          -DCPACK_PACKAGE_VERSION_PATCH=${{env.VERSION_PATCH}}
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Test
-      run: |
-        ctest --output-junit ctest_cpp20_result.xml --test-dir ${{github.workspace}}/build
-
-    - name: Upload test result
-      uses: actions/upload-artifact@v4
-      with:
-        name: CTest result
-        path: ${{github.workspace}}/build/ctest_cpp20_result.xml
-
-  deploy:
-    needs: [build_cpp17, build_cpp20]
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
-      options: --user root
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Build
-      run: |
-        cmake -B ${{github.workspace}}/build \
-          -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
-          -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
-          -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}} \
-          -DCPACK_PACKAGE_VERSION_MAJOR=${{env.VERSION_MAJOR}} \
-          -DCPACK_PACKAGE_VERSION_MINOR=${{env.VERSION_MINOR}} \
-          -DCPACK_PACKAGE_VERSION_PATCH=${{env.VERSION_PATCH}}
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
-
-    - name: Pack
-      run: |
-        cpack --config ${{github.workspace}}/build/CPackConfig.cmake
-    
-    - name: Upload debian package
-      uses: actions/upload-artifact@v4
-      with:
-        name: CPack debian package
-        path: ${{github.workspace}}/*.deb
+    # github.com/the-coding-library/.github/workflows/build_and_test.yml@main
+    uses: ./.github/workflows/build_and_test.yml
+    with:
+      build_type: "Release"
+      cpp_standard: 17
+      version_major: ${{env.VERSION_MAJOR}}
+      version_minor: ${{env.VERSION_MINOR}}
+      version_patch: ${{env.VERSION_PATCH}}
