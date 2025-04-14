@@ -4,12 +4,14 @@ project(
   coding-library
   VERSION 1.0.0
   LANGUAGES CXX)
+set(PROJECT_NAME_UNDERSCORE coding_library)
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(
   ${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-
+set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER
+                                                 "${EDV_INCLUDE_FILES}")
 add_subdirectory(src)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -20,10 +22,8 @@ if(${TESTING_ENABLED})
   add_subdirectory(test)
 endif()
 
-install(
-  TARGETS ${PROJECT_NAME}
-  EXPORT ${PROJECT_NAME}Targets
-  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME_UNDERSCORE}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME "coding-library")
