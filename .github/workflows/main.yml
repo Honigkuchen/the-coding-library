@@ -4,8 +4,6 @@ name: Entrypoint
 
 on:
   push:
-    branches:
-      - main
     paths:
     - 'CMakeLists.txt'
     - '**/*.cpp'
