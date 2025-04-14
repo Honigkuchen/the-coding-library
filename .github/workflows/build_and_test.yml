@@ -24,8 +24,6 @@ on:
         required: true
         type: number
 
-env:
-
 jobs:
   build:
     runs-on: ubuntu-latest
