@@ -63,7 +63,7 @@ jobs:
         fi
         exit 0
 
-    - if: ${{ inputs.expect_fail }} == false
+    - if: ${{ inputs.expect_fail == false }}
       name: Test
       run: |
         ctest --test-dir ${{env.BUILD_DIR}}
