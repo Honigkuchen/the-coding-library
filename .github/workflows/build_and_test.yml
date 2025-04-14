@@ -25,7 +25,6 @@ on:
         type: number
 
 env:
-  BUILD_DIR: ~/build/
 
 jobs:
   build:
@@ -37,65 +36,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
     
-    - name: Copy repo
+    - name: Build
       run: |
-        mkdir -p ~/${{ github.event.repository.name }}
-        cp -r ./* ~/${{ github.event.repository.name }}
-        ls -alsh ~/${{ github.event.repository.name }}
-        cmake -B ~/${{ github.event.repository.name }}/build \
+        cmake -B ${{ github.event.repository.name }}/build \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
-        cmake --build ~/${{ github.event.repository.name }}/build --config ${{inputs.build_type}}
-
-    # - name: Build cmake
-    #   run: |
-    #     cmake -B ${{env.BUILD_DIR}} \
-    #       -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
-    #       -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
-    #       -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
-    #       -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
-    #       -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
-    #     cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
-
-    - name: ls
-      run: |
-        ls -alsh ~/${{ github.event.repository.name }}/build
-
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: |
-          ~/${{ github.event.repository.name }}
-        name: build_cpp${{inputs.cpp_standard}}
-        if-no-files-found: error
-        overwrite: true
-        compression-level: 6
-        include-hidden-files: true
-        retention-days: 1
-
-  test:
-    name: Test C++${{inputs.cpp_standard}}
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:   
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        path: ${{ github.event.repository.name }}
-
-    - uses: actions/download-artifact@v4
-      with:
-        name: build_cpp${{inputs.cpp_standard}}
-        path: ~/${{ github.event.repository.name }}
-
-    - name: ls
-      run: |
-        ls -alsh ~/${{ github.event.repository.name }}
+        cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
 
     - name: Test
       run: |
-        ctest --test-dir ~/${{ github.event.repository.name }}/build
+        ctest --test-dir ${{ github.event.repository.name }}/build
