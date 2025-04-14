@@ -27,10 +27,11 @@ jobs:
     strategy:
       matrix:
         cpp_standard: [17, 20, 23]
+        build_type: [Debug, Release]
     uses: ./.github/workflows/build_and_test.yml
     secrets: inherit
     with:
-      build_type: "Release"
+      build_type: ${{ matrix.build_type }}
       cpp_standard: ${{ matrix.cpp_standard }}
       version_major: 1
       version_minor: 0
@@ -40,10 +41,11 @@ jobs:
     strategy:
       matrix:
         cpp_standard: [98, 11, 14]
+        build_type: [Debug, Release]
     uses: ./.github/workflows/build_and_test.yml
     secrets: inherit
     with:
-      build_type: "Release"
+      build_type: ${{ matrix.build_type }}
       cpp_standard: ${{ matrix.cpp_standard }}
       version_major: 1
       version_minor: 0
