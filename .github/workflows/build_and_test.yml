@@ -24,6 +24,9 @@ on:
         required: true
         type: number
 
+env:
+  BUILD_DIR: ${{ github.event.repository.name }}/build
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,7 +39,7 @@ jobs:
     
     - name: Build
       run: |
-        cmake -B ${{ github.event.repository.name }}/build \
+        cmake -B ${{env.BUILD_DIR}} \
           -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
@@ -46,4 +49,4 @@ jobs:
 
     - name: Test
       run: |
-        ctest --test-dir ${{ github.event.repository.name }}/build
+        ctest --test-dir ${{env.BUILD_DIR}}
