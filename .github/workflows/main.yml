@@ -55,7 +55,8 @@ jobs:
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
       options: --user root
-    needs: build
+    needs: [build_expect_successful, build_expect_fail]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
