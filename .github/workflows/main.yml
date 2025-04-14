@@ -39,7 +39,7 @@ jobs:
   build_expect_fail:
     strategy:
       matrix:
-        cpp_standard: [11]
+        cpp_standard: [98, 03, 11, 14]
     uses: ./.github/workflows/build_and_test.yml
     secrets: inherit
     with:
