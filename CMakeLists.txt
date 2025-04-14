@@ -14,6 +14,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER
                                                  "${EDV_INCLUDE_FILES}")
 add_subdirectory(src)
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(TESTING_ENABLED "Enable testing" ON)
 

@@ -10,6 +10,11 @@ on:
         type: string
         default: "Release"
         description: "Build type to by used by CMake"
+      expect_fail:
+        required: false
+        type: boolean
+        default: false
+        description: "Set to true if you expect the build to fail"
       cpp_standard:
         required: true
         type: number
@@ -46,7 +51,10 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
-
+        if [[ ( "${?}" -eq 0 ] && [ ${{inputs.expect_fail}} == "true" ) or ( "${?}" -ne 0 ] && [ ${{inputs.expect_fail}} == "false" ) ]]; then
+          exit 1
+        fi
+        
     - name: Test
       run: |
         ctest --test-dir ${{env.BUILD_DIR}}
