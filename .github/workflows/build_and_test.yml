@@ -51,11 +51,11 @@ jobs:
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
           -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
         cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}}
-        if [[ "${?}" -eq 0 ] && [ ${{inputs.expect_fail}} == "true" ]]; then
+        if [[ "${?}" -eq 0 ] && [ ${{inputs.expect_fail}} = true ]]; then
           echo "Build successful, but expected to fail."
           exit 1
         fi
-        if [[ "$?" -ne 0 && ${{inputs.expect_fail}} == "false" ]]; then
+        if [[ "$?" -ne 0 && ${{inputs.expect_fail}} = false ]]; then
           echo "Build failed, but expected to succeed."
           exit 1
         fi
