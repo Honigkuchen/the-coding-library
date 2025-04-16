@@ -3,9 +3,7 @@
 #define RUN_LENGTH_CODING_IMPL_HPP_
 
 // STL includes
-#include <stack>
-#include <string>
-#include <type_traits>
+#include <cstdint>
 #include <vector>
 
 // Project includes

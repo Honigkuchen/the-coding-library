@@ -1,9 +1,12 @@
 #pragma once
 
 // STL includes
+#include <algorithm>
 #include <deque>
-#include <iterator>
 #include <vector>
+
+// Project includes
+#include "../../defines.hpp"
 
 namespace cl::lossless::other
 {

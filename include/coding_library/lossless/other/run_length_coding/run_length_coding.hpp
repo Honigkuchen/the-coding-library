@@ -2,12 +2,6 @@
 #ifndef RUN_LENGTH_CODING_HPP_
 #define RUN_LENGTH_CODING_HPP_
 
-// STL includes
-#include <stack>
-#include <string>
-#include <type_traits>
-#include <vector>
-
 // Project includes
 #include "../../../defines.hpp"
 

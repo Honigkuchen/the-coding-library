@@ -2,6 +2,7 @@
 
 // STL includes
 #include <algorithm>
+#include <stdexcept>
 #include <vector>
 
 namespace cl::lossless::other
