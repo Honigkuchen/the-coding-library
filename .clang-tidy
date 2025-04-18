@@ -1,0 +1,8 @@
+---
+Checks:          'clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,modernize-*,-modernize-use-trailing-return-type'
+WarningsAsErrors: ''
+HeaderFileExtensions: ['', 'h','hh','hpp','hxx']
+HeaderFilterRegex: '.*'
+ExtraArgs:
+  - '--std=gnu++20'
+  - '-Iinclude'
