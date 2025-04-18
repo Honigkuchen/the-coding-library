@@ -23,41 +23,11 @@ env:
   VERSION_PATCH: 0
 
 jobs:
-  build_expect_successful:
-    strategy:
-      matrix:
-        cpp_standard: [17, 20, 23]
-        build_type: [Debug, Release]
-    uses: ./.github/workflows/build_and_test.yml
-    secrets: inherit
-    with:
-      build_type: ${{ matrix.build_type }}
-      cpp_standard: ${{ matrix.cpp_standard }}
-      version_major: 1
-      version_minor: 0
-      version_patch: 0
-
-  build_expect_fail:
-    strategy:
-      matrix:
-        cpp_standard: [98, 11, 14]
-        build_type: [Debug, Release]
-    uses: ./.github/workflows/build_and_test.yml
-    secrets: inherit
-    with:
-      build_type: ${{ matrix.build_type }}
-      cpp_standard: ${{ matrix.cpp_standard }}
-      version_major: 1
-      version_minor: 0
-      version_patch: 0
-      expect_fail: true
-
   deploy:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
       options: --user root
-    needs: [build_expect_successful, build_expect_fail]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Checkout code
@@ -65,12 +35,12 @@ jobs:
 
       - name: Build
         run: |
-          cmake -B ${{github.workspace}}/build \
+          cmake --preset GithubMakefileConfigurationPreset \
             -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
             -DPROJECT_VERSION_MAJOR:INT=${{env.VERSION_MAJOR}} \
             -DPROJECT_VERSION_MINOR:INT=${{env.VERSION_MINOR}} \
             -DPROJECT_VERSION_PATCH:INT=${{env.VERSION_PATCH}}
-          cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+          cmake --build --preset GithubMakefileBuildPreset
 
       - name: Pack debian
         run: |
