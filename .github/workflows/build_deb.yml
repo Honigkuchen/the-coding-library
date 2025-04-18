@@ -21,9 +21,10 @@ env:
   VERSION_MAJOR: 1
   VERSION_MINOR: 0
   VERSION_PATCH: 0
+  BUILD_DIR: /tmp/build
 
 jobs:
-  deploy:
+  build_debian:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/honigkuchen/${{ github.event.repository.name }}
@@ -44,7 +45,7 @@ jobs:
 
       - name: Pack debian
         run: |
-          cpack --config ${{github.workspace}}/build/CPackConfig.cmake
+          cpack --config ${{env.BUILD_DIR}}/CPackConfig.cmake
 
       - name: Upload debian
         uses: actions/upload-artifact@v4
