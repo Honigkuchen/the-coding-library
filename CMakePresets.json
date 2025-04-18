@@ -1,0 +1,37 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 22,
+        "patch": 1
+    },
+    "configurePresets": [
+        {
+            "name": "MakefileConfigurationPreset",
+            "displayName": "Makefile Config",
+            "description": "Configuration using Unix Makefile generator",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/"
+        },
+        {
+            "name": "GithubMakefileConfigurationPreset",
+            "inherits": "MakefileConfigurationPreset",
+            "displayName": "Github Makefile Config",
+            "binaryDir": "/tmp/build/"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "MakefileBuildPreset",
+            "configurePreset": "MakefileConfigurationPreset",
+            "displayName": "Makefile Build",
+            "description": "Build using Unix Makefile generator"
+        },
+        {
+            "name": "GithubMakefileBuildPreset",
+            "inherits": "MakefileBuildPreset",
+            "displayName": "Github Makefile Build",
+            "configurePreset": "GithubMakefileConfigurationPreset"
+        }
+    ]
+}

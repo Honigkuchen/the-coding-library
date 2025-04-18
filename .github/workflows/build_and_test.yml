@@ -30,7 +30,7 @@ on:
         type: number
 
 env:
-  BUILD_DIR: ${{ github.event.repository.name }}/build
+  BUILD_DIR: /tmp/build
 
 jobs:
   build:
@@ -46,13 +46,13 @@ jobs:
       run: |
         set -e
         result=0
-        cmake -B ${{env.BUILD_DIR}} \
-          -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
+        cmake -DCMAKE_BUILD_TYPE=${{inputs.build_type}} \
           -DCMAKE_CXX_STANDARD:INT=${{inputs.cpp_standard}} \
           -DPROJECT_VERSION_MAJOR:INT=${{inputs.version_major}} \
           -DPROJECT_VERSION_MINOR:INT=${{inputs.version_minor}} \
-          -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}}
-        cmake --build ${{env.BUILD_DIR}} --config ${{inputs.build_type}} || result=$?
+          -DPROJECT_VERSION_PATCH:INT=${{inputs.version_patch}} \
+          --preset GithubMakefileConfigurationPreset
+        cmake --build --preset GithubMakefileBuildPreset || result=$?
         if [ "$result" -eq 0 ] && [ ${{inputs.expect_fail}} = true ]; then
           echo "Build successful, but expected to fail."
           exit 1
@@ -65,5 +65,16 @@ jobs:
 
     - if: ${{ inputs.expect_fail == false }}
       name: Test
+      working-directory: ${{env.BUILD_DIR}}
       run: |
-        ctest --test-dir ${{env.BUILD_DIR}}
+        ctest -C ${{inputs.build_type}} \
+            --test-dir test \
+            --output-junit junit_result.xml \
+            --output-on-failure
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Test results
+        path: ${{env.BUILD_DIR}}/test/junit_result.xml
+        if-no-files-found: error

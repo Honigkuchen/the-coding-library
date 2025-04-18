@@ -1,0 +1,31 @@
+# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+name: Build C++17
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "CMakeLists.txt"
+      - "**/*.cpp"
+      - "**/*.h"
+      - "**/*.hpp"
+      - "**/*.cxx"
+      - "**/*.c"
+      - ".github/workflows/build_and_test.yml"
+      - "CMakePresets.json"
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_cpp17:
+    uses: ./.github/workflows/build_and_test.yml
+    with:
+      cpp_standard: 17
+      build_type: Release
+      version_major: 1
+      version_minor: 0
+      version_patch: 0
+      expect_fail: false

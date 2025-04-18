@@ -13,6 +13,7 @@
 				"xaver.clang-format",
 				"ms-azuretools.vscode-docker",
 				"cheshirekow.cmake-format",
+				"redhat.vscode-yaml",
 				"github.vscode-github-actions"
 			]
 		}
