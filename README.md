@@ -1,7 +1,7 @@
 # The Coding Library
 
-[![Build C++11 Expect Fail](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp11.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp11.yml)
-[![Build C++14 Expect Fail](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp14.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp14.yml)
+[![Build C++11](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp11.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp11.yml)
+[![Build C++14](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp14.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp14.yml)
 [![Build C++17](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp17.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp17.yml)
 [![Build C++20](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp20.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp20.yml)
 [![Build C++23](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp23.yml/badge.svg)](https://github.com/Honigkuchen/the-coding-library/actions/workflows/build_cpp23.yml)
