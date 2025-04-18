@@ -18,10 +18,15 @@ add_subdirectory(src)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(TESTING_ENABLED "Enable testing" ON)
+option(BENCHMARK_ENABLED "Enable benchmarking" ON)
 
 if(${TESTING_ENABLED})
   enable_testing()
   add_subdirectory(test)
+endif()
+
+if(${BENCHMARK_ENABLED})
+  add_subdirectory(benchmark)
 endif()
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/${PROJECT_NAME_UNDERSCORE}

@@ -78,3 +78,21 @@ jobs:
         name: Test results
         path: ${{env.BUILD_DIR}}/test/junit_result.xml
         if-no-files-found: error
+    
+    - name: Benchmark
+      run: |
+        ${{env.BUILD_DIR}}/benchmark/coding-library_benchmark --v=2
+
+    - name: Benchmark to file
+      run: |
+        ${{env.BUILD_DIR}}/benchmark/coding-library_benchmark \
+          --benchmark_out=${{env.BUILD_DIR}}/benchmark/benchmark.json \
+          --benchmark_out_format=json \
+          --v=2
+
+    - name: Upload benchmark results
+      uses: actions/upload-artifact@v4
+      with:
+        name: Benchmark results
+        path: ${{env.BUILD_DIR}}/benchmark/benchmark.json
+        if-no-files-found: error
